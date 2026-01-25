@@ -1,0 +1,16 @@
+<header class="bg-white shadow-sm">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <%= link_to root_path, class: "flex items-center" do %>
+          <span class="text-2xl font-bold text-blue-600">Ocean City Rentals</span>
+        <% end %>
+      </div>
+      <div class="flex items-center space-x-6">
+        <%= link_to "Properties", properties_path, class: "text-gray-600 hover:text-blue-600 font-medium" %>
+        <%= link_to "About", about_path, class: "text-gray-600 hover:text-blue-600 font-medium" %>
+        <%= link_to "Contact", contact_path, class: "text-gray-600 hover:text-blue-600 font-medium" %>
+      </div>
+    </div>
+  </nav>
+</header>

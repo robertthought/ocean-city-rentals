@@ -1,0 +1,89 @@
+<% content_for :title, "#{@property.full_address} | Ocean City Rentals" %>
+<% content_for :meta_description, @property.meta_description %>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Back link -->
+    <%= link_to "Back to all properties", properties_path, class: "text-blue-600 hover:text-blue-800 mb-4 inline-block" %>
+
+    <!-- Property Header -->
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <%= @property.address %>
+      </h1>
+      <p class="text-xl text-gray-600 mb-6">
+        <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
+      </p>
+
+      <% if @property.is_verified %>
+        <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+          Verified Property
+        </span>
+      <% end %>
+    </div>
+
+    <!-- Property Info -->
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">
+        Interested in Renting This Property?
+      </h2>
+      <p class="text-gray-600 mb-6">
+        This Ocean City property is available for vacation rental. Contact Bob Idell Real Estate
+        for availability, pricing, and booking information.
+      </p>
+
+      <!-- Placeholder for future features -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 border-t border-b border-gray-200">
+        <div class="text-center">
+          <p class="text-gray-500 text-sm">Property Type</p>
+          <p class="font-semibold text-gray-900">
+            <%= @property.property_type || 'Contact for Details' %>
+          </p>
+        </div>
+        <div class="text-center">
+          <p class="text-gray-500 text-sm">Bedrooms</p>
+          <p class="font-semibold text-gray-900">
+            <%= @property.bedrooms || 'Contact for Details' %>
+          </p>
+        </div>
+        <div class="text-center">
+          <p class="text-gray-500 text-sm">Year Built</p>
+          <p class="font-semibold text-gray-900">
+            <%= @property.year_built || 'Contact for Details' %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Form -->
+    <div class="bg-white rounded-lg shadow-lg p-8" id="contact">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">
+        Request Information
+      </h2>
+      <p class="text-gray-600 mb-6">
+        Fill out the form below and Bob Idell will get back to you shortly with
+        availability and rental information for <%= @property.address %>.
+      </p>
+
+      <div id="lead-form">
+        <%= render 'properties/lead_form', property: @property, lead: @lead %>
+      </div>
+    </div>
+
+    <!-- SEO Content -->
+    <div class="mt-8 prose prose-lg max-w-none">
+      <h2>About Ocean City, NJ Vacation Rentals</h2>
+      <p>
+        Ocean City, New Jersey is a premier vacation destination on the Jersey Shore.
+        Known for its family-friendly beaches, boardwalk attractions, and beautiful coastal properties,
+        Ocean City offers the perfect setting for your summer vacation rental.
+      </p>
+      <p>
+        <%= @property.address %> is located in the heart of Ocean City, providing easy access
+        to beaches, restaurants, shopping, and entertainment. Whether you're looking for a
+        week-long vacation or an extended summer rental, Bob Idell Real Estate can help you
+        secure this property.
+      </p>
+    </div>
+  </div>
+</div>

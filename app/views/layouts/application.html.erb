@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= meta_title %></title>
+    <meta name="description" content="<%= meta_description %>">
+    <meta name="keywords" content="<%= meta_keywords %>">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="<%= meta_title %>">
+    <meta property="og:description" content="<%= meta_description %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-50">
+    <%= render "shared/header" %>
+
+    <main>
+      <% if notice %>
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+          <p class="text-green-700"><%= notice %></p>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+          <p class="text-red-700"><%= alert %></p>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+
+    <%= render "shared/footer" %>
+  </body>
+</html>
