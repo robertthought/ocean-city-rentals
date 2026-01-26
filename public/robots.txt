@@ -1,1 +1,8 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# robots.txt for Ocean City Rentals
+# See https://www.robotstxt.org/robotstxt.html for documentation
+
+User-agent: *
+Allow: /
+
+# Sitemap location for search engine indexing
+Sitemap: https://ocnjweeklyrentals.com/sitemap.xml.gz

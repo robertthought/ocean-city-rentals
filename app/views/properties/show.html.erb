@@ -1,89 +1,299 @@
 <% content_for :title, "#{@property.full_address} | Ocean City Rentals" %>
 <% content_for :meta_description, @property.meta_description %>
 
-<div class="container mx-auto px-4 py-8">
-  <div class="max-w-4xl mx-auto">
-    <!-- Back link -->
-    <%= link_to "Back to all properties", properties_path, class: "text-blue-600 hover:text-blue-800 mb-4 inline-block" %>
+<!-- Back Navigation -->
+<div class="bg-white border-b border-gray-200">
+  <div class="container mx-auto px-4 py-4">
+    <%= link_to properties_path, class: "inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to all properties
+    <% end %>
+  </div>
+</div>
 
-    <!-- Property Header -->
-    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">
-        <%= @property.address %>
-      </h1>
-      <p class="text-xl text-gray-600 mb-6">
-        <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
-      </p>
+<div class="bg-gray-50 min-h-screen py-8">
+  <div class="container mx-auto px-4">
+    <div class="max-w-7xl mx-auto">
 
-      <% if @property.is_verified %>
-        <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-          Verified Property
-        </span>
-      <% end %>
-    </div>
+      <div class="grid lg:grid-cols-3 gap-8">
 
-    <!-- Property Info -->
-    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-      <h2 class="text-2xl font-bold text-gray-900 mb-4">
-        Interested in Renting This Property?
-      </h2>
-      <p class="text-gray-600 mb-6">
-        This Ocean City property is available for vacation rental. Contact Bob Idell Real Estate
-        for availability, pricing, and booking information.
-      </p>
+        <!-- Main Content Column -->
+        <div class="lg:col-span-2 space-y-6">
 
-      <!-- Placeholder for future features -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 border-t border-b border-gray-200">
-        <div class="text-center">
-          <p class="text-gray-500 text-sm">Property Type</p>
-          <p class="font-semibold text-gray-900">
-            <%= @property.property_type || 'Contact for Details' %>
-          </p>
+          <!-- Property Image -->
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="h-96 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 flex items-center justify-center relative">
+              <!-- Decorative Pattern -->
+              <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+
+              <!-- House Icon -->
+              <div class="relative z-10 text-center">
+                <svg class="w-32 h-32 text-white mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <p class="text-white text-lg font-semibold">Property Photos Coming Soon</p>
+              </div>
+
+              <% if @property.is_verified %>
+                <div class="absolute top-6 right-6 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  Verified Property
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Property Details Card -->
+          <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="mb-6">
+              <h1 class="text-4xl font-bold text-gray-900 mb-3">
+                <%= @property.address %>
+              </h1>
+              <p class="text-2xl text-gray-600">
+                <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
+              </p>
+            </div>
+
+            <!-- Property Features Grid -->
+            <div class="grid grid-cols-3 gap-6 py-8 border-t border-b border-gray-200">
+              <div class="text-center">
+                <div class="text-gray-400 mb-2">
+                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Property Type</p>
+                <p class="font-bold text-gray-900">
+                  <%= @property.property_type || 'Contact for Details' %>
+                </p>
+              </div>
+
+              <div class="text-center">
+                <div class="text-gray-400 mb-2">
+                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Bedrooms</p>
+                <p class="font-bold text-gray-900">
+                  <%= @property.bedrooms || 'Contact for Details' %>
+                </p>
+              </div>
+
+              <div class="text-center">
+                <div class="text-gray-400 mb-2">
+                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <p class="text-sm text-gray-500 mb-1">Year Built</p>
+                <p class="font-bold text-gray-900">
+                  <%= @property.year_built || 'Contact for Details' %>
+                </p>
+              </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="mt-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                About This Property
+              </h2>
+              <div class="prose prose-lg max-w-none text-gray-600">
+                <p class="mb-4">
+                  This Ocean City property is available for vacation rental. Located at
+                  <%= @property.address %> in <%= @property.city %>, this property offers
+                  convenient access to Ocean City's beautiful beaches, boardwalk attractions,
+                  restaurants, and entertainment.
+                </p>
+                <p>
+                  Contact Bob Idell Real Estate for complete property details, availability,
+                  pricing, and booking information. We'll help you secure the perfect Ocean City
+                  rental for your next beach vacation.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location Section -->
+          <div class="bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">
+              <svg class="w-6 h-6 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              Location
+            </h2>
+            <p class="text-gray-600 mb-4">
+              <%= @property.full_address %>
+            </p>
+            <div class="h-80 rounded-lg overflow-hidden">
+              <iframe
+                width="100%"
+                height="100%"
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q=<%= ERB::Util.url_encode(@property.full_address) %>&output=embed">
+              </iframe>
+            </div>
+            <div class="mt-3 text-right">
+              <a href="https://www.google.com/maps/search/?api=1&query=<%= ERB::Util.url_encode(@property.full_address) %>"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm">
+                <span>Open in Google Maps</span>
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
         </div>
-        <div class="text-center">
-          <p class="text-gray-500 text-sm">Bedrooms</p>
-          <p class="font-semibold text-gray-900">
-            <%= @property.bedrooms || 'Contact for Details' %>
-          </p>
+
+        <!-- Sidebar - Contact Form -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-lg p-8 sticky top-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+              Request Information
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Bob Idell will get back to you within 24 hours with availability and pricing details.
+            </p>
+
+            <div id="lead-form">
+              <%= form_with model: [@property, @lead],
+                            data: { turbo_frame: "lead-form" },
+                            class: "space-y-5" do |f| %>
+
+                <% if @lead.errors.any? %>
+                  <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <div class="flex">
+                      <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                      </div>
+                      <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">
+                          Please correct the following:
+                        </h3>
+                        <div class="mt-2 text-sm text-red-700">
+                          <ul class="list-disc list-inside space-y-1">
+                            <% @lead.errors.full_messages.each do |message| %>
+                              <li><%= message %></li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+
+                <div>
+                  <%= f.label :name, "Your Name", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.text_field :name,
+                    required: true,
+                    placeholder: "John Smith",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div>
+                  <%= f.label :email, "Email Address", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.email_field :email,
+                    required: true,
+                    placeholder: "john@example.com",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div>
+                  <%= f.label :phone, "Phone Number", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <div class="text-xs text-gray-500 mb-2">Optional</div>
+                  <%= f.telephone_field :phone,
+                    placeholder: "(609) 555-0123",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div>
+                  <%= f.label :message, "Tell Us About Your Rental Needs", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.text_area :message,
+                    rows: 5,
+                    placeholder: "When are you looking to visit? How many guests? Any specific requirements?",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                  %>
+                </div>
+
+                <%= f.hidden_field :lead_type, value: 'rental_inquiry' %>
+
+                <%= f.submit "Request Information",
+                  class: "w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all cursor-pointer"
+                %>
+
+                <p class="text-xs text-gray-500 text-center leading-relaxed">
+                  By submitting this form, you agree to be contacted by Bob Idell Real Estate
+                  regarding this property and your rental needs.
+                </p>
+              <% end %>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="mt-8 pt-8 border-t border-gray-200">
+              <h3 class="font-bold text-gray-900 mb-4">Contact Bob Idell Real Estate</h3>
+              <div class="space-y-3 text-sm text-gray-600">
+                <div class="flex items-center gap-3">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  <a href="mailto:info@bobidell.com" class="hover:text-blue-600">info@bobidell.com</a>
+                </div>
+                <div class="flex items-center gap-3">
+                  <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  <span>Ocean City, NJ</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="text-center">
-          <p class="text-gray-500 text-sm">Year Built</p>
-          <p class="font-semibold text-gray-900">
-            <%= @property.year_built || 'Contact for Details' %>
+
+      </div>
+
+      <!-- About Ocean City Section -->
+      <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          About Ocean City, NJ Vacation Rentals
+        </h2>
+        <div class="prose prose-lg max-w-none text-gray-600">
+          <p class="mb-4">
+            Ocean City, New Jersey is a premier family-friendly vacation destination on the Jersey Shore.
+            Known for its pristine beaches, famous boardwalk, and welcoming atmosphere, Ocean City offers
+            the perfect setting for your summer getaway or extended beach vacation.
+          </p>
+          <p class="mb-4">
+            <%= @property.address %> is ideally located in Ocean City, providing convenient access to
+            the beach, boardwalk attractions, shopping, dining, and entertainment. Whether you're planning
+            a week-long summer vacation, a long weekend getaway, or an extended seasonal rental, this
+            property puts you in the heart of everything Ocean City has to offer.
+          </p>
+          <p>
+            Bob Idell Real Estate has been helping families find their perfect Ocean City vacation rental
+            since 2016. With extensive local knowledge and a commitment to personalized service, we'll help
+            you navigate the rental process and secure the ideal property for your needs. Contact us today
+            to learn more about <%= @property.address %> and start planning your Ocean City vacation.
           </p>
         </div>
       </div>
-    </div>
 
-    <!-- Lead Form -->
-    <div class="bg-white rounded-lg shadow-lg p-8" id="contact">
-      <h2 class="text-2xl font-bold text-gray-900 mb-4">
-        Request Information
-      </h2>
-      <p class="text-gray-600 mb-6">
-        Fill out the form below and Bob Idell will get back to you shortly with
-        availability and rental information for <%= @property.address %>.
-      </p>
-
-      <div id="lead-form">
-        <%= render 'properties/lead_form', property: @property, lead: @lead %>
-      </div>
-    </div>
-
-    <!-- SEO Content -->
-    <div class="mt-8 prose prose-lg max-w-none">
-      <h2>About Ocean City, NJ Vacation Rentals</h2>
-      <p>
-        Ocean City, New Jersey is a premier vacation destination on the Jersey Shore.
-        Known for its family-friendly beaches, boardwalk attractions, and beautiful coastal properties,
-        Ocean City offers the perfect setting for your summer vacation rental.
-      </p>
-      <p>
-        <%= @property.address %> is located in the heart of Ocean City, providing easy access
-        to beaches, restaurants, shopping, and entertainment. Whether you're looking for a
-        week-long vacation or an extended summer rental, Bob Idell Real Estate can help you
-        secure this property.
-      </p>
     </div>
   </div>
 </div>
