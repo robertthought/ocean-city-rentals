@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     resources :leads, only: [:create]
   end
 
+  resources :neighborhoods, only: [:index, :show]
+  resources :guides, only: [:index, :show]
+
   # SEO pages
   get '/about', to: 'pages#about'
   get '/contact', to: 'pages#contact'

@@ -1,0 +1,86 @@
+<% content_for :title, "Ocean City NJ Vacation Guides | Tips & Travel Information" %>
+<% content_for :meta_description, "Plan your perfect Ocean City, NJ vacation with our comprehensive guides. Beach tips, boardwalk attractions, family activities, dining, and more." %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Ocean City Vacation Guides
+      </h1>
+      <p class="text-xl text-blue-100">
+        Everything you need to know for the perfect Ocean City, NJ vacation
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Guides Grid -->
+<div class="bg-gray-50 py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% @guides.each do |guide| %>
+          <%= link_to guide_path(guide), class: "group" do %>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+              <!-- Guide Image Placeholder -->
+              <div class="h-48 bg-gradient-to-br from-cyan-400 via-blue-500 to-blue-600 relative overflow-hidden">
+                <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <% icon = case guide.slug
+                       when "best-beaches" then "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                       when "boardwalk-guide" then "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                       when "family-activities" then "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                       when "when-to-visit" then "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                       when "ocean-city-dining" then "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                       else "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                     end %>
+                  <svg class="w-20 h-20 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="<%= icon %>"></path>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="p-6 flex-1 flex flex-col">
+                <h2 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-3">
+                  <%= guide.title %>
+                </h2>
+
+                <p class="text-gray-600 mb-4 flex-1">
+                  <%= guide.meta_description.truncate(120) %>
+                </p>
+
+                <div class="flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
+                  <span>Read Guide</span>
+                  <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-white py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Ready to Book Your Vacation?</h2>
+      <p class="text-gray-600 mb-8 text-lg">
+        Browse our selection of Ocean City vacation rentals and find your perfect beach getaway.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to "Browse Properties", properties_path,
+          class: "px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" %>
+        <%= link_to "Explore Neighborhoods", neighborhoods_path,
+          class: "px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold rounded-lg transition-colors" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<% content_for :title, "Ocean City NJ Neighborhoods - Vacation Rentals by Area" %>
+<% content_for :meta_description, "Explore Ocean City, NJ vacation rentals by neighborhood. Find properties in North End, Downtown, Midtown, South End, and Beachfront areas." %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Ocean City Neighborhoods
+      </h1>
+      <p class="text-xl text-blue-100 mb-6">
+        Discover the perfect area for your Ocean City vacation. Each neighborhood has its own unique character and charm.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Neighborhoods Grid -->
+<div class="bg-gray-50 py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <% @neighborhoods.each do |neighborhood| %>
+          <%= link_to neighborhood_path(neighborhood), class: "group" do %>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+              <!-- Neighborhood Image Placeholder -->
+              <div class="h-48 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 relative overflow-hidden">
+                <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center text-white">
+                    <svg class="w-16 h-16 mx-auto mb-2 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <p class="text-sm font-medium opacity-80"><%= neighborhood.street_range %></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <%= neighborhood.name %>
+                  </h2>
+                  <span class="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+                    <%= number_with_delimiter(neighborhood.property_count) %> rentals
+                  </span>
+                </div>
+
+                <p class="text-gray-600 mb-4 line-clamp-3">
+                  <%= neighborhood.description %>
+                </p>
+
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <% neighborhood.highlights.first(3).each do |highlight| %>
+                    <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                      <%= highlight %>
+                    </span>
+                  <% end %>
+                </div>
+
+                <div class="flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
+                  <span>View <%= neighborhood.name %> rentals</span>
+                  <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- About Ocean City Section -->
+<div class="bg-white py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+        About Ocean City, NJ
+      </h2>
+      <div class="prose prose-lg max-w-none text-gray-600">
+        <p class="mb-4">
+          Ocean City, New Jersey stretches from 1st Street at the north end to 59th Street at the south end,
+          with each area offering its own unique vacation experience. Whether you're looking for boardwalk
+          excitement, peaceful beaches, or something in between, there's a perfect neighborhood for your stay.
+        </p>
+        <p class="mb-4">
+          The island is roughly 8 miles long and offers over 8 miles of pristine beaches. The famous
+          Ocean City Boardwalk runs along the beach in the downtown area, featuring amusement rides,
+          games, shops, and the iconic Ocean City food stands.
+        </p>
+        <p>
+          Bob Idell Real Estate has been helping families find their perfect Ocean City rental since 2016.
+          Contact us to learn more about which neighborhood is right for your vacation.
+        </p>
+      </div>
+
+      <div class="mt-8 text-center">
+        <%= link_to "Browse All Properties", properties_path,
+          class: "inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" %>
+      </div>
+    </div>
+  </div>
+</div>

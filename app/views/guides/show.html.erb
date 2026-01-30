@@ -1,0 +1,118 @@
+<% content_for :title, "#{@guide.title} | Ocean City NJ Vacation Guide" %>
+<% content_for :meta_description, @guide.meta_description %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+      <!-- Breadcrumb -->
+      <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-blue-200 text-sm">
+          <li><%= link_to "Home", root_path, class: "hover:text-white" %></li>
+          <li><span class="mx-2">/</span></li>
+          <li><%= link_to "Guides", guides_path, class: "hover:text-white" %></li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-white font-medium"><%= @guide.title %></li>
+        </ol>
+      </nav>
+
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        <%= @guide.title %>
+      </h1>
+      <p class="text-xl text-blue-100">
+        <%= @guide.hero_subtitle %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Table of Contents -->
+<div class="bg-white border-b sticky top-16 z-40">
+  <div class="container mx-auto px-4 py-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center gap-2 overflow-x-auto pb-2">
+        <span class="text-sm text-gray-500 flex-shrink-0">Jump to:</span>
+        <% @guide.sections.each_with_index do |section, index| %>
+          <a href="#section-<%= index %>"
+             class="text-sm text-blue-600 hover:text-blue-800 whitespace-nowrap px-3 py-1 bg-blue-50 hover:bg-blue-100 rounded-full transition-colors">
+            <%= section[:title].truncate(30) %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="bg-gray-50 py-12">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+
+      <div class="space-y-12">
+        <% @guide.sections.each_with_index do |section, index| %>
+          <section id="section-<%= index %>" class="bg-white rounded-xl shadow-lg p-8 scroll-mt-32">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+              <%= section[:title] %>
+            </h2>
+            <div class="prose prose-lg max-w-none text-gray-600">
+              <%= simple_format(section[:content].gsub(/\*\*(.+?)\*\*/, '<strong>\1</strong>').html_safe) %>
+            </div>
+          </section>
+        <% end %>
+      </div>
+
+      <% if @guide.neighborhoods.any? %>
+        <!-- Related Neighborhoods -->
+        <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Related Neighborhoods</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            <% @guide.neighborhoods.each do |neighborhood| %>
+              <%= link_to neighborhood_path(neighborhood),
+                  class: "block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors" do %>
+                <h3 class="font-bold text-gray-900 mb-1"><%= neighborhood.name %></h3>
+                <p class="text-sm text-gray-500 mb-2"><%= neighborhood.street_range %></p>
+                <p class="text-sm text-blue-600"><%= number_with_delimiter(neighborhood.property_count) %> rentals available</p>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<!-- Other Guides -->
+<div class="bg-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">More Vacation Guides</h2>
+
+      <div class="grid md:grid-cols-4 gap-4">
+        <% Guide.all.reject { |g| g.slug == @guide.slug }.each do |guide| %>
+          <%= link_to guide_path(guide),
+              class: "block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors" do %>
+            <h3 class="font-bold text-gray-900 mb-1"><%= guide.title %></h3>
+            <p class="text-sm text-blue-600 mt-2">Read guide</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="bg-blue-600 text-white py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-4">Ready to Book Your Ocean City Vacation?</h2>
+    <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+      Bob Idell Real Estate has been helping families find their perfect Ocean City rental since 2016.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <%= link_to "Browse Properties", properties_path,
+          class: "px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors" %>
+      <%= link_to "Contact Us", contact_path,
+          class: "px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-400 transition-colors" %>
+    </div>
+  </div>
+</div>

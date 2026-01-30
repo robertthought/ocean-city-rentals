@@ -13,6 +13,26 @@ SitemapGenerator::Sitemap.create do
   # Properties index
   add properties_path, priority: 0.9, changefreq: 'daily'
 
+  # Neighborhoods index
+  add neighborhoods_path, priority: 0.9, changefreq: 'weekly'
+
+  # Individual neighborhood pages
+  Neighborhood.all.each do |neighborhood|
+    add neighborhood_path(neighborhood),
+      priority: 0.85,
+      changefreq: 'weekly'
+  end
+
+  # Guides index
+  add guides_path, priority: 0.85, changefreq: 'weekly'
+
+  # Individual guide pages
+  Guide.all.each do |guide|
+    add guide_path(guide),
+      priority: 0.8,
+      changefreq: 'monthly'
+  end
+
   # All property pages (batched for performance)
   Property.find_each do |property|
     add property_path(property),
