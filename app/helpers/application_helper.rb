@@ -2,12 +2,12 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def meta_title
-    content_for?(:title) ? content_for(:title) : "Ocean City, NJ Vacation Rentals | Bob Idell Real Estate"
+    content_for?(:title) ? content_for(:title) : "Ocean City NJ Vacation Rentals | OCNJ Weekly Rentals"
   end
 
   def meta_description
     content_for?(:meta_description) ? content_for(:meta_description) :
-      "Browse thousands of Ocean City, NJ vacation rental properties. Find your perfect beach house with Bob Idell Real Estate."
+      "Find your dream vacation rental in Ocean City, NJ. Browse thousands of beach properties with OCNJ Weekly Rentals by Idell Real Estate Team."
   end
 
   def meta_keywords

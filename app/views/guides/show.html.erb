@@ -1,5 +1,38 @@
-<% content_for :title, "#{@guide.title} | Ocean City NJ Vacation Guide" %>
+<% content_for :title, "#{@guide.title} | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, @guide.meta_description %>
+
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "<%= j @guide.title %>",
+  "description": "<%= j @guide.meta_description %>",
+  "url": "<%= guide_url(@guide) %>",
+  "author": {
+    "@type": "Organization",
+    "name": "OCNJ Weekly Rentals",
+    "url": "https://ocnjweeklyrentals.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "OCNJ Weekly Rentals",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ocnjweeklyrentals.com/icon.png"
+    }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://ocnjweeklyrentals.com/guides" },
+      { "@type": "ListItem", "position": 3, "name": "<%= j @guide.title %>" }
+    ]
+  }
+}
+</script>
+<% end %>
 
 <!-- Hero Section -->
 <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">

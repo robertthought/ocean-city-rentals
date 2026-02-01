@@ -1,5 +1,47 @@
-<% content_for :title, "#{@property.full_address} | Ocean City Rentals" %>
+<% content_for :title, "#{@property.full_address} | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, @property.meta_description %>
+
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateListing",
+  "name": "<%= j @property.address %>",
+  "description": "Vacation rental property at <%= j @property.full_address %>. Contact OCNJ Weekly Rentals for availability and pricing.",
+  "url": "<%= property_url(@property) %>",
+  "datePosted": "<%= @property.created_at.iso8601 %>",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "<%= j @property.address %>",
+    "addressLocality": "<%= j @property.city %>",
+    "addressRegion": "<%= j @property.state %>",
+    "postalCode": "<%= j @property.zip %>",
+    "addressCountry": "US"
+  },
+  <% if @property.latitude.present? && @property.longitude.present? %>
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "<%= @property.latitude %>",
+    "longitude": "<%= @property.longitude %>"
+  },
+  <% end %>
+  "broker": {
+    "@type": "RealEstateAgent",
+    "name": "OCNJ Weekly Rentals",
+    "description": "Find your dream vacation rental - by Idell Real Estate Team",
+    "url": "https://ocnjweeklyrentals.com"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Properties", "item": "https://ocnjweeklyrentals.com/properties" },
+      { "@type": "ListItem", "position": 3, "name": "<%= j @property.address %>" }
+    ]
+  }
+}
+</script>
+<% end %>
 
 <!-- Back Navigation -->
 <div class="bg-white border-b border-gray-200">

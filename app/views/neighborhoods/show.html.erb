@@ -1,5 +1,36 @@
-<% content_for :title, "#{@neighborhood.name} Ocean City NJ Vacation Rentals | #{@neighborhood.street_range}" %>
+<% content_for :title, "#{@neighborhood.name} Ocean City NJ Vacation Rentals | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, "Browse #{number_with_delimiter(@neighborhood.property_count)} vacation rentals in #{@neighborhood.name}, Ocean City NJ (#{@neighborhood.street_range}). #{@neighborhood.description.truncate(120)}" %>
+
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "<%= j @neighborhood.name %> Ocean City NJ Vacation Rentals",
+  "description": "Browse <%= @neighborhood.property_count %> vacation rentals in <%= j @neighborhood.name %>, Ocean City NJ",
+  "url": "<%= neighborhood_url(@neighborhood) %>",
+  "about": {
+    "@type": "Place",
+    "name": "<%= j @neighborhood.name %>, Ocean City",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ocean City",
+      "addressRegion": "NJ",
+      "addressCountry": "US"
+    }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Neighborhoods", "item": "https://ocnjweeklyrentals.com/neighborhoods" },
+      { "@type": "ListItem", "position": 3, "name": "<%= j @neighborhood.name %>" }
+    ]
+  },
+  "numberOfItems": <%= @neighborhood.property_count %>
+}
+</script>
+<% end %>
 
 <!-- Hero Section -->
 <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">

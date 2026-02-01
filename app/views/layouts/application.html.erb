@@ -29,6 +29,49 @@
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <!-- Schema.org Organization & WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://ocnjweeklyrentals.com/#organization",
+          "name": "OCNJ Weekly Rentals",
+          "description": "Find your dream vacation rental - by Idell Real Estate Team",
+          "url": "https://ocnjweeklyrentals.com",
+          "logo": "https://ocnjweeklyrentals.com/icon.png",
+          "areaServed": {
+            "@type": "City",
+            "name": "Ocean City",
+            "addressRegion": "NJ",
+            "addressCountry": "US"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "info@bobidell.com"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://ocnjweeklyrentals.com/#website",
+          "name": "OCNJ Weekly Rentals",
+          "description": "Find your dream vacation rental in Ocean City, NJ",
+          "url": "https://ocnjweeklyrentals.com",
+          "publisher": { "@id": "https://ocnjweeklyrentals.com/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ocnjweeklyrentals.com/properties?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <%= content_for?(:schema) ? yield(:schema) : '' %>
   </head>
 
   <body class="bg-gray-50 min-h-screen flex flex-col">

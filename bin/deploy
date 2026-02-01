@@ -1,0 +1,9 @@
+#!/bin/bash
+# Deploy to production via Ploi
+
+echo "Deploying to ocnjweeklyrentals.com..."
+
+curl -s -X POST "https://ploi.io/webhooks/servers/98244/sites/343155/deploy?token=qz8GXuqpijqPs9Hg8B69X7bcNHnKf5pohOFWxdFL3BVFloo1ah&direct=true" | jq .
+
+echo ""
+echo "Deployment triggered! Check https://ocnjweeklyrentals.com"
