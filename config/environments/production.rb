@@ -60,15 +60,15 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "ocnjweeklyrentals.com", protocol: "https" }
 
-  # Email delivery via SMTP (Google Workspace)
+  # Email delivery via SMTP (Resend)
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "smtp.resend.com",
     port: 587,
     domain: "ocnjweeklyrentals.com",
-    user_name: ENV["SMTP_USERNAME"],
-    password: ENV["SMTP_PASSWORD"],
+    user_name: "resend",
+    password: ENV["RESEND_API_KEY"],
     authentication: :plain,
     enable_starttls_auto: true
   }
