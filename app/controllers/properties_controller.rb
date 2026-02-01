@@ -18,8 +18,29 @@ class PropertiesController < ApplicationController
       @properties_scope = @properties_scope.verified
     end
 
-    @pagy, @properties = pagy(@properties_scope.order(:address), limit: 48)
-    @searching = params[:q].present? || params[:neighborhood].present? || params[:verified].present?
+    # Sorting
+    @sort = params[:sort].presence || "verified_first"
+    @properties_scope = apply_sort(@properties_scope)
+
+    @pagy, @properties = pagy(@properties_scope, limit: 48)
+    @searching = params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present?
+  end
+
+  private
+
+  def apply_sort(scope)
+    case @sort
+    when "verified_first"
+      scope.order(is_verified: :desc, address: :asc)
+    when "street_number"
+      scope.order(Arel.sql("CAST(NULLIF(REGEXP_REPLACE(address, '[^0-9].*', '', 'g'), '') AS INTEGER) ASC NULLS LAST"))
+    when "newest"
+      scope.order(created_at: :desc)
+    when "address"
+      scope.order(:address)
+    else
+      scope.order(is_verified: :desc, address: :asc)
+    end
   end
 
   def show

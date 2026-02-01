@@ -39,8 +39,24 @@
             <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-4 py-2">
               <%= f.select :neighborhood,
                 options_for_select(
-                  [["All Neighborhoods", ""]] + Neighborhood.all.map { |n| ["#{n.name} (#{number_with_delimiter(n.property_count)})", n.slug] },
+                  [["All Neighborhoods", ""]] + Neighborhood.all.map { |n| ["#{n.name}", n.slug] },
                   params[:neighborhood]
+                ),
+                {},
+                class: "bg-transparent text-white font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+              %>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-4 py-2">
+              <%= f.select :sort,
+                options_for_select(
+                  [
+                    ["Verified First", "verified_first"],
+                    ["By Street #", "street_number"],
+                    ["Newest", "newest"],
+                    ["A-Z Address", "address"]
+                  ],
+                  params[:sort] || "verified_first"
                 ),
                 {},
                 class: "bg-transparent text-white font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
@@ -52,7 +68,7 @@
               <span class="text-white font-semibold">Verified Only</span>
             </label>
 
-            <% if params[:q].present? || params[:neighborhood].present? || params[:verified].present? %>
+            <% if params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present? %>
               <%= link_to "Clear Filters", properties_path, class: "text-cyan-200 hover:text-white underline font-semibold" %>
             <% end %>
           </div>
@@ -147,7 +163,7 @@
         <div class="flex justify-center">
           <nav class="flex items-center gap-2">
             <% if @pagy.prev %>
-              <%= link_to url_for(page: @pagy.prev, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified]),
+              <%= link_to url_for(page: @pagy.prev, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified], sort: params[:sort]),
                   class: "px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
                 <span class="flex items-center gap-1">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +179,7 @@
             </span>
 
             <% if @pagy.next %>
-              <%= link_to url_for(page: @pagy.next, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified]),
+              <%= link_to url_for(page: @pagy.next, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified], sort: params[:sort]),
                   class: "px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
                 <span class="flex items-center gap-1">
                   Next
@@ -260,7 +276,7 @@
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
-        <% Property.in_ocean_city.verified.limit(6).each do |property| %>
+        <% Property.in_ocean_city.verified.order(Arel.sql("RANDOM()")).limit(6).each do |property| %>
           <%= link_to property_path(property),
             class: "group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200" do %>
 
