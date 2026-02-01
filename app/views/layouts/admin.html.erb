@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin | OCNJ Weekly Rentals</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-100 min-h-screen">
+    <!-- Admin Header -->
+    <header class="bg-gray-900 text-white">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-6">
+            <%= link_to admin_root_path, class: "flex items-center gap-2 font-bold text-lg" do %>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+              </svg>
+              Admin Dashboard
+            <% end %>
+
+            <nav class="hidden md:flex items-center gap-4">
+              <%= link_to "Dashboard", admin_root_path,
+                class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'dashboard' ? 'bg-gray-800' : ''}" %>
+              <%= link_to "Leads", admin_leads_path,
+                class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'leads' ? 'bg-gray-800' : ''}" %>
+            </nav>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <%= link_to "View Site", root_path, target: "_blank", class: "text-gray-400 hover:text-white text-sm" %>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+      <% if notice %>
+        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded">
+          <p class="text-green-700"><%= notice %></p>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+          <p class="text-red-700"><%= alert %></p>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

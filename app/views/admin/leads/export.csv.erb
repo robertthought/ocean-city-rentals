@@ -1,0 +1,15 @@
+<%- headers = ["ID", "Name", "Email", "Phone", "Property Address", "Message", "Lead Type", "Contacted", "Created At"] -%>
+<%= headers.to_csv -%>
+<% @leads.each do |lead| -%>
+<%= [
+  lead.id,
+  lead.name,
+  lead.email,
+  lead.phone,
+  lead.property.address,
+  lead.message&.gsub(/[\r\n]+/, " "),
+  lead.lead_type,
+  lead.contacted ? "Yes" : "No",
+  lead.created_at.strftime("%Y-%m-%d %H:%M")
+].to_csv -%>
+<% end -%>

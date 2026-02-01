@@ -8,6 +8,15 @@ Rails.application.routes.draw do
   resources :neighborhoods, only: [:index, :show]
   resources :guides, only: [:index, :show]
 
+  # Admin
+  namespace :admin do
+    root to: "dashboard#index"
+    resources :leads, only: [:index, :show] do
+      post :mark_contacted, on: :member
+      get :export, on: :collection
+    end
+  end
+
   # SEO pages
   get '/about', to: 'pages#about'
   get '/contact', to: 'pages#contact'
