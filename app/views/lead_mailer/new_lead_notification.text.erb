@@ -1,0 +1,28 @@
+NEW LEAD - OCNJ Weekly Rentals
+================================
+
+PROPERTY
+--------
+<%= @property.address %>
+<%= @property.city %>, <%= @property.state %> <%= @property.zip %>
+View: <%= property_url(@property) %>
+
+CONTACT INFORMATION
+-------------------
+Name: <%= @lead.name %>
+Email: <%= @lead.email %>
+<% if @lead.phone.present? %>Phone: <%= @lead.phone %><% end %>
+
+<% if @lead.message.present? %>
+MESSAGE
+-------
+<%= @lead.message %>
+<% end %>
+
+---
+Submitted: <%= @lead.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+Lead Type: <%= @lead.lead_type&.titleize || "General Inquiry" %>
+
+--
+OCNJ Weekly Rentals
+https://ocnjweeklyrentals.com

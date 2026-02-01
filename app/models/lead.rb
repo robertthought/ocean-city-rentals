@@ -20,7 +20,6 @@ class Lead < ApplicationRecord
   private
 
   def send_notification
-    # TODO: Send email to Bob with lead details
-    # LeadMailer.new_lead(self).deliver_later
+    LeadMailer.new_lead_notification(self).deliver_later
   end
 end
