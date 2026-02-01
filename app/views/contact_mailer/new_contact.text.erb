@@ -1,0 +1,23 @@
+NEW CONTACT FORM SUBMISSION - OCNJ Weekly Rentals
+=================================================
+
+<% if @inquiry_type.present? %>
+Inquiry Type: <%= @inquiry_type %>
+
+<% end %>
+CONTACT INFORMATION
+-------------------
+Name: <%= @name %>
+Email: <%= @email %>
+<% if @phone.present? %>Phone: <%= @phone %><% end %>
+
+MESSAGE
+-------
+<%= @message %>
+
+---
+Submitted: <%= Time.current.strftime("%B %d, %Y at %I:%M %p") %>
+
+--
+OCNJ Weekly Rentals
+https://ocnjweeklyrentals.com

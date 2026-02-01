@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #2563eb; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 20px; border: 1px solid #e5e7eb; }
+    .info-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .label { font-size: 12px; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+    .value { font-size: 16px; color: #111827; margin-bottom: 12px; }
+    .message { background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-top: 15px; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .type-badge { display: inline-block; background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 24px;">New Contact Form Submission</h1>
+      <p style="margin: 5px 0 0 0; opacity: 0.9;">OCNJ Weekly Rentals</p>
+    </div>
+
+    <div class="content">
+      <% if @inquiry_type.present? %>
+        <div style="margin-bottom: 15px;">
+          <span class="type-badge"><%= @inquiry_type %></span>
+        </div>
+      <% end %>
+
+      <div class="info-card">
+        <h2 style="margin-top: 0; color: #111827;">Contact Information</h2>
+
+        <div class="label">Name</div>
+        <div class="value"><%= @name %></div>
+
+        <div class="label">Email</div>
+        <div class="value"><a href="mailto:<%= @email %>"><%= @email %></a></div>
+
+        <% if @phone.present? %>
+          <div class="label">Phone</div>
+          <div class="value"><a href="tel:<%= @phone %>"><%= @phone %></a></div>
+        <% end %>
+
+        <div class="message">
+          <div class="label">Message</div>
+          <div style="color: #111827;"><%= simple_format(@message) %></div>
+        </div>
+      </div>
+
+      <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+        <strong>Submitted:</strong> <%= Time.current.strftime("%B %d, %Y at %I:%M %p") %>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>This email was sent from the contact form at OCNJ Weekly Rentals<br>
+      <a href="https://ocnjweeklyrentals.com">ocnjweeklyrentals.com</a></p>
+    </div>
+  </div>
+</body>
+</html>
