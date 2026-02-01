@@ -120,7 +120,7 @@ class Neighborhood
   end
 
   def property_count
-    @property_count ||= properties.count
+    properties.count
   end
 
   def to_param
