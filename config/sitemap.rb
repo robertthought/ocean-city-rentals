@@ -1,5 +1,5 @@
 SitemapGenerator::Sitemap.default_host = "https://ocnjweeklyrentals.com"
-SitemapGenerator::Sitemap.compress = true
+SitemapGenerator::Sitemap.compress = false
 SitemapGenerator::Sitemap.create_index = true
 
 SitemapGenerator::Sitemap.create do
