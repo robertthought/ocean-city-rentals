@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location for search engine indexing
-Sitemap: https://ocnjweeklyrentals.com/sitemap.xml.gz
+Sitemap: https://ocnjweeklyrentals.com/sitemap.xml
