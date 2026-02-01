@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_25_154645) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_01_183539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "contact_submissions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "inquiry_type"
+    t.text "message"
+    t.string "name"
+    t.string "phone"
+    t.boolean "responded", default: false
+    t.datetime "responded_at"
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_contact_submissions_on_created_at"
+    t.index ["responded"], name: "index_contact_submissions_on_responded"
+  end
 
   create_table "leads", force: :cascade do |t|
     t.boolean "contacted", default: false

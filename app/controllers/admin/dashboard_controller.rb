@@ -12,6 +12,11 @@ module Admin
       @properties_count = Property.in_ocean_city.count
       @verified_count = Property.verified.count
 
+      # Contact submissions
+      @contact_submissions_total = ContactSubmission.count
+      @unanswered_submissions = ContactSubmission.unanswered.count
+      @recent_submissions = ContactSubmission.recent.limit(5)
+
       # Top properties by leads
       @top_properties = Property.joins(:leads)
         .select("properties.*, COUNT(leads.id) as leads_count")

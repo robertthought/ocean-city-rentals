@@ -10,10 +10,29 @@
       gtag('config', 'G-W82L7HHRQH');
     </script>
 
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '770139866671906');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=770139866671906&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
     <title><%= meta_title %></title>
     <meta name="description" content="<%= meta_description %>">
     <meta name="keywords" content="<%= meta_keywords %>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="<%= canonical_url %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -21,7 +40,16 @@
     <meta property="og:title" content="<%= meta_title %>">
     <meta property="og:description" content="<%= meta_description %>">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:url" content="<%= canonical_url %>">
+    <meta property="og:image" content="<%= meta_image %>">
+    <meta property="og:site_name" content="OCNJ Weekly Rentals">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= meta_title %>">
+    <meta name="twitter:description" content="<%= meta_description %>">
+    <meta name="twitter:image" content="<%= meta_image %>">
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">

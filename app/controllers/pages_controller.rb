@@ -7,19 +7,21 @@ class PagesController < ApplicationController
   end
 
   def submit_contact
-    @name = params[:name]
-    @email = params[:email]
-    @phone = params[:phone]
-    @message = params[:message]
-    @inquiry_type = params[:inquiry_type]
+    @submission = ContactSubmission.new(
+      name: params[:name],
+      email: params[:email],
+      phone: params[:phone],
+      message: params[:message],
+      inquiry_type: params[:inquiry_type]
+    )
 
-    if @name.present? && @email.present? && @message.present?
+    if @submission.save
       ContactMailer.new_contact(
-        name: @name,
-        email: @email,
-        phone: @phone,
-        message: @message,
-        inquiry_type: @inquiry_type
+        name: @submission.name,
+        email: @submission.email,
+        phone: @submission.phone,
+        message: @submission.message,
+        inquiry_type: @submission.inquiry_type
       ).deliver_later
 
       redirect_to contact_path, notice: "Thank you for your message! We'll get back to you within 24 hours."

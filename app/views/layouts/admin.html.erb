@@ -28,6 +28,8 @@
                 class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'dashboard' ? 'bg-gray-800' : ''}" %>
               <%= link_to "Leads", admin_leads_path,
                 class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'leads' ? 'bg-gray-800' : ''}" %>
+              <%= link_to "Contacts", admin_contact_submissions_path,
+                class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'contact_submissions' ? 'bg-gray-800' : ''}" %>
             </nav>
           </div>
 

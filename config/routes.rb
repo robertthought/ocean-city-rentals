@@ -15,6 +15,10 @@ Rails.application.routes.draw do
       post :mark_contacted, on: :member
       get :export, on: :collection
     end
+    resources :contact_submissions, only: [:index, :show] do
+      post :mark_responded, on: :member
+      get :export, on: :collection
+    end
   end
 
   # SEO pages

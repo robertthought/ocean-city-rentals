@@ -1,0 +1,15 @@
+<%- headers = ["ID", "Name", "Email", "Phone", "Inquiry Type", "Message", "Responded", "Responded At", "Submitted At"] -%>
+<%= CSV.generate_line(headers) -%>
+<% @submissions.each do |submission| -%>
+<%= CSV.generate_line([
+  submission.id,
+  submission.name,
+  submission.email,
+  submission.phone,
+  submission.inquiry_type,
+  submission.message,
+  submission.responded ? "Yes" : "No",
+  submission.responded_at&.strftime("%Y-%m-%d %H:%M"),
+  submission.created_at.strftime("%Y-%m-%d %H:%M")
+]) -%>
+<% end -%>

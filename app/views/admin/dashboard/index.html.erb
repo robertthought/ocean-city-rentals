@@ -157,6 +157,39 @@
         </div>
       <% end %>
 
+      <!-- Contact Submissions -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold text-gray-900">Contact Form</h2>
+          <%= link_to "View All", admin_contact_submissions_path, class: "text-blue-600 hover:text-blue-700 text-sm font-semibold" %>
+        </div>
+        <div class="space-y-4 mb-4">
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Total Submissions</span>
+            <span class="font-bold text-gray-900"><%= number_with_delimiter(@contact_submissions_total) %></span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-600">Awaiting Response</span>
+            <span class="font-bold <%= @unanswered_submissions > 0 ? 'text-orange-600' : 'text-gray-900' %>">
+              <%= number_with_delimiter(@unanswered_submissions) %>
+            </span>
+          </div>
+        </div>
+        <% if @recent_submissions.any? %>
+          <div class="border-t border-gray-200 pt-4 space-y-2">
+            <p class="text-xs text-gray-500 uppercase font-semibold">Recent</p>
+            <% @recent_submissions.each do |submission| %>
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 truncate flex-1 mr-2"><%= submission.name %></span>
+                <% unless submission.responded %>
+                  <span class="bg-orange-100 text-orange-700 text-xs px-2 py-0.5 rounded-full">New</span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
       <!-- Quick Actions -->
       <div class="bg-white rounded-xl shadow p-6">
         <h2 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
@@ -164,6 +197,12 @@
           <%= link_to admin_leads_path(status: "uncontacted"),
             class: "block w-full px-4 py-2 bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors text-center font-semibold" do %>
             View Uncontacted Leads (<%= @uncontacted_leads %>)
+          <% end %>
+          <% if @unanswered_submissions > 0 %>
+            <%= link_to admin_contact_submissions_path(status: "unanswered"),
+              class: "block w-full px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors text-center font-semibold" do %>
+              View Unanswered Contacts (<%= @unanswered_submissions %>)
+            <% end %>
           <% end %>
           <%= link_to export_admin_leads_path(format: :csv),
             class: "block w-full px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-center font-semibold" do %>

@@ -1,5 +1,6 @@
 <% content_for :title, "#{@neighborhood.name} Ocean City NJ Vacation Rentals | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, "Browse #{number_with_delimiter(@neighborhood.property_count)} vacation rentals in #{@neighborhood.name}, Ocean City NJ (#{@neighborhood.street_range}). #{@neighborhood.description.truncate(120)}" %>
+<% content_for :canonical_url, neighborhood_url(@neighborhood) %>
 
 <% content_for :schema do %>
 <script type="application/ld+json">

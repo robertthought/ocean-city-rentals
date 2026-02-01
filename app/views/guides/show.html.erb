@@ -1,5 +1,6 @@
 <% content_for :title, "#{@guide.title} | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, @guide.meta_description %>
+<% content_for :canonical_url, guide_url(@guide) %>
 
 <% content_for :schema do %>
 <script type="application/ld+json">

@@ -1,5 +1,6 @@
 <% content_for :title, "#{@property.full_address} | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, @property.meta_description %>
+<% content_for :canonical_url, property_url(@property) %>
 
 <% content_for :schema do %>
 <script type="application/ld+json">
