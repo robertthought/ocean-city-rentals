@@ -26,6 +26,13 @@ class PropertiesController < ApplicationController
     @searching = params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present?
   end
 
+  def show
+    @property = Property.friendly.find(params[:id])
+    @lead = Lead.new(property: @property)
+  rescue ActiveRecord::RecordNotFound
+    redirect_to properties_path, alert: "Property not found"
+  end
+
   private
 
   def apply_sort(scope)
@@ -41,12 +48,5 @@ class PropertiesController < ApplicationController
     else
       scope.order(is_verified: :desc, address: :asc)
     end
-  end
-
-  def show
-    @property = Property.friendly.find(params[:id])
-    @lead = Lead.new(property: @property)
-  rescue ActiveRecord::RecordNotFound
-    redirect_to properties_path, alert: "Property not found"
   end
 end
