@@ -31,10 +31,7 @@ gem 'sitemap_generator' # XML sitemap for Google
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
+# In-memory cache and async queue/cable — no extra databases needed
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
