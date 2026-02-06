@@ -56,22 +56,22 @@ class RtrPropertySync
   end
 
   def sync_property(rtr_data)
-    # Log first few for debugging
-    if @stats.values.sum < 5
-      Rails.logger.info "[RTR Sync] Sample data: address=#{rtr_data[:address].inspect}, city=#{rtr_data[:city].inspect}, is_active=#{rtr_data[:is_active].inspect}"
-    end
-
     # Skip if missing address
     unless rtr_data[:address].present?
-      Rails.logger.info "[RTR Sync] Skipping - no address" if @stats.values.sum < 10
       @stats[:skipped] += 1
       return
     end
 
-    # Normalize city to "Ocean City" for consistent database
-    rtr_data[:city] = "Ocean City" if rtr_data[:city].to_s.downcase.include?("ocean")
+    # Only sync Ocean City properties
+    city = rtr_data[:city].to_s.downcase
+    unless city.include?("ocean")
+      @stats[:skipped] += 1
+      return
+    end
 
-    Rails.logger.info "[RTR Sync] Processing: #{rtr_data[:address]}, #{rtr_data[:city]} (ref: #{rtr_data[:rtr_reference_id]})"
+    # Normalize city name for database consistency
+    rtr_data[:city] = "Ocean City"
+    rtr_data[:state] = "NJ"
 
     # Find existing property
     property = find_existing_property(rtr_data)
@@ -88,15 +88,13 @@ class RtrPropertySync
   end
 
   def find_existing_property(rtr_data)
-    # First try by RTR reference ID
-    if rtr_data[:rtr_reference_id].present?
-      property = Property.find_by(rtr_reference_id: rtr_data[:rtr_reference_id])
-      return property if property
-    end
+    # Try exact address match first (fast)
+    property = Property.find_by(address: rtr_data[:address], city: "Ocean City")
+    return property if property
 
-    # Then try by normalized address
+    # Then try normalized address match
     normalized = normalize_address(rtr_data[:address])
-    Property.where(city: "Ocean City").find_each do |prop|
+    Property.where(city: "Ocean City").where("address ILIKE ?", "%#{rtr_data[:address].split.first}%").find_each do |prop|
       if normalize_address(prop.address) == normalized
         return prop
       end
@@ -119,26 +117,15 @@ class RtrPropertySync
 
   def update_property(property, rtr_data)
     property.update!(
-      rtr_reference_id: rtr_data[:rtr_reference_id],
-      rtr_property_id: rtr_data[:rtr_property_id],
-      description: rtr_data[:description],
-      photos: rtr_data[:photos],
-      amenities: rtr_data[:amenities],
-      property_name: rtr_data[:property_name],
-      bedrooms: rtr_data[:bedrooms] || property.bedrooms,
-      bathrooms: rtr_data[:bathrooms] || property.bathrooms,
+      description: rtr_data[:description].presence || property.description,
+      photos: rtr_data[:photos].present? ? rtr_data[:photos] : property.photos,
+      amenities: rtr_data[:amenities].present? ? rtr_data[:amenities] : property.amenities,
+      property_name: rtr_data[:property_name].presence || property.property_name,
+      bedrooms: rtr_data[:bedrooms].present? && rtr_data[:bedrooms] > 0 ? rtr_data[:bedrooms] : property.bedrooms,
+      bathrooms: rtr_data[:bathrooms].present? && rtr_data[:bathrooms] > 0 ? rtr_data[:bathrooms] : property.bathrooms,
       occupancy_limit: rtr_data[:occupancy_limit],
       total_sleeps: rtr_data[:total_sleeps],
-      smoking: rtr_data[:smoking],
-      fee_descriptions: rtr_data[:fee_descriptions],
-      rate_description: rtr_data[:rate_description],
-      broker_name: rtr_data[:broker_name],
-      broker_phone: rtr_data[:broker_phone],
-      broker_email: rtr_data[:broker_email],
-      broker_website: rtr_data[:broker_website],
-      virtual_tour_url: rtr_data[:virtual_tour_url],
-      latitude: rtr_data[:latitude].present? && rtr_data[:latitude] != 0 ? rtr_data[:latitude] : property.latitude,
-      longitude: rtr_data[:longitude].present? && rtr_data[:longitude] != 0 ? rtr_data[:longitude] : property.longitude,
+      property_type: rtr_data[:property_type].presence || property.property_type,
       is_verified: true,
       data_source: "realtimerental",
       rtr_synced_at: Time.current
@@ -148,30 +135,18 @@ class RtrPropertySync
   def create_property(rtr_data)
     Property.create!(
       address: rtr_data[:address],
-      city: rtr_data[:city] || "Ocean City",
-      state: rtr_data[:state] || "NJ",
-      zip: rtr_data[:zip] || "08226",
-      rtr_reference_id: rtr_data[:rtr_reference_id],
-      rtr_property_id: rtr_data[:rtr_property_id],
+      city: "Ocean City",
+      state: "NJ",
+      zip: rtr_data[:zip].presence || "08226",
       property_type: rtr_data[:property_type],
       description: rtr_data[:description],
-      photos: rtr_data[:photos],
-      amenities: rtr_data[:amenities],
+      photos: rtr_data[:photos] || [],
+      amenities: rtr_data[:amenities] || [],
       property_name: rtr_data[:property_name],
       bedrooms: rtr_data[:bedrooms],
       bathrooms: rtr_data[:bathrooms],
       occupancy_limit: rtr_data[:occupancy_limit],
       total_sleeps: rtr_data[:total_sleeps],
-      smoking: rtr_data[:smoking],
-      fee_descriptions: rtr_data[:fee_descriptions],
-      rate_description: rtr_data[:rate_description],
-      broker_name: rtr_data[:broker_name],
-      broker_phone: rtr_data[:broker_phone],
-      broker_email: rtr_data[:broker_email],
-      broker_website: rtr_data[:broker_website],
-      virtual_tour_url: rtr_data[:virtual_tour_url],
-      latitude: rtr_data[:latitude],
-      longitude: rtr_data[:longitude],
       is_verified: true,
       data_source: "realtimerental",
       rtr_synced_at: Time.current
