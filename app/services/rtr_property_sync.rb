@@ -56,31 +56,20 @@ class RtrPropertySync
   end
 
   def sync_property(rtr_data)
+    # Log first few for debugging
+    if @stats.values.sum < 5
+      Rails.logger.info "[RTR Sync] Sample data: address=#{rtr_data[:address].inspect}, city=#{rtr_data[:city].inspect}, is_active=#{rtr_data[:is_active].inspect}"
+    end
+
     # Skip if missing address
     unless rtr_data[:address].present?
+      Rails.logger.info "[RTR Sync] Skipping - no address" if @stats.values.sum < 10
       @stats[:skipped] += 1
       return
     end
 
-    # Skip inactive properties (but allow nil/missing is_active)
-    if rtr_data[:is_active] == false
-      @stats[:skipped] += 1
-      return
-    end
-
-    # Only sync Ocean City, NJ properties (flexible matching)
-    city = rtr_data[:city]&.to_s&.downcase || ""
-    state = rtr_data[:state]&.to_s&.downcase || ""
-    zip = rtr_data[:zip]&.to_s || ""
-
-    is_ocean_city = city.include?("ocean") ||
-                    city.include?("ocnj") ||
-                    zip.start_with?("08226")
-
-    unless is_ocean_city
-      @stats[:skipped] += 1
-      return
-    end
+    # Normalize city to "Ocean City" for consistent database
+    rtr_data[:city] = "Ocean City" if rtr_data[:city].to_s.downcase.include?("ocean")
 
     Rails.logger.info "[RTR Sync] Processing: #{rtr_data[:address]}, #{rtr_data[:city]} (ref: #{rtr_data[:rtr_reference_id]})"
 
