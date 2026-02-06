@@ -271,87 +271,113 @@
             <% end %>
           </div>
 
-          <% if @property.has_rates? %>
-          <!-- Rental Rates Card -->
+          <% if @property.has_rates? || @property.has_availability? %>
+          <!-- Weekly Rentals - Combined Rates & Availability -->
           <div class="bg-white rounded-xl shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">
               <svg class="w-6 h-6 inline-block mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
-              Rental Rates
+              Weekly Rental Availability
             </h2>
-            <div class="grid gap-4">
-              <% @property.rate_periods.first(8).each do |rate| %>
-                <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <h3 class="font-semibold text-gray-900"><%= rate[:description] || "Rental Rate" %></h3>
-                      <% if rate[:check_in_date].present? && rate[:check_out_date].present? %>
-                        <p class="text-sm text-gray-500"><%= rate[:check_in_date] %> - <%= rate[:check_out_date] %></p>
-                      <% end %>
-                      <% if rate[:rules].present? %>
-                        <p class="text-xs text-gray-400 mt-1"><%= rate[:rules] %></p>
-                      <% end %>
-                      <% if rate[:minimum_stay].present? && rate[:minimum_stay] > 0 %>
-                        <p class="text-xs text-gray-400"><%= rate[:minimum_stay] %> night minimum</p>
-                      <% end %>
+            <p class="text-gray-500 mb-6">Select your week - Saturday to Saturday rentals</p>
+
+            <% if @property.has_rates? %>
+            <!-- Weekly Rates Grid -->
+            <div class="mb-8">
+              <h3 class="font-semibold text-gray-700 mb-4">Available Weeks & Rates</h3>
+              <div class="grid gap-3">
+                <% @property.weekly_rates.first(20).each do |rate| %>
+                  <%
+                    check_in = Date.parse(rate[:check_in_date]) rescue nil
+                    check_out = Date.parse(rate[:check_out_date]) rescue nil
+                    is_past = check_in && check_in < Date.today
+                  %>
+                  <% unless is_past %>
+                  <div class="flex items-center justify-between p-4 rounded-lg border-2 border-green-200 bg-green-50 hover:border-green-400 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="font-semibold text-gray-900">
+                          <% if check_in && check_out %>
+                            <%= check_in.strftime("%b %d") %> - <%= check_out.strftime("%b %d, %Y") %>
+                          <% else %>
+                            <%= rate[:description] %>
+                          <% end %>
+                        </p>
+                        <p class="text-sm text-green-600 font-medium">Available</p>
+                      </div>
                     </div>
                     <div class="text-right">
                       <% if rate[:rate].present? && rate[:rate] > 0 %>
                         <p class="text-2xl font-bold text-green-600">$<%= number_with_delimiter(rate[:rate].to_i) %></p>
-                        <p class="text-sm text-gray-500"><%= rate[:minimum_stay].to_i >= 7 ? 'per week' : 'per stay' %></p>
+                        <p class="text-xs text-gray-500">per week</p>
                       <% end %>
                     </div>
                   </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-          <% end %>
-
-          <% if @property.has_availability? %>
-          <!-- Availability Calendar -->
-          <div class="bg-white rounded-xl shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">
-              <svg class="w-6 h-6 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-              Availability
-            </h2>
-            <div class="mb-4 flex items-center gap-4 text-sm">
-              <div class="flex items-center gap-2">
-                <div class="w-4 h-4 bg-green-100 border border-green-300 rounded"></div>
-                <span class="text-gray-600">Available</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="w-4 h-4 bg-gray-100 border border-gray-300 rounded"></div>
-                <span class="text-gray-600">Not Available</span>
+                  <% end %>
+                <% end %>
               </div>
             </div>
-            <% available = @property.available_dates %>
-            <% current_month = Date.today.beginning_of_month %>
-            <% 3.times do |month_offset| %>
-              <% month = current_month + month_offset.months %>
-              <div class="mb-6">
-                <h3 class="font-semibold text-gray-700 mb-3"><%= month.strftime("%B %Y") %></h3>
-                <div class="grid grid-cols-7 gap-1 text-center text-sm">
-                  <% %w[Sun Mon Tue Wed Thu Fri Sat].each do |day| %>
-                    <div class="text-gray-400 font-medium text-xs py-1"><%= day %></div>
-                  <% end %>
-                  <% (month.beginning_of_month.wday).times do %>
-                    <div></div>
-                  <% end %>
-                  <% (month.beginning_of_month..month.end_of_month).each do |date| %>
-                    <% is_available = available.include?(date.to_s) %>
-                    <% is_past = date < Date.today %>
-                    <div class="py-2 rounded <%= is_past ? 'text-gray-300' : is_available ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400' %>">
-                      <%= date.day %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
             <% end %>
-            <p class="text-sm text-gray-500 text-center">Contact us for the most up-to-date availability</p>
+
+            <!-- 12-Month Calendar View -->
+            <div class="border-t border-gray-200 pt-6">
+              <h3 class="font-semibold text-gray-700 mb-4">12-Month Calendar</h3>
+              <div class="mb-4 flex items-center gap-6 text-sm">
+                <div class="flex items-center gap-2">
+                  <div class="w-4 h-4 bg-green-500 rounded"></div>
+                  <span class="text-gray-600">Available</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-4 h-4 bg-gray-200 rounded"></div>
+                  <span class="text-gray-600">Booked</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-4 h-4 bg-gray-100 rounded"></div>
+                  <span class="text-gray-600">Past</span>
+                </div>
+              </div>
+
+              <% available = @property.available_dates %>
+              <% current_month = Date.today.beginning_of_month %>
+
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% 12.times do |month_offset| %>
+                  <% month = current_month + month_offset.months %>
+                  <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-800 mb-3 text-center"><%= month.strftime("%B %Y") %></h4>
+                    <div class="grid grid-cols-7 gap-1 text-center text-xs">
+                      <% %w[S M T W T F S].each do |day| %>
+                        <div class="text-gray-400 font-medium py-1"><%= day %></div>
+                      <% end %>
+                      <% (month.beginning_of_month.wday).times do %>
+                        <div></div>
+                      <% end %>
+                      <% (month.beginning_of_month..month.end_of_month).each do |date| %>
+                        <% is_available = available.include?(date.to_s) %>
+                        <% is_past = date < Date.today %>
+                        <% is_saturday = date.saturday? %>
+                        <div class="py-1 rounded text-xs <%= is_past ? 'bg-gray-100 text-gray-300' : is_available ? 'bg-green-500 text-white font-semibold' : 'bg-gray-200 text-gray-500' %> <%= is_saturday && !is_past ? 'ring-1 ring-blue-400' : '' %>">
+                          <%= date.day %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+
+              <p class="text-sm text-gray-500 text-center mt-6">
+                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Saturdays highlighted with blue ring (typical check-in day). Contact us for the most current availability.
+              </p>
+            </div>
           </div>
           <% end %>
 
