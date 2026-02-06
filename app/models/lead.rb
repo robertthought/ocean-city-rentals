@@ -14,12 +14,17 @@ class Lead < ApplicationRecord
     update(contacted: true, contacted_at: Time.current)
   end
 
-  # Send notification email (implement later)
+  # Send notifications
   after_create :send_notification
+  after_create :send_slack_notification
 
   private
 
   def send_notification
     LeadMailer.new_lead_notification(self).deliver_later
+  end
+
+  def send_slack_notification
+    SlackNotifier.notify_new_lead(self)
   end
 end
