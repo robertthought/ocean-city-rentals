@@ -68,12 +68,82 @@ class Property < ApplicationRecord
     amenities.present? && amenities.any?
   end
 
+  # RTR Amenity ID to Name mapping
+  RTR_AMENITY_NAMES = {
+    110 => "Air Conditioning",
+    120 => "Cable TV",
+    130 => "Ceiling Fans",
+    140 => "Dishwasher",
+    150 => "Fireplace",
+    160 => "DVD Player",
+    170 => "Internet/WiFi",
+    180 => "Linens Provided",
+    190 => "Telephone",
+    200 => "Television",
+    210 => "VCR",
+    220 => "Stereo",
+    230 => "Iron/Ironing Board",
+    240 => "Hair Dryer",
+    250 => "Towels Provided",
+    260 => "High Chair",
+    270 => "Crib",
+    280 => "Baby Equipment",
+    290 => "Games",
+    300 => "Books",
+    310 => "Ocean View",
+    320 => "Washer",
+    330 => "Dryer",
+    340 => "Microwave",
+    350 => "Coffee Maker",
+    360 => "Toaster",
+    370 => "Blender",
+    380 => "Ice Maker",
+    390 => "Cooking Utensils",
+    400 => "Dishes & Silverware",
+    410 => "Pots & Pans",
+    420 => "Deck/Patio",
+    430 => "Outdoor Furniture",
+    431 => "Balcony",
+    440 => "Grill/BBQ",
+    450 => "Outdoor Shower",
+    460 => "Private Pool",
+    470 => "Shared Pool",
+    480 => "Hot Tub",
+    490 => "Beach Chairs",
+    500 => "Beach Umbrella",
+    510 => "Beach Badges",
+    520 => "Bicycles",
+    530 => "Kayak/Canoe",
+    540 => "Boat Dock",
+    550 => "Fishing Equipment",
+    560 => "Tennis Court",
+    570 => "Golf Course",
+    580 => "Gym/Fitness",
+    590 => "Elevator",
+    600 => "Wheelchair Accessible",
+    610 => "Parking",
+    620 => "Garage",
+    630 => "Pets Allowed",
+    640 => "No Smoking",
+    650 => "Central Heat",
+    660 => "Gas Heat",
+    670 => "Electric Heat",
+    680 => "Waterfront",
+    690 => "Bay View",
+    700 => "City View",
+    710 => "Garden View",
+    720 => "Pool View"
+  }.freeze
+
   def amenity_list
     return [] unless has_amenities?
     amenities.map { |a|
+      id = a["id"] || a[:id]
+      # Try to get name from our mapping, fall back to label/description
+      RTR_AMENITY_NAMES[id.to_i] ||
       a["description"].presence || a[:description].presence ||
       a["label"].presence || a[:label].presence
-    }.compact
+    }.compact.uniq
   end
 
   # From RTR?
