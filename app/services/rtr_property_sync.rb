@@ -88,7 +88,13 @@ class RtrPropertySync
   end
 
   def find_existing_property(rtr_data)
-    # Try exact address match first (fast)
+    # First try RTR reference ID match (for previously synced properties)
+    if rtr_data[:rtr_reference_id].present?
+      property = Property.find_by(rtr_reference_id: rtr_data[:rtr_reference_id])
+      return property if property
+    end
+
+    # Then try exact address match (fast)
     property = Property.find_by(address: rtr_data[:address], city: "Ocean City")
     return property if property
 
@@ -117,15 +123,26 @@ class RtrPropertySync
 
   def update_property(property, rtr_data)
     property.update!(
+      rtr_reference_id: rtr_data[:rtr_reference_id].presence || property.rtr_reference_id,
+      rtr_property_id: rtr_data[:rtr_property_id].presence || property.rtr_property_id,
       description: rtr_data[:description].presence || property.description,
       photos: rtr_data[:photos].present? ? rtr_data[:photos] : property.photos,
       amenities: rtr_data[:amenities].present? ? rtr_data[:amenities] : property.amenities,
       property_name: rtr_data[:property_name].presence || property.property_name,
       bedrooms: rtr_data[:bedrooms].present? && rtr_data[:bedrooms] > 0 ? rtr_data[:bedrooms] : property.bedrooms,
       bathrooms: rtr_data[:bathrooms].present? && rtr_data[:bathrooms] > 0 ? rtr_data[:bathrooms] : property.bathrooms,
-      occupancy_limit: rtr_data[:occupancy_limit],
-      total_sleeps: rtr_data[:total_sleeps],
+      occupancy_limit: rtr_data[:occupancy_limit].present? && rtr_data[:occupancy_limit] > 0 ? rtr_data[:occupancy_limit] : property.occupancy_limit,
+      total_sleeps: rtr_data[:total_sleeps].present? && rtr_data[:total_sleeps] > 0 ? rtr_data[:total_sleeps] : property.total_sleeps,
       property_type: rtr_data[:property_type].presence || property.property_type,
+      latitude: rtr_data[:latitude].present? && rtr_data[:latitude] != 0 ? rtr_data[:latitude] : property.latitude,
+      longitude: rtr_data[:longitude].present? && rtr_data[:longitude] != 0 ? rtr_data[:longitude] : property.longitude,
+      virtual_tour_url: rtr_data[:virtual_tour_url].presence || property.virtual_tour_url,
+      broker_name: rtr_data[:broker_name].presence || property.broker_name,
+      broker_phone: rtr_data[:broker_phone].presence || property.broker_phone,
+      broker_email: rtr_data[:broker_email].presence || property.broker_email,
+      broker_website: rtr_data[:broker_website].presence || property.broker_website,
+      fee_descriptions: rtr_data[:fee_descriptions].presence || property.fee_descriptions,
+      rate_description: rtr_data[:rate_description].presence || property.rate_description,
       is_verified: true,
       data_source: "realtimerental",
       rtr_synced_at: Time.current
@@ -138,15 +155,26 @@ class RtrPropertySync
       city: "Ocean City",
       state: "NJ",
       zip: rtr_data[:zip].presence || "08226",
+      rtr_reference_id: rtr_data[:rtr_reference_id],
+      rtr_property_id: rtr_data[:rtr_property_id],
       property_type: rtr_data[:property_type],
+      property_name: rtr_data[:property_name],
       description: rtr_data[:description],
       photos: rtr_data[:photos] || [],
       amenities: rtr_data[:amenities] || [],
-      property_name: rtr_data[:property_name],
       bedrooms: rtr_data[:bedrooms],
       bathrooms: rtr_data[:bathrooms],
       occupancy_limit: rtr_data[:occupancy_limit],
       total_sleeps: rtr_data[:total_sleeps],
+      latitude: rtr_data[:latitude],
+      longitude: rtr_data[:longitude],
+      virtual_tour_url: rtr_data[:virtual_tour_url],
+      broker_name: rtr_data[:broker_name],
+      broker_phone: rtr_data[:broker_phone],
+      broker_email: rtr_data[:broker_email],
+      broker_website: rtr_data[:broker_website],
+      fee_descriptions: rtr_data[:fee_descriptions],
+      rate_description: rtr_data[:rate_description],
       is_verified: true,
       data_source: "realtimerental",
       rtr_synced_at: Time.current

@@ -156,9 +156,22 @@
                   <h3 class="font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-1">
                     <%= property.address %>
                   </h3>
-                  <p class="text-gray-500 text-sm mb-3">
+                  <p class="text-gray-500 text-sm mb-2">
                     <%= property.city %>, <%= property.state %> <%= property.zip %>
                   </p>
+                  <% if property.bedrooms.present? && property.bedrooms > 0 || property.bathrooms.present? && property.bathrooms > 0 %>
+                    <div class="flex items-center gap-3 text-sm text-gray-600 mb-2">
+                      <% if property.bedrooms.present? && property.bedrooms > 0 %>
+                        <span><%= property.bedrooms %> bed</span>
+                      <% end %>
+                      <% if property.bathrooms.present? && property.bathrooms > 0 %>
+                        <span><%= property.bathrooms %> bath</span>
+                      <% end %>
+                      <% if property.total_sleeps.present? && property.total_sleeps > 0 %>
+                        <span>sleeps <%= property.total_sleeps %></span>
+                      <% end %>
+                    </div>
+                  <% end %>
                   <div class="mt-auto pt-3 border-t border-gray-100">
                     <span class="text-blue-600 font-semibold text-sm">View Details →</span>
                   </div>
@@ -319,9 +332,22 @@
               <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                 <%= property.address %>
               </h3>
-              <p class="text-gray-600 mb-4">
+              <p class="text-gray-600 mb-2">
                 <%= property.city %>, <%= property.state %> <%= property.zip %>
               </p>
+              <% if property.bedrooms.present? && property.bedrooms > 0 || property.bathrooms.present? && property.bathrooms > 0 %>
+                <div class="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                  <% if property.bedrooms.present? && property.bedrooms > 0 %>
+                    <span><%= property.bedrooms %> bed</span>
+                  <% end %>
+                  <% if property.bathrooms.present? && property.bathrooms > 0 %>
+                    <span><%= property.bathrooms %> bath</span>
+                  <% end %>
+                  <% if property.total_sleeps.present? && property.total_sleeps > 0 %>
+                    <span>sleeps <%= property.total_sleeps %></span>
+                  <% end %>
+                </div>
+              <% end %>
 
               <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                 <span class="text-blue-600 font-semibold group-hover:text-blue-700">
