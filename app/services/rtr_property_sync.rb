@@ -43,6 +43,10 @@ class RtrPropertySync
   private
 
   def sync_properties(rtr_properties)
+    # Log unique cities for debugging
+    cities = rtr_properties.map { |p| p[:city] }.compact.uniq.sort
+    Rails.logger.info "[RTR Sync] Cities in feed: #{cities.join(', ')}"
+
     rtr_properties.each do |rtr_data|
       sync_property(rtr_data)
     rescue StandardError => e
@@ -53,13 +57,22 @@ class RtrPropertySync
 
   def sync_property(rtr_data)
     # Skip if not active or missing required data
-    unless rtr_data[:is_active] && rtr_data[:address].present? && rtr_data[:city].present?
+    unless rtr_data[:is_active] && rtr_data[:address].present?
       @stats[:skipped] += 1
       return
     end
 
-    # Only sync Ocean City properties
-    unless rtr_data[:city]&.downcase&.include?("ocean city")
+    # Only sync Ocean City, NJ properties (flexible matching)
+    city = rtr_data[:city]&.to_s&.downcase || ""
+    state = rtr_data[:state]&.to_s&.downcase || ""
+    zip = rtr_data[:zip]&.to_s || ""
+
+    is_ocean_city = city.include?("ocean city") ||
+                    city.include?("ocnj") ||
+                    zip.start_with?("08226") ||
+                    (city.include?("ocean") && state.include?("nj"))
+
+    unless is_ocean_city
       @stats[:skipped] += 1
       return
     end
