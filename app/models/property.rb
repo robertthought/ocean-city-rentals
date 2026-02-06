@@ -80,4 +80,40 @@ class Property < ApplicationRecord
   def from_rtr?
     data_source == "realtimerental"
   end
+
+  # Availability helpers
+  def has_availability?
+    availability.present? && availability.any?
+  end
+
+  def booked_dates
+    return [] unless has_availability?
+    dates = []
+    availability.each do |booking|
+      start_date = Date.parse(booking["start_date"] || booking[:start_date]) rescue nil
+      end_date = Date.parse(booking["end_date"] || booking[:end_date]) rescue nil
+      next unless start_date && end_date
+      (start_date..end_date).each { |d| dates << d.to_s }
+    end
+    dates.uniq
+  end
+
+  # Rates helpers
+  def has_rates?
+    rates.present? && rates.any?
+  end
+
+  def rate_periods
+    return [] unless has_rates?
+    rates.map do |rate|
+      {
+        name: rate["name"] || rate[:name],
+        start_date: rate["start_date"] || rate[:start_date],
+        end_date: rate["end_date"] || rate[:end_date],
+        weekly_rate: rate["weekly_rate"] || rate[:weekly_rate],
+        daily_rate: rate["daily_rate"] || rate[:daily_rate],
+        minimum_stay: rate["minimum_stay"] || rate[:minimum_stay]
+      }
+    end
+  end
 end

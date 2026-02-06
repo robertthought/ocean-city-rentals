@@ -143,6 +143,8 @@ class RtrPropertySync
       broker_website: rtr_data[:broker_website].presence || property.broker_website,
       fee_descriptions: rtr_data[:fee_descriptions].presence || property.fee_descriptions,
       rate_description: rtr_data[:rate_description].presence || property.rate_description,
+      availability: rtr_data[:availability].present? ? rtr_data[:availability] : property.availability,
+      rates: rtr_data[:rates].present? ? rtr_data[:rates] : property.rates,
       is_verified: true,
       data_source: "realtimerental",
       rtr_synced_at: Time.current
@@ -175,6 +177,8 @@ class RtrPropertySync
       broker_website: rtr_data[:broker_website],
       fee_descriptions: rtr_data[:fee_descriptions],
       rate_description: rtr_data[:rate_description],
+      availability: rtr_data[:availability] || [],
+      rates: rtr_data[:rates] || [],
       is_verified: true,
       data_source: "realtimerental",
       rtr_synced_at: Time.current

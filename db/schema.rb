@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_06_212033) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_221731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_212033) do
     t.string "address", null: false
     t.jsonb "amenities", default: []
     t.boolean "auto_verified"
+    t.jsonb "availability", default: []
     t.integer "bathrooms"
     t.integer "bedrooms"
     t.string "broker_email"
@@ -89,6 +90,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_212033) do
     t.string "property_name"
     t.string "property_type"
     t.text "rate_description"
+    t.jsonb "rates", default: []
     t.integer "rtr_property_id"
     t.integer "rtr_reference_id"
     t.datetime "rtr_synced_at"

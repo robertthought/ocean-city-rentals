@@ -145,7 +145,13 @@ class RealTimeRentalApi
         photos: parse_photos(prop),
 
         # Amenities
-        amenities: parse_amenities(prop)
+        amenities: parse_amenities(prop),
+
+        # Availability (booked dates)
+        availability: parse_availability(prop),
+
+        # Rates
+        rates: parse_rates(prop)
       }
 
       properties << property_data
@@ -177,5 +183,34 @@ class RealTimeRentalApi
       }
     end
     amenities
+  end
+
+  def parse_availability(prop)
+    bookings = []
+    # RTR provides booked date ranges
+    prop.xpath(".//Availability/Booking").each do |booking|
+      bookings << {
+        start_date: booking.at_xpath("StartDate")&.text,
+        end_date: booking.at_xpath("EndDate")&.text,
+        status: booking.at_xpath("Status")&.text || "booked"
+      }
+    end
+    bookings
+  end
+
+  def parse_rates(prop)
+    rates = []
+    prop.xpath(".//Rates/Rate").each do |rate|
+      rates << {
+        name: rate.at_xpath("Name")&.text,
+        start_date: rate.at_xpath("StartDate")&.text,
+        end_date: rate.at_xpath("EndDate")&.text,
+        weekly_rate: rate.at_xpath("WeeklyRate")&.text&.to_f,
+        daily_rate: rate.at_xpath("DailyRate")&.text&.to_f,
+        monthly_rate: rate.at_xpath("MonthlyRate")&.text&.to_f,
+        minimum_stay: rate.at_xpath("MinimumStay")&.text&.to_i
+      }
+    end
+    rates
   end
 end
