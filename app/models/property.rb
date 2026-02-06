@@ -156,12 +156,29 @@ class Property < ApplicationRecord
     availability.present? && availability.any?
   end
 
-  def booked_dates
+  # Returns available date ranges (not booked dates)
+  def available_periods
+    return [] unless has_availability?
+    availability.map do |avail|
+      {
+        check_in: avail["check_in_date"] || avail[:check_in_date],
+        check_out: avail["check_out_date"] || avail[:check_out_date],
+        status: avail["status"] || avail[:status],
+        avg_rate: avail["average_rate"] || avail[:average_rate],
+        min_rate: avail["minimum_rate"] || avail[:minimum_rate],
+        max_rate: avail["maximum_rate"] || avail[:maximum_rate]
+      }
+    end
+  end
+
+  # For calendar display - returns dates that are available
+  def available_dates
     return [] unless has_availability?
     dates = []
-    availability.each do |booking|
-      start_date = Date.parse(booking["start_date"] || booking[:start_date]) rescue nil
-      end_date = Date.parse(booking["end_date"] || booking[:end_date]) rescue nil
+    availability.each do |avail|
+      next unless (avail["status"] || avail[:status]) == "Available"
+      start_date = Date.parse(avail["check_in_date"] || avail[:check_in_date]) rescue nil
+      end_date = Date.parse(avail["check_out_date"] || avail[:check_out_date]) rescue nil
       next unless start_date && end_date
       (start_date..end_date).each { |d| dates << d.to_s }
     end
@@ -177,13 +194,19 @@ class Property < ApplicationRecord
     return [] unless has_rates?
     rates.map do |rate|
       {
-        name: rate["name"] || rate[:name],
-        start_date: rate["start_date"] || rate[:start_date],
-        end_date: rate["end_date"] || rate[:end_date],
-        weekly_rate: rate["weekly_rate"] || rate[:weekly_rate],
+        description: rate["description"] || rate[:description],
+        rules: rate["rules"] || rate[:rules],
+        rate: rate["rate"] || rate[:rate],
+        check_in_date: rate["check_in_date"] || rate[:check_in_date],
+        check_out_date: rate["check_out_date"] || rate[:check_out_date],
         daily_rate: rate["daily_rate"] || rate[:daily_rate],
         minimum_stay: rate["minimum_stay"] || rate[:minimum_stay]
       }
     end
+  end
+
+  # Get weekly rates only (minimum_stay >= 7)
+  def weekly_rates
+    rate_periods.select { |r| r[:minimum_stay].to_i >= 7 }
   end
 end

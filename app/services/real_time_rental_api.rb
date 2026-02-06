@@ -186,29 +186,34 @@ class RealTimeRentalApi
   end
 
   def parse_availability(prop)
-    bookings = []
-    # RTR provides booked date ranges
-    prop.xpath(".//Availability/Booking").each do |booking|
-      bookings << {
-        start_date: booking.at_xpath("StartDate")&.text,
-        end_date: booking.at_xpath("EndDate")&.text,
-        status: booking.at_xpath("Status")&.text || "booked"
+    availability = []
+    # RTR provides availability windows in AvailabilityInfo/Availability
+    prop.xpath(".//AvailabilityInfo/Availability").each do |avail|
+      availability << {
+        check_in_date: avail["CheckInDate"],
+        check_out_date: avail["CheckOutDate"],
+        status: avail["Status"],
+        average_rate: avail["AverageRate"]&.to_f,
+        minimum_rate: avail["MinimumRate"]&.to_f,
+        maximum_rate: avail["MaximumRate"]&.to_f
       }
     end
-    bookings
+    availability
   end
 
   def parse_rates(prop)
     rates = []
-    prop.xpath(".//Rates/Rate").each do |rate|
+    # RTR provides rates in RateInfo/Rate
+    prop.xpath(".//RateInfo/Rate").each do |rate|
       rates << {
-        name: rate.at_xpath("Name")&.text,
-        start_date: rate.at_xpath("StartDate")&.text,
-        end_date: rate.at_xpath("EndDate")&.text,
-        weekly_rate: rate.at_xpath("WeeklyRate")&.text&.to_f,
-        daily_rate: rate.at_xpath("DailyRate")&.text&.to_f,
-        monthly_rate: rate.at_xpath("MonthlyRate")&.text&.to_f,
-        minimum_stay: rate.at_xpath("MinimumStay")&.text&.to_i
+        description: rate["Description"],
+        rules: rate["Rules"],
+        rate: rate["Rate"]&.to_f,
+        check_in_date: rate["CheckInDate"],
+        check_out_date: rate["CheckOutDate"],
+        minimum_stay: rate["MinimumStay"]&.to_i,
+        daily_rate: rate["DailyRate"]&.to_f,
+        check_in_day: rate["CheckInDay"]&.to_i
       }
     end
     rates

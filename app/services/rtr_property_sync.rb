@@ -13,14 +13,24 @@ class RtrPropertySync
     @stats = { updated: 0, created: 0, skipped: 0, errors: 0 }
   end
 
-  # Full sync - fetches entire catalog
+  # Full sync - fetches entire catalog, then gets availability/rates from change log
   def full_sync
     Rails.logger.info "[RTR Sync] Starting full property sync..."
 
+    # First get all properties from full catalog (basic info, photos, amenities)
     properties = @api.fetch_property_catalog
-    Rails.logger.info "[RTR Sync] Fetched #{properties.count} properties from RTR"
+    Rails.logger.info "[RTR Sync] Fetched #{properties.count} properties from full catalog"
 
     sync_properties(properties)
+
+    # Then get availability and rates from change log (last 24 hours of changes)
+    # The change log includes availability/rates data that the full catalog doesn't have
+    Rails.logger.info "[RTR Sync] Fetching availability/rates from change log..."
+    changed_properties = @api.fetch_change_log(since: 30.hours.ago, options: 63)
+    Rails.logger.info "[RTR Sync] Fetched #{changed_properties.count} properties with availability/rates"
+
+    # Update just availability and rates for changed properties
+    update_availability_and_rates(changed_properties)
 
     Rails.logger.info "[RTR Sync] Completed. #{stats_summary}"
     @stats
@@ -187,6 +197,31 @@ class RtrPropertySync
 
   def last_sync_time
     Property.where.not(rtr_synced_at: nil).maximum(:rtr_synced_at)
+  end
+
+  def update_availability_and_rates(rtr_properties)
+    rtr_properties.each do |rtr_data|
+      next unless rtr_data[:address].present?
+
+      city = rtr_data[:city].to_s.downcase
+      next unless city.include?("ocean")
+
+      # Find the property we already synced
+      property = Property.find_by(address: rtr_data[:address], city: "Ocean City")
+      next unless property
+
+      # Update availability and rates if present
+      updates = {}
+      updates[:availability] = rtr_data[:availability] if rtr_data[:availability].present?
+      updates[:rates] = rtr_data[:rates] if rtr_data[:rates].present?
+
+      if updates.any?
+        property.update!(updates)
+        Rails.logger.info "[RTR Sync] Updated availability/rates for #{property.address}"
+      end
+    rescue StandardError => e
+      Rails.logger.error "[RTR Sync] Error updating availability for #{rtr_data[:address]}: #{e.message}"
+    end
   end
 
   def stats_summary
