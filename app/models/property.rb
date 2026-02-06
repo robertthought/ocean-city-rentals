@@ -70,7 +70,10 @@ class Property < ApplicationRecord
 
   def amenity_list
     return [] unless has_amenities?
-    amenities.map { |a| a["description"] || a[:description] }.compact
+    amenities.map { |a|
+      a["description"].presence || a[:description].presence ||
+      a["label"].presence || a[:label].presence
+    }.compact
   end
 
   # From RTR?
