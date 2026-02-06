@@ -131,13 +131,24 @@
           <% @properties.each do |property| %>
             <%= link_to property_path(property), class: "group" do %>
               <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-                <div class="h-40 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 relative flex items-center justify-center">
-                  <svg class="w-12 h-12 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                  </svg>
+                <div class="h-40 relative">
+                  <% if property.has_photos? %>
+                    <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>" class="w-full h-full object-cover" loading="lazy">
+                  <% else %>
+                    <div class="h-full bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 flex items-center justify-center">
+                      <svg class="w-12 h-12 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                      </svg>
+                    </div>
+                  <% end %>
                   <% if property.is_verified %>
                     <div class="absolute top-2 right-2 bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                       Verified
+                    </div>
+                  <% end %>
+                  <% if property.has_photos? && property.photo_count > 1 %>
+                    <div class="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-0.5 rounded text-xs">
+                      <%= property.photo_count %> photos
                     </div>
                   <% end %>
                 </div>
@@ -278,17 +289,27 @@
           <%= link_to property_path(property),
             class: "group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200" do %>
 
-            <!-- Property Image Placeholder -->
-            <div class="h-48 bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center relative overflow-hidden">
-              <!-- Placeholder Pattern -->
-              <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
-              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-              </svg>
+            <!-- Property Image -->
+            <div class="h-48 relative overflow-hidden">
+              <% if property.has_photos? %>
+                <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+              <% else %>
+                <div class="h-full bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
+                  <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
+                  <svg class="w-16 h-16 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+                </div>
+              <% end %>
 
               <% if property.is_verified %>
                 <div class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                  ✓ Verified
+                  Verified
+                </div>
+              <% end %>
+              <% if property.has_photos? && property.photo_count > 1 %>
+                <div class="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
+                  <%= property.photo_count %> photos
                 </div>
               <% end %>
             </div>

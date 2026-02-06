@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_01_183539) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_212033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,16 +50,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_01_183539) do
 
   create_table "properties", force: :cascade do |t|
     t.string "address", null: false
+    t.jsonb "amenities", default: []
     t.boolean "auto_verified"
     t.integer "bathrooms"
     t.integer "bedrooms"
+    t.string "broker_email"
+    t.string "broker_name"
+    t.string "broker_phone"
+    t.string "broker_website"
     t.string "city", null: false
     t.datetime "created_at", null: false
     t.string "data_source"
+    t.text "description"
     t.string "email_1"
     t.string "email_2"
     t.string "email_3"
     t.string "email_4"
+    t.text "fee_descriptions"
     t.string "first_name"
     t.boolean "is_verified"
     t.string "last_name"
@@ -71,21 +78,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_01_183539) do
     t.string "mailing_zip"
     t.text "meta_description"
     t.text "meta_keywords"
+    t.integer "occupancy_limit"
     t.string "person_type"
     t.string "phone_1"
     t.string "phone_2"
     t.string "phone_3"
     t.string "phone_4"
+    t.jsonb "photos", default: []
     t.string "property_id"
+    t.string "property_name"
     t.string "property_type"
+    t.text "rate_description"
+    t.integer "rtr_property_id"
+    t.integer "rtr_reference_id"
+    t.datetime "rtr_synced_at"
     t.string "slug", null: false
+    t.boolean "smoking"
     t.string "state", default: "NJ", null: false
+    t.integer "total_sleeps"
     t.datetime "updated_at", null: false
+    t.string "virtual_tour_url"
     t.integer "year_built"
     t.string "zip", null: false
     t.index ["city", "zip"], name: "index_properties_on_city_and_zip"
     t.index ["city"], name: "index_properties_on_city"
     t.index ["property_id"], name: "index_properties_on_property_id"
+    t.index ["rtr_reference_id"], name: "index_properties_on_rtr_reference_id", unique: true, where: "(rtr_reference_id IS NOT NULL)"
     t.index ["slug"], name: "index_properties_on_slug", unique: true
     t.index ["zip"], name: "index_properties_on_zip"
   end

@@ -65,29 +65,69 @@
         <!-- Main Content Column -->
         <div class="lg:col-span-2 space-y-6">
 
-          <!-- Property Image -->
+          <!-- Property Photos -->
           <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="h-96 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 flex items-center justify-center relative">
-              <!-- Decorative Pattern -->
-              <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+            <% if @property.has_photos? %>
+              <!-- Photo Gallery -->
+              <div class="relative">
+                <!-- Main Photo -->
+                <div class="h-96 relative" id="main-photo-container">
+                  <img src="<%= @property.primary_photo_url %>"
+                       alt="<%= @property.address %>"
+                       class="w-full h-full object-cover"
+                       id="main-photo"
+                       loading="eager">
 
-              <!-- House Icon -->
-              <div class="relative z-10 text-center">
-                <svg class="w-32 h-32 text-white mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                </svg>
-                <p class="text-white text-lg font-semibold">Property Photos Coming Soon</p>
-              </div>
+                  <% if @property.photo_count > 1 %>
+                    <div class="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                      <%= @property.photo_count %> Photos
+                    </div>
+                  <% end %>
 
-              <% if @property.is_verified %>
-                <div class="absolute top-6 right-6 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                  </svg>
-                  Verified Property
+                  <% if @property.is_verified %>
+                    <div class="absolute top-6 right-6 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                      Verified Property
+                    </div>
+                  <% end %>
                 </div>
-              <% end %>
-            </div>
+
+                <!-- Thumbnail Strip -->
+                <% if @property.photo_count > 1 %>
+                  <div class="flex gap-2 p-4 overflow-x-auto bg-gray-100">
+                    <% @property.photo_urls.each_with_index do |url, index| %>
+                      <button onclick="document.getElementById('main-photo').src='<%= url %>'"
+                              class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 focus:border-blue-500 transition-all">
+                        <img src="<%= url %>" alt="Photo <%= index + 1 %>" class="w-full h-full object-cover" loading="lazy">
+                      </button>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <!-- Placeholder when no photos -->
+              <div class="h-96 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 flex items-center justify-center relative">
+                <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+
+                <div class="relative z-10 text-center">
+                  <svg class="w-32 h-32 text-white mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                  </svg>
+                  <p class="text-white text-lg font-semibold">Property Photos Coming Soon</p>
+                </div>
+
+                <% if @property.is_verified %>
+                  <div class="absolute top-6 right-6 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Verified Property
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
           </div>
 
           <!-- Property Details Card -->
@@ -146,12 +186,16 @@
                 About This Property
               </h2>
               <div class="prose prose-lg max-w-none text-gray-600">
-                <p class="mb-4">
-                  This Ocean City property is available for vacation rental. Located at
-                  <%= @property.address %> in <%= @property.city %>, this property offers
-                  convenient access to Ocean City's beautiful beaches, boardwalk attractions,
-                  restaurants, and entertainment.
-                </p>
+                <% if @property.description.present? %>
+                  <p class="mb-4 whitespace-pre-line"><%= @property.description %></p>
+                <% else %>
+                  <p class="mb-4">
+                    This Ocean City property is available for vacation rental. Located at
+                    <%= @property.address %> in <%= @property.city %>, this property offers
+                    convenient access to Ocean City's beautiful beaches, boardwalk attractions,
+                    restaurants, and entertainment.
+                  </p>
+                <% end %>
                 <p>
                   Contact Bob Idell Real Estate for complete property details, availability,
                   pricing, and booking information. We'll help you secure the perfect Ocean City
@@ -159,6 +203,28 @@
                 </p>
               </div>
             </div>
+
+            <% if @property.has_amenities? %>
+              <!-- Amenities Section -->
+              <div class="mt-8 pt-8 border-t border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                  Amenities
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <% @property.amenity_list.first(18).each do |amenity| %>
+                    <div class="flex items-center gap-2 text-gray-600">
+                      <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-sm"><%= amenity %></span>
+                    </div>
+                  <% end %>
+                </div>
+                <% if @property.amenity_list.count > 18 %>
+                  <p class="mt-4 text-sm text-gray-500">+ <%= @property.amenity_list.count - 18 %> more amenities</p>
+                <% end %>
+              </div>
+            <% end %>
           </div>
 
           <!-- Location Section -->
