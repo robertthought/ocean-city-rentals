@@ -15,7 +15,7 @@ module ApplicationHelper
   end
 
   def meta_image
-    content_for?(:meta_image) ? content_for(:meta_image) : "https://ocnjweeklyrentals.com/og-image.jpg"
+    content_for?(:meta_image) ? content_for(:meta_image) : "https://ocnjweeklyrentals.com/og-image.png"
   end
 
   def canonical_url
