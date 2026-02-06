@@ -1,3 +1,6 @@
+require "net/http"
+require "uri"
+
 # Service for interacting with the RealTimeRental SOAP/XML API
 # API Documentation: RTR_APICatalogV4_2020.01.08
 #
