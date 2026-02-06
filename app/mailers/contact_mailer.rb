@@ -1,5 +1,5 @@
 class ContactMailer < ApplicationMailer
-  default to: "rentals@ocnjweeklyrentals.com"
+  default to: "bob@bobidell.com"
 
   def new_contact(name:, email:, phone:, message:, inquiry_type:)
     @name = name
