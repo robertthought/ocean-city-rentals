@@ -41,27 +41,43 @@ namespace :rtr do
   task sample: :environment do
     puts "Fetching sample data from RTR..."
     api = RealTimeRentalApi.new
-    properties = api.fetch_change_log(since: 30.hours.ago, options: 63)
+    properties = api.fetch_property_catalog
 
     puts "Found #{properties.count} properties"
 
-    if properties.any?
-      sample = properties.first
-      puts "\nSample property:"
-      puts "  Reference ID: #{sample[:rtr_reference_id]}"
-      puts "  Address: #{sample[:address]}"
-      puts "  City: #{sample[:city]}, #{sample[:state]} #{sample[:zip]}"
-      puts "  Bedrooms: #{sample[:bedrooms]}, Baths: #{sample[:bathrooms]}"
-      puts "  Photos: #{sample[:photos]&.count || 0}"
-      puts "  Amenities: #{sample[:amenities]&.count || 0}"
-      puts "  Broker: #{sample[:broker_name]}"
+    # Show first 5 properties with all data
+    properties.first(5).each_with_index do |sample, i|
+      puts "\n--- Property #{i + 1} ---"
+      puts "  Reference ID: #{sample[:rtr_reference_id].inspect}"
+      puts "  Property ID: #{sample[:rtr_property_id].inspect}"
+      puts "  Is Active: #{sample[:is_active].inspect}"
+      puts "  Address: #{sample[:address].inspect}"
+      puts "  City: #{sample[:city].inspect}"
+      puts "  State: #{sample[:state].inspect}"
+      puts "  Zip: #{sample[:zip].inspect}"
+      puts "  Bedrooms: #{sample[:bedrooms].inspect}"
+      puts "  Baths: #{sample[:bathrooms].inspect}"
+      puts "  Photos count: #{sample[:photos]&.count || 0}"
+      puts "  Amenities count: #{sample[:amenities]&.count || 0}"
+      puts "  Broker: #{sample[:broker_name].inspect}"
+      puts "  Description: #{sample[:description]&.to_s&.slice(0, 100).inspect}..."
 
       if sample[:photos]&.any?
-        puts "\n  Photo URLs:"
-        sample[:photos].first(3).each do |photo|
-          puts "    - #{photo[:url]}"
-        end
+        puts "  First photo: #{sample[:photos].first[:url]}"
       end
     end
+
+    # Count by city
+    puts "\n--- City breakdown ---"
+    city_counts = properties.group_by { |p| p[:city] }.transform_values(&:count)
+    city_counts.sort_by { |_, v| -v }.each do |city, count|
+      puts "  #{city || 'nil'}: #{count}"
+    end
+
+    # Count with/without addresses
+    with_addr = properties.count { |p| p[:address].present? }
+    puts "\n--- Address stats ---"
+    puts "  With address: #{with_addr}"
+    puts "  Without address: #{properties.count - with_addr}"
   end
 end
