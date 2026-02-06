@@ -80,4 +80,87 @@ namespace :rtr do
     puts "  With address: #{with_addr}"
     puts "  Without address: #{properties.count - with_addr}"
   end
+
+  desc "Debug RTR data - show amenities, rates, availability for sample properties"
+  task debug: :environment do
+    puts "Fetching sample data from RTR to debug amenities/rates/availability..."
+    api = RealTimeRentalApi.new
+    properties = api.fetch_property_catalog
+
+    # Find Ocean City properties with data
+    oc_properties = properties.select { |p| p[:city].to_s.downcase.include?("ocean") }
+    puts "Found #{oc_properties.count} Ocean City properties"
+
+    # Show detailed amenities/rates/availability for first 3
+    oc_properties.first(3).each_with_index do |sample, i|
+      puts "\n" + "="*60
+      puts "Property #{i + 1}: #{sample[:address]}"
+      puts "="*60
+
+      puts "\n--- AMENITIES (#{sample[:amenities]&.count || 0}) ---"
+      if sample[:amenities]&.any?
+        sample[:amenities].first(10).each do |a|
+          puts "  ID: #{a[:id]}, Label: #{a[:label].inspect}, Value: #{a[:value].inspect}, Desc: #{a[:description].inspect}"
+        end
+      else
+        puts "  (none)"
+      end
+
+      puts "\n--- RATES (#{sample[:rates]&.count || 0}) ---"
+      if sample[:rates]&.any?
+        sample[:rates].each do |r|
+          puts "  #{r.inspect}"
+        end
+      else
+        puts "  (none)"
+      end
+
+      puts "\n--- AVAILABILITY (#{sample[:availability]&.count || 0}) ---"
+      if sample[:availability]&.any?
+        sample[:availability].first(5).each do |a|
+          puts "  #{a.inspect}"
+        end
+      else
+        puts "  (none)"
+      end
+
+      puts "\n--- RATE DESCRIPTION ---"
+      puts "  #{sample[:rate_description].inspect}"
+
+      puts "\n--- FEE DESCRIPTIONS ---"
+      puts "  #{sample[:fee_descriptions].inspect}"
+    end
+
+    # Summary stats
+    puts "\n" + "="*60
+    puts "SUMMARY STATS"
+    puts "="*60
+    with_amenities = oc_properties.count { |p| p[:amenities]&.any? }
+    with_rates = oc_properties.count { |p| p[:rates]&.any? }
+    with_availability = oc_properties.count { |p| p[:availability]&.any? }
+    with_rate_desc = oc_properties.count { |p| p[:rate_description].present? }
+
+    puts "Properties with amenities: #{with_amenities}/#{oc_properties.count}"
+    puts "Properties with rates: #{with_rates}/#{oc_properties.count}"
+    puts "Properties with availability: #{with_availability}/#{oc_properties.count}"
+    puts "Properties with rate_description: #{with_rate_desc}/#{oc_properties.count}"
+  end
+
+  desc "Check what data is stored in database for a property"
+  task check_db: :environment do
+    property = Property.from_rtr.where("jsonb_array_length(photos) > 0").first
+    if property
+      puts "Property: #{property.address}"
+      puts "\n--- AMENITIES (#{property.amenities&.count || 0}) ---"
+      property.amenities&.first(5)&.each { |a| puts "  #{a.inspect}" }
+      puts "\n--- amenity_list helper ---"
+      puts "  #{property.amenity_list.first(5).inspect}"
+      puts "\n--- RATES (#{property.rates&.count || 0}) ---"
+      property.rates&.first(3)&.each { |r| puts "  #{r.inspect}" }
+      puts "\n--- AVAILABILITY (#{property.availability&.count || 0}) ---"
+      property.availability&.first(3)&.each { |a| puts "  #{a.inspect}" }
+    else
+      puts "No RTR property with photos found"
+    end
+  end
 end
