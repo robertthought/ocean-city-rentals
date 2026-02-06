@@ -56,8 +56,14 @@ class RtrPropertySync
   end
 
   def sync_property(rtr_data)
-    # Skip if not active or missing required data
-    unless rtr_data[:is_active] && rtr_data[:address].present?
+    # Skip if missing address
+    unless rtr_data[:address].present?
+      @stats[:skipped] += 1
+      return
+    end
+
+    # Skip inactive properties (but allow nil/missing is_active)
+    if rtr_data[:is_active] == false
       @stats[:skipped] += 1
       return
     end
@@ -67,15 +73,16 @@ class RtrPropertySync
     state = rtr_data[:state]&.to_s&.downcase || ""
     zip = rtr_data[:zip]&.to_s || ""
 
-    is_ocean_city = city.include?("ocean city") ||
+    is_ocean_city = city.include?("ocean") ||
                     city.include?("ocnj") ||
-                    zip.start_with?("08226") ||
-                    (city.include?("ocean") && state.include?("nj"))
+                    zip.start_with?("08226")
 
     unless is_ocean_city
       @stats[:skipped] += 1
       return
     end
+
+    Rails.logger.info "[RTR Sync] Processing: #{rtr_data[:address]}, #{rtr_data[:city]} (ref: #{rtr_data[:rtr_reference_id]})"
 
     # Find existing property
     property = find_existing_property(rtr_data)
@@ -83,9 +90,11 @@ class RtrPropertySync
     if property
       update_property(property, rtr_data)
       @stats[:updated] += 1
+      Rails.logger.info "[RTR Sync] Updated property ID #{property.id}"
     else
-      create_property(rtr_data)
+      new_property = create_property(rtr_data)
       @stats[:created] += 1
+      Rails.logger.info "[RTR Sync] Created property ID #{new_property.id}"
     end
   end
 
