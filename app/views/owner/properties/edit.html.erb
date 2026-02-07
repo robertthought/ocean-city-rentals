@@ -1,90 +1,234 @@
-<div class="mb-6">
-  <%= link_to owner_properties_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900" do %>
+<div class="max-w-4xl mx-auto">
+  <%= link_to owner_property_path(@property), class: "inline-flex items-center text-gray-600 hover:text-gray-900 mb-6" do %>
     <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
     </svg>
-    Back to Properties
+    Back to Property
   <% end %>
-</div>
 
-<h1 class="text-3xl font-bold text-gray-900 mb-2">Edit <%= @property.address %></h1>
-<p class="text-gray-600 mb-8"><%= @property.city %>, <%= @property.state %> <%= @property.zip %></p>
-
-<div class="grid lg:grid-cols-3 gap-8">
-  <!-- Main Form -->
-  <div class="lg:col-span-2 space-y-6">
-    <%= form_with model: @property, url: owner_property_path(@property), method: :patch, class: "space-y-6" do |f| %>
-      <div class="bg-white rounded-xl shadow p-6">
-        <h2 class="font-bold text-lg text-gray-900 mb-4">Custom Description</h2>
-        <p class="text-sm text-gray-500 mb-4">
-          Add a custom description that will override the default listing description.
-        </p>
-        <%= f.text_area :owner_description,
-          rows: 8,
-          placeholder: "Describe your property's unique features, recent updates, or anything renters should know...",
-          class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-      </div>
-
-      <div class="flex justify-end">
-        <%= f.submit "Save Changes",
-          class: "px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors cursor-pointer" %>
-      </div>
+  <div class="flex items-center gap-4 mb-8">
+    <% if @property.has_photos? %>
+      <img src="<%= @property.primary_photo_url %>" alt="" class="w-16 h-16 rounded-lg object-cover">
     <% end %>
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @property.address %></h1>
+      <p class="text-gray-600"><%= @property.city %>, <%= @property.state %> <%= @property.zip %></p>
+    </div>
   </div>
 
-  <!-- Sidebar -->
-  <div class="space-y-6">
-    <!-- Photo Preview -->
+  <%= form_with model: @property, url: owner_property_path(@property), method: :patch, class: "space-y-8" do |f| %>
+
+    <!-- Description Section -->
     <div class="bg-white rounded-xl shadow p-6">
-      <h2 class="font-bold text-lg text-gray-900 mb-4">Photos</h2>
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+        </svg>
+        Property Description
+      </h2>
+      <div>
+        <%= f.text_area :owner_description,
+          rows: 6,
+          placeholder: "Describe your property... What makes it special? What will guests love about staying here?",
+          class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="text-xs text-gray-500 mt-2">This description will replace the default listing description.</p>
+      </div>
+    </div>
 
-      <% if @property.has_photos? %>
-        <div class="grid grid-cols-3 gap-2 mb-4">
-          <% @property.photos.first(6).each do |photo| %>
-            <img src="<%= photo['url'] %>" alt="" class="rounded aspect-square object-cover">
-          <% end %>
-        </div>
-        <p class="text-sm text-gray-500"><%= @property.photo_count %> photos from rental system</p>
-      <% else %>
-        <p class="text-sm text-gray-500">No photos available</p>
-      <% end %>
+    <!-- Photos Section -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+        Photos
+      </h2>
 
-      <% if @property.owner_photos.any? %>
-        <hr class="my-4">
-        <p class="text-sm font-medium text-gray-700 mb-2">Your uploads:</p>
-        <div class="grid grid-cols-3 gap-2">
+      <% if @property.owner_photos.attached? %>
+        <div class="grid grid-cols-4 gap-4 mb-4">
           <% @property.owner_photos.each do |photo| %>
             <div class="relative group">
-              <%= image_tag photo, class: "rounded aspect-square object-cover" %>
+              <%= image_tag photo, class: "w-full h-24 object-cover rounded-lg" %>
+              <%= button_to owner_property_photo_path(@property, photo), method: :delete,
+                class: "absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity",
+                data: { turbo_confirm: "Delete this photo?" } do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              <% end %>
             </div>
           <% end %>
         </div>
       <% end %>
 
-      <hr class="my-4">
-      <%= form_with url: owner_property_photos_path(@property), method: :post, multipart: true, class: "space-y-3" do |f| %>
-        <%= f.file_field :photos,
-          multiple: true,
-          accept: "image/*",
-          class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
-        <%= f.submit "Upload Photos",
-          class: "w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors cursor-pointer text-sm" %>
+      <%= form_with url: owner_property_photos_path(@property), method: :post, multipart: true, class: "border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors" do |photo_form| %>
+        <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+        </svg>
+        <%= photo_form.file_field :photos, multiple: true, accept: "image/*", class: "hidden", id: "photo-upload", onchange: "this.form.submit()" %>
+        <label for="photo-upload" class="cursor-pointer">
+          <span class="text-blue-600 font-semibold">Click to upload photos</span>
+          <span class="text-gray-500">or drag and drop</span>
+        </label>
+        <p class="text-xs text-gray-500 mt-2">PNG, JPG up to 10MB each</p>
       <% end %>
     </div>
 
-    <!-- Quick Links -->
+    <!-- Amenities Section -->
     <div class="bg-white rounded-xl shadow p-6">
-      <h2 class="font-bold text-lg text-gray-900 mb-4">Quick Links</h2>
-      <div class="space-y-2">
-        <%= link_to analytics_owner_property_path(@property),
-          class: "block px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors" do %>
-          View Analytics
-        <% end %>
-        <%= link_to property_path(@property), target: "_blank",
-          class: "block px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors" do %>
-          View Public Listing
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Amenities
+      </h2>
+
+      <% amenity_categories = {
+        "Kitchen" => ["Full Kitchen", "Dishwasher", "Microwave", "Coffee Maker", "Toaster", "Blender"],
+        "Bedrooms & Bath" => ["Linens Provided", "Towels Provided", "Hair Dryer", "Iron & Board", "Washer", "Dryer"],
+        "Entertainment" => ["TV", "Cable/Satellite", "WiFi", "DVD Player", "Game Console", "Board Games"],
+        "Outdoor" => ["Deck/Patio", "Grill/BBQ", "Outdoor Furniture", "Beach Chairs", "Beach Badges", "Bike Storage"],
+        "Parking & Access" => ["Parking - Driveway", "Parking - Street", "Parking - Garage", "Elevator", "Wheelchair Accessible"],
+        "Cooling & Heating" => ["Central Air", "Window AC", "Ceiling Fans", "Heating", "Fireplace"]
+      } %>
+
+      <div class="space-y-6">
+        <% amenity_categories.each do |category, amenities| %>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-700 mb-2"><%= category %></h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <% amenities.each do |amenity| %>
+                <label class="flex items-center gap-2 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                  <%= check_box_tag "property[owner_amenities][]", amenity,
+                    @property.owner_amenities&.include?(amenity),
+                    class: "w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" %>
+                  <span class="text-sm text-gray-700"><%= amenity %></span>
+                </label>
+              <% end %>
+            </div>
+          </div>
         <% end %>
       </div>
     </div>
-  </div>
+
+    <!-- Pet Policy Section -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+        </svg>
+        Pet Policy
+      </h2>
+
+      <div class="flex gap-4">
+        <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-blue-500 transition-colors flex-1">
+          <%= f.radio_button :owner_pet_friendly, true, class: "w-4 h-4 text-blue-600" %>
+          <div>
+            <span class="font-semibold text-gray-900">Pets Allowed</span>
+            <p class="text-xs text-gray-500">Dogs, cats, etc. welcome</p>
+          </div>
+        </label>
+        <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-blue-500 transition-colors flex-1">
+          <%= f.radio_button :owner_pet_friendly, false, class: "w-4 h-4 text-blue-600" %>
+          <div>
+            <span class="font-semibold text-gray-900">No Pets</span>
+            <p class="text-xs text-gray-500">Sorry, no pets allowed</p>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Rates & Availability Section -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Rates & Availability
+      </h2>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Rental Type</label>
+          <div class="flex gap-4">
+            <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-blue-500 transition-colors flex-1">
+              <%= f.radio_button :owner_rental_type, 'weekly', class: "w-4 h-4 text-blue-600" %>
+              <div>
+                <span class="font-semibold text-gray-900">Weekly Rentals</span>
+                <p class="text-xs text-gray-500">Saturday to Saturday</p>
+              </div>
+            </label>
+            <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-blue-500 transition-colors flex-1">
+              <%= f.radio_button :owner_rental_type, 'nightly', class: "w-4 h-4 text-blue-600" %>
+              <div>
+                <span class="font-semibold text-gray-900">Nightly Rentals</span>
+                <p class="text-xs text-gray-500">Flexible minimum stay</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Weekly Rate</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <%= f.number_field :owner_weekly_rate, placeholder: "2500", step: 1, min: 0,
+                class: "w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Per week</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nightly Rate</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <%= f.number_field :owner_nightly_rate, placeholder: "350", step: 1, min: 0,
+                class: "w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Per night</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Nights</label>
+            <%= f.number_field :owner_minimum_nights, placeholder: "7", step: 1, min: 1, max: 30,
+              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+            <p class="text-xs text-gray-500 mt-1">Minimum stay</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special Notes Section -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Special Notes
+      </h2>
+      <div>
+        <%= f.text_area :owner_special_notes,
+          rows: 4,
+          placeholder: "Any special instructions or notes for guests? Check-in info, house rules, local tips...",
+          class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="text-xs text-gray-500 mt-2">This will be shown to potential renters.</p>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="bg-gray-100 rounded-xl p-6 flex items-center justify-between">
+      <div class="flex gap-4">
+        <%= link_to analytics_owner_property_path(@property), class: "text-purple-600 hover:text-purple-700 font-semibold text-sm" do %>
+          View Analytics
+        <% end %>
+        <%= link_to property_path(@property), target: "_blank", class: "text-blue-600 hover:text-blue-700 font-semibold text-sm" do %>
+          View Public Listing
+        <% end %>
+      </div>
+      <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors">
+        Save Changes
+      </button>
+    </div>
+  <% end %>
 </div>

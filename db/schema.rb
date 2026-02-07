@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_201614) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_220548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -101,6 +101,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_201614) do
     t.jsonb "owner_amenities", default: []
     t.boolean "owner_customized", default: false
     t.text "owner_description"
+    t.integer "owner_minimum_nights", default: 7
+    t.decimal "owner_nightly_rate", precision: 10, scale: 2
+    t.boolean "owner_pet_friendly"
+    t.string "owner_rental_type", default: "weekly"
+    t.text "owner_special_notes"
+    t.decimal "owner_weekly_rate", precision: 10, scale: 2
     t.string "person_type"
     t.string "phone_1"
     t.string "phone_2"

@@ -47,7 +47,16 @@ module Owner
     end
 
     def property_params
-      params.require(:property).permit(:owner_description, owner_amenities: [])
+      params.require(:property).permit(
+        :owner_description,
+        :owner_pet_friendly,
+        :owner_special_notes,
+        :owner_rental_type,
+        :owner_weekly_rate,
+        :owner_nightly_rate,
+        :owner_minimum_nights,
+        owner_amenities: []
+      )
     end
   end
 end
