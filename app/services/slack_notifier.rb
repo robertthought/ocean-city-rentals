@@ -1,3 +1,6 @@
+require "net/http"
+require "json"
+
 # Service to send notifications to Slack
 class SlackNotifier
   def self.notify_new_lead(lead)

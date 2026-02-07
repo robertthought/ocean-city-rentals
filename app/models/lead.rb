@@ -26,5 +26,7 @@ class Lead < ApplicationRecord
 
   def send_slack_notification
     SlackNotifier.notify_new_lead(self)
+  rescue StandardError => e
+    Rails.logger.error "[Lead] Slack notification failed: #{e.message}"
   end
 end
