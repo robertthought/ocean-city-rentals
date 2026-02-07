@@ -24,6 +24,12 @@ module Admin
       redirect_to admin_leads_path, notice: "Lead marked as contacted"
     end
 
+    def destroy
+      @lead = Lead.find(params[:id])
+      @lead.destroy
+      redirect_to admin_leads_path, notice: "Lead deleted"
+    end
+
     def export
       @leads = Lead.recent.includes(:property)
 

@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root "properties#index"
 
   resources :properties, only: [:index, :show] do
+    collection do
+      get :search
+    end
     resources :leads, only: [:create]
   end
 
@@ -11,7 +14,7 @@ Rails.application.routes.draw do
   # Admin
   namespace :admin do
     root to: "dashboard#index"
-    resources :leads, only: [:index, :show] do
+    resources :leads, only: [:index, :show, :destroy] do
       post :mark_contacted, on: :member
       get :export, on: :collection
     end

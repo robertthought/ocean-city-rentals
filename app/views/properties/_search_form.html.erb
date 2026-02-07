@@ -1,0 +1,327 @@
+<%# Search form partial - used in index (compact) and search (expanded) %>
+<%# Local variables: expanded (boolean) - whether to show expanded filters %>
+<% expanded ||= false %>
+<% today = Date.today.to_s %>
+<% tomorrow = (Date.today + 1).to_s %>
+
+<%= form_with url: (expanded ? search_properties_path : properties_path),
+              method: :get,
+              class: "space-y-4",
+              data: {
+                controller: "instant-search",
+                instant_search_target: "form",
+                turbo_frame: "search-results",
+                turbo_action: "advance"
+              } do |f| %>
+
+  <% if expanded %>
+    <%# Advanced Search - Full Layout %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <%# Text Search %>
+      <div class="lg:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Search by Address</label>
+        <%= f.text_field :q,
+          value: params[:q],
+          placeholder: "e.g., 'Asbury Ave' or '123 Bay'",
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "input->instant-search#debounceSearch" }
+        %>
+      </div>
+
+      <%# Neighborhood %>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Neighborhood</label>
+        <%= f.select :neighborhood,
+          options_for_select(
+            [["All Areas", ""]] + Neighborhood.all.map { |n| ["#{n.name}", n.slug] },
+            params[:neighborhood]
+          ),
+          {},
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <%# Verified Filter %>
+      <div class="flex items-end">
+        <label class="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-300 w-full cursor-pointer hover:bg-gray-100">
+          <%= f.check_box :verified, { checked: params[:verified] == "1", data: { action: "change->instant-search#search" } }, "1", "0" %>
+          <span class="font-medium text-gray-700">Verified Only</span>
+        </label>
+      </div>
+    </div>
+
+    <%# Date Fields %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div data-instant-search-target="dateFields" class="<%= 'hidden' if params[:no_dates] == '1' %> col-span-1 md:col-span-2 grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Check-in Date</label>
+          <%= f.date_field :check_in,
+            value: params[:check_in],
+            min: today,
+            class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            data: { instant_search_target: "checkIn", action: "change->instant-search#updateCheckOutMin" }
+          %>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Check-out Date</label>
+          <%= f.date_field :check_out,
+            value: params[:check_out],
+            min: tomorrow,
+            class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            data: { instant_search_target: "checkOut", action: "change->instant-search#search" }
+          %>
+        </div>
+      </div>
+
+      <div class="flex items-end">
+        <label class="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-300 w-full cursor-pointer hover:bg-gray-100">
+          <%= f.check_box :no_dates,
+            { checked: params[:no_dates] == "1", data: { instant_search_target: "noDates", action: "change->instant-search#toggleDates" } },
+            "1", "0"
+          %>
+          <span class="font-medium text-gray-700">I don't have dates yet</span>
+        </label>
+      </div>
+    </div>
+
+    <%# Property Details Row %>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
+        <%= f.select :bedrooms,
+          options_for_select(
+            [["Any", ""]] + (1..6).map { |n| ["#{n}+", n] },
+            params[:bedrooms]
+          ),
+          {},
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Bathrooms</label>
+        <%= f.select :bathrooms,
+          options_for_select(
+            [["Any", ""]] + (1..5).map { |n| ["#{n}+", n] },
+            params[:bathrooms]
+          ),
+          {},
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Sleeps</label>
+        <%= f.select :sleeps,
+          options_for_select(
+            [["Any", ""]] + [2, 4, 6, 8, 10, 12, 14, 16].map { |n| ["#{n}+", n] },
+            params[:sleeps]
+          ),
+          {},
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+        <%= f.select :sort,
+          options_for_select(
+            [
+              ["Verified First", "verified_first"],
+              ["Price: Low to High", "price_low"],
+              ["Price: High to Low", "price_high"],
+              ["By Street #", "street_number"],
+              ["Newest", "newest"],
+              ["A-Z Address", "address"]
+            ],
+            params[:sort] || "verified_first"
+          ),
+          {},
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+    </div>
+
+    <%# Price Range Row %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Min Price/Week</label>
+        <%= f.number_field :min_price,
+          value: params[:min_price],
+          placeholder: "$ Min",
+          min: 0,
+          step: 100,
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "input->instant-search#debounceSearch" }
+        %>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Max Price/Week</label>
+        <%= f.number_field :max_price,
+          value: params[:max_price],
+          placeholder: "$ Max",
+          min: 0,
+          step: 100,
+          class: "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          data: { action: "input->instant-search#debounceSearch" }
+        %>
+      </div>
+      <div class="flex items-end gap-4">
+        <%= f.submit "Search",
+          class: "flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors cursor-pointer"
+        %>
+        <% if params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:bedrooms].present? || params[:bathrooms].present? || params[:sleeps].present? || params[:check_in].present? || params[:check_out].present? || params[:min_price].present? || params[:max_price].present? || params[:price_range].present? %>
+          <%= link_to "Clear", search_properties_path, class: "px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-colors" %>
+        <% end %>
+      </div>
+    </div>
+
+  <% else %>
+    <%# Index Page - Compact Hero Layout %>
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-1">
+        <%= f.text_field :q,
+          value: params[:q],
+          placeholder: "Search by address (e.g., 'Asbury Ave' or '123 Bay')",
+          class: "w-full px-6 py-4 rounded-lg bg-white text-gray-900 text-lg focus:ring-4 focus:ring-cyan-300 focus:outline-none shadow-xl border-2 border-white placeholder-gray-500",
+          data: { action: "input->instant-search#debounceSearch" }
+        %>
+      </div>
+      <%= f.submit "Search",
+        class: "px-8 py-4 bg-cyan-400 hover:bg-cyan-300 text-blue-900 font-bold rounded-lg text-lg shadow-lg transform hover:scale-105 transition-all cursor-pointer"
+      %>
+    </div>
+
+    <%# Filters Row %>
+    <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+      <%# Date Filters %>
+      <div data-instant-search-target="dateFields" class="<%= 'hidden' if params[:no_dates] == '1' %> flex items-center gap-2">
+        <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+          <%= f.date_field :check_in,
+            value: params[:check_in],
+            min: today,
+            class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer w-28 [color-scheme:dark]",
+            placeholder: "Check-in",
+            data: { instant_search_target: "checkIn", action: "change->instant-search#updateCheckOutMin" }
+          %>
+        </div>
+        <span class="text-white/80">to</span>
+        <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+          <%= f.date_field :check_out,
+            value: params[:check_out],
+            min: tomorrow,
+            class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer w-28 [color-scheme:dark]",
+            placeholder: "Check-out",
+            data: { instant_search_target: "checkOut", action: "change->instant-search#search" }
+          %>
+        </div>
+      </div>
+
+      <label class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2 cursor-pointer">
+        <%= f.check_box :no_dates,
+          { checked: params[:no_dates] == "1", class: "accent-cyan-400", data: { instant_search_target: "noDates", action: "change->instant-search#toggleDates" } },
+          "1", "0"
+        %>
+        <span class="text-white text-sm font-semibold whitespace-nowrap">No dates</span>
+      </label>
+
+      <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+        <%= f.select :price_range,
+          options_for_select(
+            [
+              ["Price", ""],
+              ["Under $2,000/wk", "under_2000"],
+              ["$2,000-$4,000/wk", "2000_4000"],
+              ["$4,000-$6,000/wk", "4000_6000"],
+              ["$6,000+/wk", "6000_plus"]
+            ],
+            params[:price_range]
+          ),
+          {},
+          class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+        <%= f.select :neighborhood,
+          options_for_select(
+            [["All Areas", ""]] + Neighborhood.all.map { |n| ["#{n.name}", n.slug] },
+            params[:neighborhood]
+          ),
+          {},
+          class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+        <%= f.select :bedrooms,
+          options_for_select(
+            [["Beds", ""]] + (1..6).map { |n| ["#{n}+ Beds", n] },
+            params[:bedrooms]
+          ),
+          {},
+          class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+        <%= f.select :bathrooms,
+          options_for_select(
+            [["Baths", ""]] + (1..5).map { |n| ["#{n}+ Baths", n] },
+            params[:bathrooms]
+          ),
+          {},
+          class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+        <%= f.select :sleeps,
+          options_for_select(
+            [["Sleeps", ""]] + [2, 4, 6, 8, 10, 12, 14, 16].map { |n| ["#{n}+ Guests", n] },
+            params[:sleeps]
+          ),
+          {},
+          class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+        <%= f.select :sort,
+          options_for_select(
+            [
+              ["Verified First", "verified_first"],
+              ["Price: Low", "price_low"],
+              ["Price: High", "price_high"],
+              ["By Street #", "street_number"],
+              ["Newest", "newest"],
+              ["A-Z Address", "address"]
+            ],
+            params[:sort] || "verified_first"
+          ),
+          {},
+          class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900",
+          data: { action: "change->instant-search#search" }
+        %>
+      </div>
+
+      <label class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2 cursor-pointer">
+        <%= f.check_box :verified, { checked: params[:verified] == "1", data: { action: "change->instant-search#search" } }, "1", "0" %>
+        <span class="text-white text-sm font-semibold">Verified</span>
+      </label>
+
+      <% if params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present? || params[:bedrooms].present? || params[:bathrooms].present? || params[:sleeps].present? || params[:check_in].present? || params[:check_out].present? || params[:price_range].present? %>
+        <%= link_to "Clear", properties_path, class: "text-cyan-200 hover:text-white underline font-semibold text-sm" %>
+      <% end %>
+
+      <%= link_to "Advanced Search", search_properties_path, class: "text-cyan-200 hover:text-white underline font-semibold text-sm" %>
+    </div>
+  <% end %>
+<% end %>

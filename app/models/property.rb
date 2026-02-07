@@ -25,6 +25,43 @@ class Property < ApplicationRecord
   scope :with_photos, -> { where("jsonb_array_length(photos) > 0") }
   scope :from_rtr, -> { where(data_source: "realtimerental") }
 
+  # Date-based availability - find properties available for given dates
+  scope :available_between, ->(check_in, check_out) {
+    where(<<-SQL, check_in: check_in, check_out: check_out)
+      EXISTS (
+        SELECT 1 FROM jsonb_array_elements(availability) AS avail
+        WHERE (avail->>'status') = 'Available'
+          AND (avail->>'check_in_date')::date <= :check_in
+          AND (avail->>'check_out_date')::date >= :check_out
+      )
+    SQL
+  }
+
+  # Price range filter - filter by minimum/maximum weekly rates
+  scope :in_price_range, ->(min_price, max_price) {
+    conditions = []
+    params = {}
+
+    if min_price.present?
+      conditions << "(avail->>'minimum_rate')::numeric >= :min_price"
+      params[:min_price] = min_price.to_f
+    end
+
+    if max_price.present?
+      conditions << "(avail->>'maximum_rate')::numeric <= :max_price"
+      params[:max_price] = max_price.to_f
+    end
+
+    return all if conditions.empty?
+
+    where(<<-SQL, **params)
+      EXISTS (
+        SELECT 1 FROM jsonb_array_elements(availability) AS avail
+        WHERE #{conditions.join(' AND ')}
+      )
+    SQL
+  }
+
   # Generate SEO-friendly slug
   def address_slug
     "#{address}-#{city}-#{state}-#{zip}".parameterize
