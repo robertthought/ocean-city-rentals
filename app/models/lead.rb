@@ -21,7 +21,9 @@ class Lead < ApplicationRecord
   private
 
   def send_notification
-    LeadMailer.new_lead_notification(self).deliver_later
+    LeadMailer.new_lead_notification(self).deliver_now
+  rescue StandardError => e
+    Rails.logger.error "[Lead] Email notification failed: #{e.message}"
   end
 
   def send_slack_notification
