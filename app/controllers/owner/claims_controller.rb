@@ -1,5 +1,7 @@
 module Owner
   class ClaimsController < BaseController
+    skip_before_action :require_owner_login, only: [:claim_property, :create_claim_with_registration]
+
     def index
       @claims = current_owner.ownership_claims.includes(:property).recent
     end
@@ -68,5 +70,58 @@ module Owner
         render :new, status: :unprocessable_entity
       end
     end
+
+    # Public claim page - shows property + registration form
+    def claim_property
+      @property = Property.find(params[:id])
+
+      # If already logged in, redirect to regular claim flow
+      if current_owner
+        redirect_to new_owner_claim_path(property_id: @property.id)
+        return
+      end
+
+      render layout: 'owner_auth'
+    end
+
+    # Handle registration + claim in one step
+    def create_claim_with_registration
+      @property = Property.find(params[:id])
+
+      # Create user
+      @user = User.new(
+        first_name: params[:first_name],
+        last_name: params[:last_name],
+        email: params[:email]&.downcase,
+        phone: params[:phone],
+        password: params[:password]
+      )
+
+      if @user.save
+        # Log them in
+        session[:owner_id] = @user.id
+
+        # Create the claim
+        @claim = @user.ownership_claims.create(
+          property: @property,
+          verification_notes: params[:verification_notes]
+        )
+
+        # Notify admin
+        AdminMailer.new_ownership_claim(@claim).deliver_later
+
+        redirect_to owner_claims_path, notice: "Welcome! Your claim for #{@property.address} has been submitted for review."
+      else
+        flash.now[:alert] = @user.errors.full_messages.join(", ")
+        render :claim_property, layout: 'owner_auth', status: :unprocessable_entity
+      end
+    end
+
+    private
+
+    def current_owner
+      @current_owner ||= User.find_by(id: session[:owner_id]) if session[:owner_id]
+    end
+    helper_method :current_owner
   end
 end

@@ -24,6 +24,10 @@ Rails.application.routes.draw do
   get '/owner/reset-password/:token', to: 'owner/passwords#edit', as: :owner_reset_password
   patch '/owner/reset-password/:token', to: 'owner/passwords#update'
 
+  # Claim property flow (public - combines registration + claim)
+  get '/owner/claim/:id', to: 'owner/claims#claim_property', as: :owner_claim_property
+  post '/owner/claim/:id', to: 'owner/claims#create_claim_with_registration'
+
   # Owner Portal (authenticated)
   namespace :owner do
     root to: 'dashboard#index'
