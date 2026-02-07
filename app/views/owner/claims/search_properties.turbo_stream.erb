@@ -4,6 +4,7 @@
       <div class="space-y-3 max-h-96 overflow-y-auto">
         <% @properties.each do |property| %>
           <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
+               onclick="<%= "selectProperty('#{property.id}', '#{j property.address}')" unless property.has_approved_owner? %>"
                data-property-id="<%= property.id %>"
                data-property-address="<%= property.address %>">
             <div class="flex items-center gap-3">

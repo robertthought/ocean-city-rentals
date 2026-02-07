@@ -22,7 +22,7 @@
         <div class="space-y-3 max-h-96 overflow-y-auto">
           <% @properties.each do |property| %>
             <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
-                 data-action="click->claim-property#select"
+                 onclick="<%= "selectProperty('#{property.id}', '#{j property.address}')" unless property.has_approved_owner? %>"
                  data-property-id="<%= property.id %>"
                  data-property-address="<%= property.address %>">
               <div class="flex items-center gap-3">
@@ -107,25 +107,19 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.addEventListener('click', function(e) {
-    const propertyCard = e.target.closest('[data-property-id]');
-    if (propertyCard && !propertyCard.querySelector('.text-orange-600')) {
-      const propertyId = propertyCard.dataset.propertyId;
-      const propertyAddress = propertyCard.dataset.propertyAddress;
+function selectProperty(propertyId, propertyAddress) {
+  document.getElementById('selected-property-id').value = propertyId;
+  document.getElementById('selected-property').innerHTML = '<strong>' + propertyAddress + '</strong>';
+  document.getElementById('selected-property').classList.remove('text-gray-500', 'bg-gray-50', 'border-gray-200');
+  document.getElementById('selected-property').classList.add('text-gray-900', 'bg-blue-50', 'border-blue-500');
+  document.getElementById('submit-claim-btn').disabled = false;
 
-      document.getElementById('selected-property-id').value = propertyId;
-      document.getElementById('selected-property').innerHTML = '<strong>' + propertyAddress + '</strong>';
-      document.getElementById('selected-property').classList.remove('text-gray-500', 'bg-gray-50');
-      document.getElementById('selected-property').classList.add('text-gray-900', 'bg-blue-50', 'border-blue-500');
-      document.getElementById('submit-claim-btn').disabled = false;
-
-      // Highlight selected
-      document.querySelectorAll('[data-property-id]').forEach(el => {
-        el.classList.remove('border-blue-500', 'bg-blue-50');
-      });
-      propertyCard.classList.add('border-blue-500', 'bg-blue-50');
+  // Highlight selected
+  document.querySelectorAll('[data-property-id]').forEach(el => {
+    el.classList.remove('border-blue-500', 'bg-blue-50');
+    if (el.dataset.propertyId === propertyId) {
+      el.classList.add('border-blue-500', 'bg-blue-50');
     }
   });
-});
+}
 </script>
