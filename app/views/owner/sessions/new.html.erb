@@ -29,6 +29,6 @@
 <div class="mt-6 pt-6 border-t border-gray-200 text-center">
   <p class="text-gray-600">
     Don't have an account?
-    <%= link_to "Register", owner_register_path, class: "text-blue-600 hover:text-blue-700 font-semibold" %>
+    <%= link_to "Register", owner_register_path(return_to: session[:return_to]), class: "text-blue-600 hover:text-blue-700 font-semibold" %>
   </p>
 </div>

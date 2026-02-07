@@ -5,6 +5,11 @@ module Owner
     def new
       redirect_to owner_root_path if current_owner
       @user = User.new
+
+      # Preserve return URL for after registration
+      if params[:return_to].present?
+        session[:return_to] = params[:return_to]
+      end
     end
 
     def create
@@ -12,7 +17,8 @@ module Owner
 
       if @user.save
         session[:owner_id] = @user.id
-        redirect_to owner_root_path, notice: "Welcome to OCNJ Weekly Rentals! You can now claim your properties."
+        return_path = session.delete(:return_to) || owner_root_path
+        redirect_to return_path, notice: "Welcome to OCNJ Weekly Rentals!"
       else
         render :new, status: :unprocessable_entity
       end

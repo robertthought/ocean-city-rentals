@@ -18,9 +18,19 @@ module Owner
       query = params[:q].to_s.strip
 
       if query.length >= 2
+        # Try pg_search first
         @properties = Property.in_ocean_city
                              .search_by_address(query)
                              .limit(20)
+
+        # Fallback to ILIKE if no results (handles typos better)
+        if @properties.empty?
+          search_term = "%#{query.gsub(/\s+/, '%')}%"
+          @properties = Property.in_ocean_city
+                               .where("address ILIKE ? OR CONCAT(address, ' ', city) ILIKE ?", search_term, search_term)
+                               .order(:address)
+                               .limit(20)
+        end
 
         # Exclude already claimed by this user
         claimed_ids = current_owner.ownership_claims.pluck(:property_id)
