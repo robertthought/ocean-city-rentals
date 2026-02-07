@@ -15,7 +15,11 @@ module Owner
     end
 
     def update
-      if @property.update(property_params)
+      calendar_params = process_calendar_params
+      update_params = property_params
+      update_params[:owner_weekly_calendar] = calendar_params if calendar_params.present?
+
+      if @property.update(update_params)
         @property.update(owner_customized: true)
         redirect_to owner_property_path(@property), notice: "Property updated successfully."
       else
@@ -57,6 +61,19 @@ module Owner
         :owner_minimum_nights,
         owner_amenities: []
       )
+    end
+
+    def process_calendar_params
+      return {} unless params[:property][:owner_weekly_calendar].present?
+
+      calendar = {}
+      params[:property][:owner_weekly_calendar].each do |week_date, week_data|
+        calendar[week_date] = {
+          "rate" => week_data[:rate].presence&.to_i,
+          "status" => week_data[:status] == "blocked" ? "blocked" : "open"
+        }
+      end
+      calendar
     end
   end
 end

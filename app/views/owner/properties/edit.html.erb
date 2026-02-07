@@ -138,66 +138,152 @@
       </div>
     </div>
 
-    <!-- Rates & Availability Section -->
+    <!-- Weekly Calendar Section -->
     <div class="bg-white rounded-xl shadow p-6">
       <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
         <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
         </svg>
-        Rates & Availability
+        Weekly Rates & Availability
       </h2>
+      <p class="text-sm text-gray-600 mb-4">Set rates and availability for each week (Saturday to Saturday). Click a week to toggle between open and blocked.</p>
 
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Rental Type</label>
-          <div class="flex gap-4">
-            <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-blue-500 transition-colors flex-1">
-              <%= f.radio_button :owner_rental_type, 'weekly', class: "w-4 h-4 text-blue-600" %>
-              <div>
-                <span class="font-semibold text-gray-900">Weekly Rentals</span>
-                <p class="text-xs text-gray-500">Saturday to Saturday</p>
-              </div>
-            </label>
-            <label class="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-blue-500 transition-colors flex-1">
-              <%= f.radio_button :owner_rental_type, 'nightly', class: "w-4 h-4 text-blue-600" %>
-              <div>
-                <span class="font-semibold text-gray-900">Nightly Rentals</span>
-                <p class="text-xs text-gray-500">Flexible minimum stay</p>
-              </div>
-            </label>
+      <!-- Default Rate -->
+      <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Default Weekly Rate</label>
+        <div class="flex items-center gap-4">
+          <div class="relative w-40">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+            <%= f.number_field :owner_weekly_rate, placeholder: "2500", step: 1, min: 0, id: "default_rate",
+              class: "w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
           </div>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Weekly Rate</label>
-            <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-              <%= f.number_field :owner_weekly_rate, placeholder: "2500", step: 1, min: 0,
-                class: "w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-            </div>
-            <p class="text-xs text-gray-500 mt-1">Per week</p>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Nightly Rate</label>
-            <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-              <%= f.number_field :owner_nightly_rate, placeholder: "350", step: 1, min: 0,
-                class: "w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-            </div>
-            <p class="text-xs text-gray-500 mt-1">Per night</p>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Nights</label>
-            <%= f.number_field :owner_minimum_nights, placeholder: "7", step: 1, min: 1, max: 30,
-              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
-            <p class="text-xs text-gray-500 mt-1">Minimum stay</p>
-          </div>
+          <button type="button" onclick="applyDefaultRate()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-sm font-medium transition-colors">
+            Apply to All Open Weeks
+          </button>
         </div>
       </div>
+
+      <!-- Calendar Grid -->
+      <div class="space-y-6">
+        <%
+          # Generate 52 weeks starting from the first Saturday of the current year
+          current_year = Date.current.year
+          first_day = Date.new(current_year, 1, 1)
+          first_saturday = first_day + ((6 - first_day.wday) % 7)
+
+          calendar_data = @property.owner_weekly_calendar || {}
+          weeks_by_month = {}
+
+          52.times do |i|
+            week_start = first_saturday + (i * 7)
+            week_end = week_start + 6
+            month_name = week_start.strftime("%B %Y")
+            weeks_by_month[month_name] ||= []
+            weeks_by_month[month_name] << { start: week_start, end: week_end, index: i }
+          end
+        %>
+
+        <% weeks_by_month.each do |month, weeks| %>
+          <div>
+            <h3 class="text-sm font-bold text-gray-800 mb-3 sticky top-0 bg-white py-2"><%= month %></h3>
+            <div class="grid gap-2">
+              <% weeks.each do |week| %>
+                <%
+                  week_key = week[:start].to_s
+                  week_data = calendar_data[week_key] || {}
+                  rate = week_data["rate"]
+                  status = week_data["status"] || "open"
+                  is_blocked = status == "blocked"
+                  is_past = week[:end] < Date.current
+                %>
+                <div class="week-row flex items-center gap-3 p-3 rounded-lg border <%= is_blocked ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200' %> <%= is_past ? 'opacity-50' : '' %>"
+                     data-week="<%= week_key %>">
+                  <!-- Date Range -->
+                  <div class="w-36 flex-shrink-0">
+                    <span class="text-sm font-medium text-gray-900">
+                      <%= week[:start].strftime("%b %d") %> - <%= week[:end].strftime("%b %d") %>
+                    </span>
+                  </div>
+
+                  <!-- Rate Input -->
+                  <div class="relative w-28 flex-shrink-0">
+                    <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                    <input type="number"
+                           name="property[owner_weekly_calendar][<%= week_key %>][rate]"
+                           value="<%= rate %>"
+                           placeholder="Rate"
+                           min="0"
+                           step="1"
+                           class="week-rate w-full pl-6 pr-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 <%= is_blocked ? 'bg-gray-100' : '' %>"
+                           <%= 'disabled' if is_past %>>
+                  </div>
+
+                  <!-- Status Toggle -->
+                  <div class="flex-1">
+                    <label class="inline-flex items-center cursor-pointer <%= is_past ? 'pointer-events-none' : '' %>">
+                      <input type="hidden" name="property[owner_weekly_calendar][<%= week_key %>][status]" value="open">
+                      <input type="checkbox"
+                             name="property[owner_weekly_calendar][<%= week_key %>][status]"
+                             value="blocked"
+                             <%= 'checked' if is_blocked %>
+                             <%= 'disabled' if is_past %>
+                             class="week-status sr-only peer"
+                             onchange="toggleWeekStatus(this)">
+                      <div class="relative w-11 h-6 bg-green-500 peer-checked:bg-red-500 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 transition-colors">
+                        <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                      </div>
+                      <span class="ml-2 text-sm font-medium <%= is_blocked ? 'text-red-700' : 'text-green-700' %> status-label">
+                        <%= is_blocked ? 'Blocked' : 'Open' %>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
+
+    <script>
+      function toggleWeekStatus(checkbox) {
+        const row = checkbox.closest('.week-row');
+        const label = row.querySelector('.status-label');
+        const rateInput = row.querySelector('.week-rate');
+
+        if (checkbox.checked) {
+          row.classList.remove('bg-green-50', 'border-green-200');
+          row.classList.add('bg-red-50', 'border-red-200');
+          label.textContent = 'Blocked';
+          label.classList.remove('text-green-700');
+          label.classList.add('text-red-700');
+          rateInput.classList.add('bg-gray-100');
+        } else {
+          row.classList.remove('bg-red-50', 'border-red-200');
+          row.classList.add('bg-green-50', 'border-green-200');
+          label.textContent = 'Open';
+          label.classList.remove('text-red-700');
+          label.classList.add('text-green-700');
+          rateInput.classList.remove('bg-gray-100');
+        }
+      }
+
+      function applyDefaultRate() {
+        const defaultRate = document.getElementById('default_rate').value;
+        if (!defaultRate) {
+          alert('Please enter a default rate first');
+          return;
+        }
+
+        document.querySelectorAll('.week-row').forEach(row => {
+          const checkbox = row.querySelector('.week-status');
+          const rateInput = row.querySelector('.week-rate');
+          if (!checkbox.checked && !rateInput.disabled) {
+            rateInput.value = defaultRate;
+          }
+        });
+      }
+    </script>
 
     <!-- Special Notes Section -->
     <div class="bg-white rounded-xl shadow p-6">
