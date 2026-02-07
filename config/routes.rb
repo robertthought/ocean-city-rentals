@@ -11,6 +11,37 @@ Rails.application.routes.draw do
   resources :neighborhoods, only: [:index, :show]
   resources :guides, only: [:index, :show]
 
+  # Owner Authentication
+  get '/owner/login', to: 'owner/sessions#new', as: :owner_login
+  post '/owner/login', to: 'owner/sessions#create'
+  delete '/owner/logout', to: 'owner/sessions#destroy', as: :owner_logout
+
+  get '/owner/register', to: 'owner/registrations#new', as: :owner_register
+  post '/owner/register', to: 'owner/registrations#create'
+
+  get '/owner/forgot-password', to: 'owner/passwords#new', as: :owner_forgot_password
+  post '/owner/forgot-password', to: 'owner/passwords#create'
+  get '/owner/reset-password/:token', to: 'owner/passwords#edit', as: :owner_reset_password
+  patch '/owner/reset-password/:token', to: 'owner/passwords#update'
+
+  # Owner Portal (authenticated)
+  namespace :owner do
+    root to: 'dashboard#index'
+
+    resource :profile, only: [:show, :edit, :update]
+
+    resources :claims, only: [:index, :new, :create] do
+      get :search_properties, on: :collection
+    end
+
+    resources :properties, only: [:index, :show, :edit, :update] do
+      member do
+        get :analytics
+      end
+      resources :photos, only: [:create, :destroy], controller: 'property_photos'
+    end
+  end
+
   # Admin
   namespace :admin do
     root to: "dashboard#index"
@@ -21,6 +52,12 @@ Rails.application.routes.draw do
     resources :contact_submissions, only: [:index, :show] do
       post :mark_responded, on: :member
       get :export, on: :collection
+    end
+    resources :ownership_claims, only: [:index, :show] do
+      member do
+        post :approve
+        post :reject
+      end
     end
   end
 

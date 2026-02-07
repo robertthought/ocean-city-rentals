@@ -1,6 +1,24 @@
 <div class="max-w-7xl mx-auto">
   <h1 class="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
 
+  <% if @pending_claims > 0 %>
+    <!-- Pending Claims Alert -->
+    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="font-semibold text-yellow-800"><%= pluralize(@pending_claims, "ownership claim") %> pending review</p>
+          <p class="text-sm text-yellow-700">Property owners are waiting for approval</p>
+        </div>
+      </div>
+      <%= link_to "Review Claims", admin_ownership_claims_path, class: "px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-lg" %>
+    </div>
+  <% end %>
+
   <!-- Stats Grid -->
   <div class="grid md:grid-cols-4 gap-6 mb-8">
     <!-- Leads Today -->
@@ -207,6 +225,10 @@
           <%= link_to export_admin_leads_path(format: :csv),
             class: "block w-full px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-center font-semibold" do %>
             Export Leads to CSV
+          <% end %>
+          <%= link_to admin_ownership_claims_path,
+            class: "block w-full px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-center font-semibold" do %>
+            Manage Ownership Claims
           <% end %>
         </div>
       </div>

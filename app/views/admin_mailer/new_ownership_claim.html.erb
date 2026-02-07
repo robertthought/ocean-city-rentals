@@ -1,0 +1,14 @@
+<h1>New Ownership Claim</h1>
+
+<p>A new ownership claim has been submitted and needs review.</p>
+
+<p><strong>Property:</strong> <%= @property.address %>, <%= @property.city %>, <%= @property.state %></p>
+
+<p><strong>Claimant:</strong> <%= @user.full_name %> (<%= @user.email %>)</p>
+
+<p><strong>Verification Notes:</strong></p>
+<blockquote><%= @claim.verification_notes %></blockquote>
+
+<p>
+  <%= link_to "Review Claim", admin_ownership_claim_url(@claim) %>
+</p>

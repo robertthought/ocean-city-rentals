@@ -4,6 +4,10 @@ class Property < ApplicationRecord
   friendly_id :address_slug, use: :slugged
 
   has_many :leads, dependent: :destroy
+  has_many :ownership_claims, dependent: :destroy
+  has_many :property_events, dependent: :destroy
+  has_many :property_analytics, dependent: :destroy
+  has_many_attached :owner_photos
 
   validates :address, presence: true
   validates :city, presence: true
@@ -310,5 +314,44 @@ class Property < ApplicationRecord
     else
       "From $#{low.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}/Week"
     end
+  end
+
+  # Owner helpers
+  def has_approved_owner?
+    ownership_claims.approved.exists?
+  end
+
+  def current_owner
+    ownership_claims.approved.includes(:user).first&.user
+  end
+
+  def claimed_by?(user)
+    return false unless user
+    ownership_claims.where(user: user).exists?
+  end
+
+  # Owner contact info (for admin verification)
+  def owner_emails
+    [email_1, email_2, email_3, email_4].compact.reject(&:blank?)
+  end
+
+  def owner_phones
+    [phone_1, phone_2, phone_3, phone_4].compact.reject(&:blank?)
+  end
+
+  # Display description: owner override or RTR
+  def display_description
+    owner_description.presence || description
+  end
+
+  # All photos combined: RTR + owner uploads
+  def all_photo_urls
+    rtr_urls = photo_urls
+    uploaded_urls = owner_photos.map { |photo| Rails.application.routes.url_helpers.rails_blob_path(photo, only_path: true) }
+    rtr_urls + uploaded_urls
+  end
+
+  def total_photo_count
+    (photos&.count || 0) + owner_photos.count
   end
 end

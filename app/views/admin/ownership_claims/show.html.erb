@@ -1,0 +1,122 @@
+<div class="max-w-4xl mx-auto">
+  <%= link_to admin_ownership_claims_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900 mb-6" do %>
+    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+    </svg>
+    Back to Claims
+  <% end %>
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Review Ownership Claim</h1>
+    <% case @claim.status %>
+    <% when 'pending' %>
+      <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">Pending Review</span>
+    <% when 'approved' %>
+      <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">Approved</span>
+    <% when 'rejected' %>
+      <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-red-100 text-red-800">Rejected</span>
+    <% end %>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-6">
+    <!-- Property Info -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="font-bold text-lg text-gray-900 mb-4">Property</h2>
+      <div class="flex items-start gap-4">
+        <% if @property.has_photos? %>
+          <img src="<%= @property.primary_photo_url %>" alt="" class="w-20 h-20 rounded-lg object-cover">
+        <% end %>
+        <div>
+          <p class="font-semibold text-gray-900"><%= @property.address %></p>
+          <p class="text-gray-500"><%= @property.city %>, <%= @property.state %> <%= @property.zip %></p>
+          <%= link_to "View Listing", property_path(@property), target: "_blank",
+            class: "text-blue-600 hover:text-blue-700 text-sm mt-2 inline-block" %>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <h3 class="font-semibold text-gray-900 mb-2">Owner Contact Info (from RTR)</h3>
+      <div class="text-sm space-y-1">
+        <% if @property.first_name.present? || @property.last_name.present? %>
+          <p><strong>Name:</strong> <%= [@property.first_name, @property.last_name].compact.join(' ') %></p>
+        <% end %>
+        <% if @property.owner_emails.any? %>
+          <p><strong>Emails:</strong> <%= @property.owner_emails.join(', ') %></p>
+        <% end %>
+        <% if @property.owner_phones.any? %>
+          <p><strong>Phones:</strong> <%= @property.owner_phones.join(', ') %></p>
+        <% end %>
+        <% if @property.mailing_address.present? %>
+          <p><strong>Mailing:</strong> <%= @property.mailing_address %>, <%= @property.mailing_city %>, <%= @property.mailing_state %> <%= @property.mailing_zip %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Claimant Info -->
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="font-bold text-lg text-gray-900 mb-4">Claimant</h2>
+      <div class="space-y-2 text-sm">
+        <p><strong>Name:</strong> <%= @user.full_name %></p>
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <% if @user.phone.present? %>
+          <p><strong>Phone:</strong> <%= @user.phone %></p>
+        <% end %>
+        <p><strong>Registered:</strong> <%= @user.created_at.strftime("%b %d, %Y") %></p>
+      </div>
+
+      <hr class="my-4">
+
+      <h3 class="font-semibold text-gray-900 mb-2">Verification Notes</h3>
+      <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700">
+        <%= simple_format(@claim.verification_notes) %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <% if @claim.pending? %>
+    <div class="mt-8 bg-white rounded-xl shadow p-6">
+      <h2 class="font-bold text-lg text-gray-900 mb-4">Review Actions</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Approve -->
+        <%= form_with url: approve_admin_ownership_claim_path(@claim), method: :post, class: "p-4 border-2 border-green-200 rounded-lg bg-green-50" do |f| %>
+          <h3 class="font-semibold text-green-800 mb-2">Approve Claim</h3>
+          <p class="text-sm text-green-700 mb-4">Owner will be able to manage this property listing.</p>
+          <%= f.text_area :admin_notes,
+            rows: 2,
+            placeholder: "Optional notes for the owner...",
+            class: "w-full px-3 py-2 border border-green-300 rounded-lg text-sm mb-3" %>
+          <%= f.submit "Approve",
+            class: "w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg cursor-pointer" %>
+        <% end %>
+
+        <!-- Reject -->
+        <%= form_with url: reject_admin_ownership_claim_path(@claim), method: :post, class: "p-4 border-2 border-red-200 rounded-lg bg-red-50" do |f| %>
+          <h3 class="font-semibold text-red-800 mb-2">Reject Claim</h3>
+          <p class="text-sm text-red-700 mb-4">Owner will be notified with your reason.</p>
+          <%= f.text_area :admin_notes,
+            rows: 2,
+            required: true,
+            placeholder: "Reason for rejection (required)...",
+            class: "w-full px-3 py-2 border border-red-300 rounded-lg text-sm mb-3" %>
+          <%= f.submit "Reject",
+            class: "w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <!-- Already reviewed -->
+    <div class="mt-8 bg-white rounded-xl shadow p-6">
+      <h2 class="font-bold text-lg text-gray-900 mb-4">Review Decision</h2>
+      <p class="text-sm text-gray-600">
+        <strong>Status:</strong> <%= @claim.status.titleize %><br>
+        <strong>Reviewed:</strong> <%= @claim.reviewed_at&.strftime("%b %d, %Y at %I:%M %p") %><br>
+        <% if @claim.admin_notes.present? %>
+          <strong>Notes:</strong> <%= @claim.admin_notes %>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+</div>

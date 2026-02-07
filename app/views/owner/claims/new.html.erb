@@ -1,0 +1,124 @@
+<h1 class="text-3xl font-bold text-gray-900 mb-2">Claim Your Property</h1>
+<p class="text-gray-600 mb-8">Search for your property and submit a claim for review.</p>
+
+<div class="grid lg:grid-cols-2 gap-8">
+  <!-- Search Section -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-lg font-bold text-gray-900 mb-4">1. Find Your Property</h2>
+
+    <%= form_with url: search_properties_owner_claims_path, method: :get, data: { turbo_frame: "property-results" }, class: "mb-6" do |f| %>
+      <div class="flex gap-2">
+        <%= f.text_field :q,
+          placeholder: "Search by address (e.g., '123 Asbury Ave')",
+          autofocus: true,
+          class: "flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        <%= f.submit "Search",
+          class: "px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors cursor-pointer" %>
+      </div>
+    <% end %>
+
+    <turbo-frame id="property-results">
+      <% if @properties.present? && @properties.any? %>
+        <div class="space-y-3 max-h-96 overflow-y-auto">
+          <% @properties.each do |property| %>
+            <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
+                 data-action="click->claim-property#select"
+                 data-property-id="<%= property.id %>"
+                 data-property-address="<%= property.address %>">
+              <div class="flex items-center gap-3">
+                <% if property.has_photos? %>
+                  <img src="<%= property.primary_photo_url %>" alt="" class="w-12 h-12 rounded object-cover">
+                <% else %>
+                  <div class="w-12 h-12 rounded bg-gray-200 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                  </div>
+                <% end %>
+                <div class="flex-1">
+                  <p class="font-semibold text-gray-900"><%= property.address %></p>
+                  <p class="text-sm text-gray-500"><%= property.city %>, <%= property.state %> <%= property.zip %></p>
+                </div>
+                <% if property.has_approved_owner? %>
+                  <span class="text-xs text-orange-600 font-medium">Already Claimed</span>
+                <% else %>
+                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% elsif params[:q].present? %>
+        <p class="text-gray-500 text-center py-8">No properties found matching "<%= params[:q] %>"</p>
+      <% else %>
+        <p class="text-gray-500 text-center py-8">Enter an address to search for your property</p>
+      <% end %>
+    </turbo-frame>
+  </div>
+
+  <!-- Claim Form Section -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-lg font-bold text-gray-900 mb-4">2. Submit Claim</h2>
+
+    <%= form_with url: owner_claims_path, method: :post, id: "claim-form", class: "space-y-4" do |f| %>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Selected Property</label>
+        <input type="hidden" name="property_id" id="selected-property-id" value="">
+        <div id="selected-property" class="p-4 border border-gray-200 rounded-lg bg-gray-50 text-gray-500">
+          Select a property from the search results
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Verification Notes</label>
+        <textarea name="verification_notes"
+                  rows="4"
+                  required
+                  placeholder="Please explain how you can verify ownership (e.g., 'I am John Smith, listed as the property owner. My contact info is...')"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+        <p class="text-xs text-gray-500 mt-1">This helps us verify your ownership. Include your name as it appears on property records.</p>
+      </div>
+
+      <%= f.submit "Submit Claim",
+        id: "submit-claim-btn",
+        disabled: true,
+        class: "w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors cursor-pointer" %>
+    <% end %>
+
+    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+      <h3 class="font-semibold text-blue-900 mb-2">What happens next?</h3>
+      <ol class="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+        <li>Our team will review your claim</li>
+        <li>We'll verify your ownership information</li>
+        <li>You'll receive an email once approved</li>
+        <li>Then you can manage your property listing!</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('click', function(e) {
+    const propertyCard = e.target.closest('[data-property-id]');
+    if (propertyCard && !propertyCard.querySelector('.text-orange-600')) {
+      const propertyId = propertyCard.dataset.propertyId;
+      const propertyAddress = propertyCard.dataset.propertyAddress;
+
+      document.getElementById('selected-property-id').value = propertyId;
+      document.getElementById('selected-property').innerHTML = '<strong>' + propertyAddress + '</strong>';
+      document.getElementById('selected-property').classList.remove('text-gray-500', 'bg-gray-50');
+      document.getElementById('selected-property').classList.add('text-gray-900', 'bg-blue-50', 'border-blue-500');
+      document.getElementById('submit-claim-btn').disabled = false;
+
+      // Highlight selected
+      document.querySelectorAll('[data-property-id]').forEach(el => {
+        el.classList.remove('border-blue-500', 'bg-blue-50');
+      });
+      propertyCard.classList.add('border-blue-500', 'bg-blue-50');
+    }
+  });
+});
+</script>

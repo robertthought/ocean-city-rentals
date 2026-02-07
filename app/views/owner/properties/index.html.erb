@@ -1,0 +1,49 @@
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-gray-900">My Properties</h1>
+  <%= link_to new_owner_claim_path, class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" do %>
+    + Claim Property
+  <% end %>
+</div>
+
+<% if @properties.any? %>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @properties.each do |property| %>
+      <div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition-shadow">
+        <% if property.has_photos? %>
+          <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>" class="w-full h-40 object-cover">
+        <% else %>
+          <div class="w-full h-40 bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
+            <svg class="w-12 h-12 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+          </div>
+        <% end %>
+
+        <div class="p-4">
+          <h2 class="font-bold text-gray-900 mb-1"><%= property.address %></h2>
+          <p class="text-sm text-gray-500 mb-4"><%= property.city %>, <%= property.state %> <%= property.zip %></p>
+
+          <div class="flex gap-2">
+            <%= link_to analytics_owner_property_path(property),
+              class: "flex-1 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium text-center hover:bg-purple-200 transition-colors" do %>
+              Analytics
+            <% end %>
+            <%= link_to edit_owner_property_path(property),
+              class: "flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium text-center hover:bg-gray-200 transition-colors" do %>
+              Edit
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="bg-white rounded-xl shadow p-12 text-center">
+    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+    </svg>
+    <p class="text-gray-600 mb-4">You don't have any approved properties yet.</p>
+    <%= link_to "Claim Your Property", new_owner_claim_path,
+      class: "inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors" %>
+  </div>
+<% end %>

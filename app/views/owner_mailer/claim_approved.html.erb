@@ -1,0 +1,16 @@
+<h1>Great news, <%= @user.first_name %>!</h1>
+
+<p>Your ownership claim for <strong><%= @property.address %></strong> has been approved.</p>
+
+<p>You can now:</p>
+<ul>
+  <li>View analytics for your property</li>
+  <li>Edit your listing description</li>
+  <li>Upload additional photos</li>
+</ul>
+
+<p>
+  <%= link_to "Go to Your Dashboard", owner_root_url %>
+</p>
+
+<p>Thank you for using OCNJ Weekly Rentals!</p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_162915) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_201614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_162915) do
     t.index ["property_id"], name: "index_leads_on_property_id"
   end
 
+  create_table "ownership_claims", force: :cascade do |t|
+    t.text "admin_notes"
+    t.datetime "created_at", null: false
+    t.bigint "property_id", null: false
+    t.datetime "reviewed_at"
+    t.string "reviewed_by"
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.text "verification_notes", null: false
+    t.index ["property_id"], name: "index_ownership_claims_on_property_id"
+    t.index ["status"], name: "index_ownership_claims_on_status"
+    t.index ["user_id", "property_id"], name: "index_ownership_claims_on_user_id_and_property_id", unique: true
+    t.index ["user_id"], name: "index_ownership_claims_on_user_id"
+  end
+
   create_table "properties", force: :cascade do |t|
     t.string "address", null: false
     t.jsonb "amenities", default: []
@@ -82,11 +98,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_162915) do
     t.text "meta_description"
     t.text "meta_keywords"
     t.integer "occupancy_limit"
+    t.jsonb "owner_amenities", default: []
+    t.boolean "owner_customized", default: false
+    t.text "owner_description"
     t.string "person_type"
     t.string "phone_1"
     t.string "phone_2"
     t.string "phone_3"
     t.string "phone_4"
+    t.jsonb "photo_order", default: []
     t.jsonb "photos", default: []
     t.string "property_id"
     t.string "property_name"
@@ -112,5 +132,54 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_162915) do
     t.index ["zip"], name: "index_properties_on_zip"
   end
 
+  create_table "property_analytics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.integer "page_views", default: 0
+    t.bigint "property_id", null: false
+    t.integer "search_impressions", default: 0
+    t.integer "unique_visitors", default: 0
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_property_analytics_on_date"
+    t.index ["property_id", "date"], name: "index_property_analytics_on_property_id_and_date", unique: true
+    t.index ["property_id"], name: "index_property_analytics_on_property_id"
+  end
+
+  create_table "property_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event_type", null: false
+    t.string "ip_address"
+    t.jsonb "metadata", default: {}
+    t.bigint "property_id", null: false
+    t.string "referrer"
+    t.string "session_id"
+    t.string "user_agent"
+    t.index ["created_at"], name: "index_property_events_on_created_at"
+    t.index ["property_id", "event_type", "created_at"], name: "idx_on_property_id_event_type_created_at_9e17ad42e0"
+    t.index ["property_id"], name: "index_property_events_on_property_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "email_verification_token"
+    t.boolean "email_verified", default: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.string "password_digest", null: false
+    t.string "phone"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   add_foreign_key "leads", "properties"
+  add_foreign_key "ownership_claims", "properties"
+  add_foreign_key "ownership_claims", "users"
+  add_foreign_key "property_analytics", "properties"
+  add_foreign_key "property_events", "properties"
 end

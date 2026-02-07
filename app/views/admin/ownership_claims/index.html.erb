@@ -1,0 +1,94 @@
+<div class="max-w-7xl mx-auto">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Ownership Claims</h1>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-xl shadow mb-6 p-4">
+    <div class="flex items-center gap-4">
+      <span class="text-sm text-gray-500">Filter:</span>
+      <%= link_to "All", admin_ownership_claims_path,
+        class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status].blank? ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}" %>
+      <%= link_to "Pending", admin_ownership_claims_path(status: "pending"),
+        class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status] == 'pending' ? 'bg-yellow-100 text-yellow-700' : 'text-gray-600 hover:bg-gray-100'}" %>
+      <%= link_to "Approved", admin_ownership_claims_path(status: "approved"),
+        class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status] == 'approved' ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-100'}" %>
+      <%= link_to "Rejected", admin_ownership_claims_path(status: "rejected"),
+        class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status] == 'rejected' ? 'bg-red-100 text-red-700' : 'text-gray-600 hover:bg-gray-100'}" %>
+    </div>
+  </div>
+
+  <!-- Claims Table -->
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+    <% if @claims.any? %>
+      <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Property</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Claimant</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
+            <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @claims.each do |claim| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <div class="font-semibold text-gray-900"><%= claim.property.address %></div>
+                <div class="text-sm text-gray-500"><%= claim.property.city %>, <%= claim.property.state %></div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-900"><%= claim.user.full_name %></div>
+                <div class="text-sm text-gray-500"><%= claim.user.email %></div>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <%= claim.created_at.strftime("%b %d, %Y") %><br>
+                <span class="text-xs"><%= claim.created_at.strftime("%I:%M %p") %></span>
+              </td>
+              <td class="px-6 py-4">
+                <% case claim.status %>
+                <% when 'pending' %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>
+                <% when 'approved' %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Approved</span>
+                <% when 'rejected' %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Rejected</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <%= link_to "Review", admin_ownership_claim_path(claim),
+                  class: "px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-200" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+        <p class="text-sm text-gray-500">
+          Showing <%= @pagy.from %>-<%= @pagy.to %> of <%= number_with_delimiter(@pagy.count) %> claims
+        </p>
+        <nav class="flex items-center gap-2">
+          <% if @pagy.prev %>
+            <%= link_to admin_ownership_claims_path(page: @pagy.prev, status: params[:status]),
+                class: "px-3 py-1.5 bg-white border border-gray-300 rounded hover:bg-gray-50 text-sm" do %>
+              Previous
+            <% end %>
+          <% end %>
+          <% if @pagy.next %>
+            <%= link_to admin_ownership_claims_path(page: @pagy.next, status: params[:status]),
+                class: "px-3 py-1.5 bg-white border border-gray-300 rounded hover:bg-gray-50 text-sm" do %>
+              Next
+            <% end %>
+          <% end %>
+        </nav>
+      </div>
+    <% else %>
+      <div class="px-6 py-12 text-center text-gray-500">
+        <p>No ownership claims found.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

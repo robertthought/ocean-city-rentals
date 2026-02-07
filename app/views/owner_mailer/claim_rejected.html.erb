@@ -1,0 +1,17 @@
+<h1>Update on Your Ownership Claim</h1>
+
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>We've reviewed your ownership claim for <strong><%= @property.address %></strong> and unfortunately we were unable to verify your ownership at this time.</p>
+
+<% if @claim.admin_notes.present? %>
+<p><strong>Reason:</strong> <%= @claim.admin_notes %></p>
+<% end %>
+
+<p>If you believe this was a mistake, you can submit a new claim with additional verification information.</p>
+
+<p>
+  <%= link_to "Submit New Claim", new_owner_claim_url %>
+</p>
+
+<p>Thank you for your understanding.</p>

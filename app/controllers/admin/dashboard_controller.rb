@@ -23,6 +23,9 @@ module Admin
         .group("properties.id")
         .order("leads_count DESC")
         .limit(5)
+
+      # Ownership claims
+      @pending_claims = OwnershipClaim.pending.count
     end
   end
 end

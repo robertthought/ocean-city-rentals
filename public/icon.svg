@@ -1,3 +1,14 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#2563EB"/>
+
+  <!-- House icon -->
+  <g fill="none" stroke="white" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Roof -->
+    <path d="M96 240 L256 100 L416 240"/>
+    <!-- House body -->
+    <path d="M144 216 L144 400 C144 412 154 422 166 422 L346 422 C358 422 368 412 368 400 L368 216"/>
+    <!-- Door -->
+    <path d="M224 422 L224 310 C224 298 234 288 246 288 L266 288 C278 288 288 298 288 310 L288 422"/>
+  </g>
 </svg>

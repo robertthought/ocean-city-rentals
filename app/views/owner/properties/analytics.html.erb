@@ -1,0 +1,106 @@
+<div class="mb-6">
+  <%= link_to owner_properties_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900" do %>
+    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+    </svg>
+    Back to Properties
+  <% end %>
+</div>
+
+<h1 class="text-3xl font-bold text-gray-900 mb-2">Analytics: <%= @property.address %></h1>
+<p class="text-gray-600 mb-8"><%= @property.city %>, <%= @property.state %> <%= @property.zip %></p>
+
+<!-- Period Selector -->
+<div class="flex items-center gap-4 mb-8">
+  <span class="text-gray-600">Time Period:</span>
+  <div class="flex gap-2">
+    <%= link_to "7 Days", analytics_owner_property_path(@property, period: 7),
+      class: "px-4 py-2 rounded-lg font-medium #{@period == 7 ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+    <%= link_to "30 Days", analytics_owner_property_path(@property, period: 30),
+      class: "px-4 py-2 rounded-lg font-medium #{@period == 30 ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+    <%= link_to "90 Days", analytics_owner_property_path(@property, period: 90),
+      class: "px-4 py-2 rounded-lg font-medium #{@period == 90 ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+  </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid md:grid-cols-3 gap-6 mb-8">
+  <div class="bg-white rounded-xl shadow p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm text-gray-500">Page Views</p>
+        <p class="text-3xl font-bold text-gray-900"><%= number_with_delimiter(@totals[:total_views]) %></p>
+      </div>
+      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+      </div>
+    </div>
+    <p class="text-sm text-gray-500 mt-2">Last <%= @period %> days</p>
+  </div>
+
+  <div class="bg-white rounded-xl shadow p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm text-gray-500">Search Impressions</p>
+        <p class="text-3xl font-bold text-gray-900"><%= number_with_delimiter(@totals[:total_impressions]) %></p>
+      </div>
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
+    <p class="text-sm text-gray-500 mt-2">Times shown in search results</p>
+  </div>
+
+  <div class="bg-white rounded-xl shadow p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-sm text-gray-500">Click Rate</p>
+        <% click_rate = @totals[:total_impressions] > 0 ? ((@totals[:total_views].to_f / @totals[:total_impressions]) * 100).round(1) : 0 %>
+        <p class="text-3xl font-bold text-gray-900"><%= click_rate %>%</p>
+      </div>
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+        </svg>
+      </div>
+    </div>
+    <p class="text-sm text-gray-500 mt-2">Views / Impressions</p>
+  </div>
+</div>
+
+<!-- Daily Breakdown -->
+<div class="bg-white rounded-xl shadow">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h2 class="text-lg font-bold text-gray-900">Daily Breakdown</h2>
+  </div>
+
+  <% if @daily_analytics.any? %>
+    <table class="w-full">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+          <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Page Views</th>
+          <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Search Impressions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @daily_analytics.reverse.each do |day| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-3 text-gray-900"><%= day.date.strftime("%b %d, %Y") %></td>
+            <td class="px-6 py-3 text-right text-gray-600"><%= day.page_views %></td>
+            <td class="px-6 py-3 text-right text-gray-600"><%= day.search_impressions %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="px-6 py-12 text-center text-gray-500">
+      <p>No analytics data yet. Check back after your property gets some views!</p>
+    </div>
+  <% end %>
+</div>
