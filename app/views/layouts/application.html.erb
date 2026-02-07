@@ -58,6 +58,35 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
+    <!-- reCAPTCHA v3 -->
+    <% if ENV["RECAPTCHA_SITE_KEY"].present? %>
+      <script src="https://www.google.com/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
+      <script>
+        function executeRecaptcha(form, action) {
+          grecaptcha.ready(function() {
+            grecaptcha.execute('<%= ENV["RECAPTCHA_SITE_KEY"] %>', {action: action}).then(function(token) {
+              var input = form.querySelector('input[name="recaptcha_token"]');
+              if (!input) {
+                input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'recaptcha_token';
+                form.appendChild(input);
+              }
+              input.value = token;
+              form.submit();
+            });
+          });
+        }
+      </script>
+    <% else %>
+      <script>
+        // Fallback when reCAPTCHA is not configured (dev/test)
+        function executeRecaptcha(form, action) {
+          form.submit();
+        }
+      </script>
+    <% end %>
+
     <style>
       /* Mobile overflow fixes */
       html, body {

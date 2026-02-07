@@ -7,12 +7,21 @@ class PagesController < ApplicationController
   end
 
   def submit_contact
+    # Verify reCAPTCHA
+    recaptcha_result = RecaptchaVerifier.verify(params[:recaptcha_token], request.remote_ip)
+    unless recaptcha_result[:success]
+      Rails.logger.warn "[Contact] reCAPTCHA failed for #{request.remote_ip}: #{recaptcha_result}"
+      redirect_to contact_path, alert: "Verification failed. Please try again."
+      return
+    end
+
     @submission = ContactSubmission.new(
       name: params[:name],
       email: params[:email],
       phone: params[:phone],
       message: params[:message],
-      inquiry_type: params[:inquiry_type]
+      inquiry_type: params[:inquiry_type],
+      recaptcha_score: recaptcha_result[:score]
     )
 
     if @submission.save

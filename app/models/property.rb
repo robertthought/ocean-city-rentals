@@ -216,4 +216,62 @@ class Property < ApplicationRecord
   def weekly_rates
     rate_periods.select { |r| r[:minimum_stay].to_i >= 7 }
   end
+
+  # Get lowest available weekly rate from availability or rates data
+  def lowest_weekly_rate
+    # Try availability data first (has minimum_rate)
+    if has_availability?
+      avail_rates = availability.map { |a|
+        (a["minimum_rate"] || a[:minimum_rate])&.to_f
+      }.compact.reject(&:zero?)
+      return avail_rates.min if avail_rates.any?
+    end
+
+    # Fall back to rates data
+    if has_rates?
+      rate_values = rates.map { |r|
+        (r["rate"] || r[:rate])&.to_f
+      }.compact.reject(&:zero?)
+      return rate_values.min if rate_values.any?
+    end
+
+    nil
+  end
+
+  # Get highest available weekly rate
+  def highest_weekly_rate
+    if has_availability?
+      avail_rates = availability.map { |a|
+        (a["maximum_rate"] || a[:maximum_rate])&.to_f
+      }.compact.reject(&:zero?)
+      return avail_rates.max if avail_rates.any?
+    end
+
+    if has_rates?
+      rate_values = rates.map { |r|
+        (r["rate"] || r[:rate])&.to_f
+      }.compact.reject(&:zero?)
+      return rate_values.max if rate_values.any?
+    end
+
+    nil
+  end
+
+  # Check if property has pricing info
+  def has_pricing?
+    lowest_weekly_rate.present?
+  end
+
+  # Format price range for display
+  def price_range_display
+    low = lowest_weekly_rate
+    high = highest_weekly_rate
+    return nil unless low
+
+    if high && high > low
+      "$#{low.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}-$#{high.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}/Week"
+    else
+      "From $#{low.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}/Week"
+    end
+  end
 end

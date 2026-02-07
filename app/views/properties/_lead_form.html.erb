@@ -1,5 +1,6 @@
 <%= form_with model: [property, lead],
               data: { turbo_frame: "lead-form" },
+              html: { onsubmit: "executeRecaptcha(this, 'lead_inquiry'); return false;" },
               class: "space-y-4" do |f| %>
 
   <% if lead.errors.any? %>

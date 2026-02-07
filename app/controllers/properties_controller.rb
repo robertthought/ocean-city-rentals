@@ -18,12 +18,27 @@ class PropertiesController < ApplicationController
       @properties_scope = @properties_scope.verified
     end
 
+    # Bedrooms filter
+    if params[:bedrooms].present?
+      @properties_scope = @properties_scope.where("bedrooms >= ?", params[:bedrooms].to_i)
+    end
+
+    # Bathrooms filter
+    if params[:bathrooms].present?
+      @properties_scope = @properties_scope.where("bathrooms >= ?", params[:bathrooms].to_i)
+    end
+
+    # Sleeps filter
+    if params[:sleeps].present?
+      @properties_scope = @properties_scope.where("total_sleeps >= ?", params[:sleeps].to_i)
+    end
+
     # Sorting
     @sort = params[:sort].presence || "verified_first"
     @properties_scope = apply_sort(@properties_scope)
 
     @pagy, @properties = pagy(@properties_scope, limit: 48)
-    @searching = params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present?
+    @searching = params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present? || params[:bedrooms].present? || params[:bathrooms].present? || params[:sleeps].present?
   end
 
   def show

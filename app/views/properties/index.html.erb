@@ -33,19 +33,52 @@
           </div>
 
           <!-- Filters Row -->
-          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 sm:px-4 py-2">
+          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
               <%= f.select :neighborhood,
                 options_for_select(
                   [["All Areas", ""]] + Neighborhood.all.map { |n| ["#{n.name}", n.slug] },
                   params[:neighborhood]
                 ),
                 {},
-                class: "bg-transparent text-white text-sm sm:text-base font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+                class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
               %>
             </div>
 
-            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 sm:px-4 py-2">
+            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+              <%= f.select :bedrooms,
+                options_for_select(
+                  [["Beds", ""]] + (1..6).map { |n| ["#{n}+ Beds", n] },
+                  params[:bedrooms]
+                ),
+                {},
+                class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+              %>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+              <%= f.select :bathrooms,
+                options_for_select(
+                  [["Baths", ""]] + (1..5).map { |n| ["#{n}+ Baths", n] },
+                  params[:bathrooms]
+                ),
+                {},
+                class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+              %>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
+              <%= f.select :sleeps,
+                options_for_select(
+                  [["Sleeps", ""]] + [2, 4, 6, 8, 10, 12, 14, 16].map { |n| ["#{n}+ Guests", n] },
+                  params[:sleeps]
+                ),
+                {},
+                class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+              %>
+            </div>
+
+            <div class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2">
               <%= f.select :sort,
                 options_for_select(
                   [
@@ -57,17 +90,17 @@
                   params[:sort] || "verified_first"
                 ),
                 {},
-                class: "bg-transparent text-white text-sm sm:text-base font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
+                class: "bg-transparent text-white text-sm font-semibold focus:outline-none cursor-pointer [&>option]:text-gray-900"
               %>
             </div>
 
-            <label class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 sm:px-4 py-2 sm:py-3 cursor-pointer">
+            <label class="flex items-center gap-2 bg-white/20 backdrop-blur rounded-lg px-3 py-2 cursor-pointer">
               <%= f.check_box :verified, { checked: params[:verified] == "1" }, "1", "0" %>
-              <span class="text-white text-sm sm:text-base font-semibold">Verified</span>
+              <span class="text-white text-sm font-semibold">Verified</span>
             </label>
 
-            <% if params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present? %>
-              <%= link_to "Clear", properties_path, class: "text-cyan-200 hover:text-white underline font-semibold text-sm sm:text-base" %>
+            <% if params[:q].present? || params[:neighborhood].present? || params[:verified].present? || params[:sort].present? || params[:bedrooms].present? || params[:bathrooms].present? || params[:sleeps].present? %>
+              <%= link_to "Clear", properties_path, class: "text-cyan-200 hover:text-white underline font-semibold text-sm" %>
             <% end %>
           </div>
         <% end %>
@@ -172,6 +205,11 @@
                       <% end %>
                     </div>
                   <% end %>
+                  <% if property.has_pricing? %>
+                    <p class="text-green-700 font-bold text-sm mb-2">
+                      <%= property.price_range_display %>
+                    </p>
+                  <% end %>
                   <div class="mt-auto pt-3 border-t border-gray-100">
                     <span class="text-blue-600 font-semibold text-sm">View Details →</span>
                   </div>
@@ -185,7 +223,7 @@
         <div class="flex justify-center">
           <nav class="flex items-center gap-2">
             <% if @pagy.prev %>
-              <%= link_to url_for(page: @pagy.prev, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified], sort: params[:sort]),
+              <%= link_to url_for(page: @pagy.prev, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified], sort: params[:sort], bedrooms: params[:bedrooms], bathrooms: params[:bathrooms], sleeps: params[:sleeps]),
                   class: "px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
                 <span class="flex items-center gap-1">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,7 +239,7 @@
             </span>
 
             <% if @pagy.next %>
-              <%= link_to url_for(page: @pagy.next, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified], sort: params[:sort]),
+              <%= link_to url_for(page: @pagy.next, q: params[:q], neighborhood: params[:neighborhood], verified: params[:verified], sort: params[:sort], bedrooms: params[:bedrooms], bathrooms: params[:bathrooms], sleeps: params[:sleeps]),
                   class: "px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
                 <span class="flex items-center gap-1">
                   Next
@@ -347,6 +385,11 @@
                     <span>sleeps <%= property.total_sleeps %></span>
                   <% end %>
                 </div>
+              <% end %>
+              <% if property.has_pricing? %>
+                <p class="text-green-700 font-bold mb-3">
+                  <%= property.price_range_display %>
+                </p>
               <% end %>
 
               <div class="flex items-center justify-between pt-4 border-t border-gray-100">
