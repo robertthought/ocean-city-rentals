@@ -73,7 +73,7 @@ module Owner
 
     # Public claim page - shows property + registration form
     def claim_property
-      @property = Property.find(params[:id])
+      @property = Property.friendly.find(params[:id])
 
       # If already logged in, redirect to regular claim flow
       if current_owner
@@ -86,7 +86,7 @@ module Owner
 
     # Handle registration + claim in one step
     def create_claim_with_registration
-      @property = Property.find(params[:id])
+      @property = Property.friendly.find(params[:id])
 
       # Create user
       @user = User.new(
