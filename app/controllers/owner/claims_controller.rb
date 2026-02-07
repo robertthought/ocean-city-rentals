@@ -7,6 +7,11 @@ module Owner
     def new
       @claim = OwnershipClaim.new
       @properties = []
+
+      # Pre-select property if coming from property page
+      if params[:property_id].present?
+        @selected_property = Property.find_by(id: params[:property_id])
+      end
     end
 
     def search_properties
