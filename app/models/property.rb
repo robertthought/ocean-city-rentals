@@ -19,7 +19,8 @@ class Property < ApplicationRecord
     }
 
   # Scopes
-  scope :verified, -> { where(is_verified: true) }
+  # Verified = has RTR data (real, synced rental data)
+  scope :verified, -> { where(data_source: "realtimerental") }
   scope :in_ocean_city, -> { where(city: 'Ocean City') }
   scope :with_photos, -> { where("jsonb_array_length(photos) > 0") }
   scope :from_rtr, -> { where(data_source: "realtimerental") }
@@ -149,6 +150,12 @@ class Property < ApplicationRecord
   # From RTR?
   def from_rtr?
     data_source == "realtimerental"
+  end
+
+  # Override is_verified to be based on RTR data
+  # Properties with RTR data are considered verified (real, active listings)
+  def is_verified
+    from_rtr?
   end
 
   # Availability helpers
