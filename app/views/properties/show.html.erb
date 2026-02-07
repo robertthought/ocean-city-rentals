@@ -47,9 +47,9 @@
 
 <!-- Back Navigation -->
 <div class="bg-white border-b border-gray-200">
-  <div class="container mx-auto px-4 py-4">
-    <%= link_to properties_path, class: "inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold" do %>
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="container mx-auto px-4 py-3 sm:py-4">
+    <%= link_to properties_path, class: "inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm sm:text-base" do %>
+      <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
       </svg>
       Back to all properties
@@ -57,8 +57,15 @@
   </div>
 </div>
 
-<div class="bg-gray-50 min-h-screen py-8">
-  <div class="container mx-auto px-4">
+<!-- Mobile Sticky Contact Button -->
+<div class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 p-3 shadow-lg safe-area-inset-bottom">
+  <a href="#contact-form" class="block w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-center text-lg shadow-md active:scale-98 transition-all">
+    Request Information
+  </a>
+</div>
+
+<div class="bg-gray-50 min-h-screen py-4 sm:py-6 md:py-8 pb-24 lg:pb-8 overflow-x-hidden">
+  <div class="container mx-auto px-4 sm:px-4 max-w-full overflow-hidden">
     <div class="max-w-7xl mx-auto">
 
       <div class="grid lg:grid-cols-3 gap-8">
@@ -72,7 +79,7 @@
               <!-- Photo Gallery -->
               <div class="relative">
                 <!-- Main Photo -->
-                <div class="h-96 relative" id="main-photo-container">
+                <div class="h-64 sm:h-80 md:h-96 relative cursor-pointer" id="main-photo-container" onclick="openLightbox(0)">
                   <img src="<%= @property.primary_photo_url %>"
                        alt="<%= @property.address %>"
                        class="w-full h-full object-cover"
@@ -80,10 +87,20 @@
                        loading="eager">
 
                   <% if @property.photo_count > 1 %>
-                    <div class="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <div class="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
                       <%= @property.photo_count %> Photos
                     </div>
                   <% end %>
+
+                  <!-- View Photos Overlay -->
+                  <div class="absolute inset-0 bg-black/0 hover:bg-black/20 transition-all flex items-center justify-center opacity-0 hover:opacity-100">
+                    <span class="bg-white/90 text-gray-900 px-4 py-2 rounded-lg font-semibold shadow-lg">
+                      Click to view photos
+                    </span>
+                  </div>
 
                   <% if @property.is_verified %>
                     <div class="absolute top-6 right-6 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl flex items-center gap-2">
@@ -97,16 +114,129 @@
 
                 <!-- Thumbnail Strip -->
                 <% if @property.photo_count > 1 %>
-                  <div class="flex gap-2 p-4 overflow-x-auto bg-gray-100">
-                    <% @property.photo_urls.each_with_index do |url, index| %>
-                      <button onclick="document.getElementById('main-photo').src='<%= url %>'"
-                              class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 focus:border-blue-500 transition-all">
+                  <div class="flex gap-2 p-3 overflow-x-auto bg-gray-100 -webkit-overflow-scrolling-touch">
+                    <% @property.photo_urls.first(20).each_with_index do |url, index| %>
+                      <button onclick="openLightbox(<%= index %>)"
+                              class="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 focus:border-blue-500 transition-all active:scale-95">
                         <img src="<%= url %>" alt="Photo <%= index + 1 %>" class="w-full h-full object-cover" loading="lazy">
+                      </button>
+                    <% end %>
+                    <% if @property.photo_count > 20 %>
+                      <button onclick="openLightbox(20)" class="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-sm">
+                        +<%= @property.photo_count - 20 %>
                       </button>
                     <% end %>
                   </div>
                 <% end %>
               </div>
+
+              <!-- Lightbox Modal -->
+              <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95" onclick="closeLightbox(event)">
+                <!-- Close Button -->
+                <button onclick="closeLightbox()" class="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors">
+                  <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+
+                <!-- Photo Counter -->
+                <div class="absolute top-4 left-4 text-white text-lg font-semibold">
+                  <span id="lightbox-counter">1</span> / <%= @property.photo_count %>
+                </div>
+
+                <!-- Previous Button -->
+                <button onclick="prevPhoto(event)" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-3 sm:p-2 bg-black/30 sm:bg-transparent rounded-full active:bg-black/50">
+                  <svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                </button>
+
+                <!-- Next Button -->
+                <button onclick="nextPhoto(event)" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-3 sm:p-2 bg-black/30 sm:bg-transparent rounded-full active:bg-black/50">
+                  <svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+
+                <!-- Main Image -->
+                <div class="flex items-center justify-center h-full p-4 sm:p-8 md:p-16 pt-16 pb-24">
+                  <img id="lightbox-image" src="" alt="Property photo" class="max-h-full max-w-full object-contain">
+                </div>
+
+                <!-- Thumbnail Strip -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto p-2 bg-black/50 rounded-lg">
+                  <% @property.photo_urls.each_with_index do |url, index| %>
+                    <button onclick="goToPhoto(<%= index %>, event)"
+                            class="flex-shrink-0 w-16 h-16 rounded overflow-hidden border-2 transition-all lightbox-thumb"
+                            data-index="<%= index %>">
+                      <img src="<%= url %>" alt="Photo <%= index + 1 %>" class="w-full h-full object-cover">
+                    </button>
+                  <% end %>
+                </div>
+              </div>
+
+              <script>
+                const photoUrls = <%= raw @property.photo_urls.to_json %>;
+                let currentPhotoIndex = 0;
+
+                function openLightbox(index) {
+                  currentPhotoIndex = index;
+                  updateLightboxImage();
+                  document.getElementById('lightbox').classList.remove('hidden');
+                  document.body.style.overflow = 'hidden';
+                }
+
+                function closeLightbox(event) {
+                  if (event && event.target !== event.currentTarget) return;
+                  document.getElementById('lightbox').classList.add('hidden');
+                  document.body.style.overflow = '';
+                }
+
+                function prevPhoto(event) {
+                  event.stopPropagation();
+                  currentPhotoIndex = (currentPhotoIndex - 1 + photoUrls.length) % photoUrls.length;
+                  updateLightboxImage();
+                }
+
+                function nextPhoto(event) {
+                  event.stopPropagation();
+                  currentPhotoIndex = (currentPhotoIndex + 1) % photoUrls.length;
+                  updateLightboxImage();
+                }
+
+                function goToPhoto(index, event) {
+                  event.stopPropagation();
+                  currentPhotoIndex = index;
+                  updateLightboxImage();
+                }
+
+                function updateLightboxImage() {
+                  document.getElementById('lightbox-image').src = photoUrls[currentPhotoIndex];
+                  document.getElementById('lightbox-counter').textContent = currentPhotoIndex + 1;
+                  document.getElementById('main-photo').src = photoUrls[currentPhotoIndex];
+
+                  // Update thumbnail borders
+                  document.querySelectorAll('.lightbox-thumb').forEach((thumb, i) => {
+                    if (i === currentPhotoIndex) {
+                      thumb.classList.add('border-white');
+                      thumb.classList.remove('border-transparent');
+                    } else {
+                      thumb.classList.remove('border-white');
+                      thumb.classList.add('border-transparent');
+                    }
+                  });
+                }
+
+                // Keyboard navigation
+                document.addEventListener('keydown', function(e) {
+                  const lightbox = document.getElementById('lightbox');
+                  if (lightbox.classList.contains('hidden')) return;
+
+                  if (e.key === 'Escape') closeLightbox();
+                  if (e.key === 'ArrowLeft') { e.preventDefault(); prevPhoto(e); }
+                  if (e.key === 'ArrowRight') { e.preventDefault(); nextPhoto(e); }
+                });
+              </script>
             <% else %>
               <!-- Placeholder when no photos -->
               <div class="h-96 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 flex items-center justify-center relative">
@@ -132,84 +262,84 @@
           </div>
 
           <!-- Property Details Card -->
-          <div class="bg-white rounded-xl shadow-lg p-8">
-            <div class="mb-6">
-              <h1 class="text-4xl font-bold text-gray-900 mb-3">
+          <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 overflow-hidden">
+            <div class="mb-4 sm:mb-6">
+              <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
                 <%= @property.address %>
               </h1>
-              <p class="text-2xl text-gray-600">
+              <p class="text-lg sm:text-xl md:text-2xl text-gray-600">
                 <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
               </p>
             </div>
 
             <!-- Property Features Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-b border-gray-200">
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 py-4 sm:py-6 md:py-8 border-t border-b border-gray-200">
               <div class="text-center">
-                <div class="text-gray-400 mb-2">
-                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-gray-400 mb-1 sm:mb-2">
+                  <svg class="w-6 h-6 sm:w-8 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                   </svg>
                 </div>
-                <p class="text-sm text-gray-500 mb-1">Type</p>
-                <p class="font-bold text-gray-900">
+                <p class="text-xs sm:text-sm text-gray-500 mb-0.5 sm:mb-1">Type</p>
+                <p class="font-bold text-gray-900 text-sm sm:text-base truncate">
                   <%= @property.property_type || 'Contact' %>
                 </p>
               </div>
 
               <div class="text-center">
-                <div class="text-gray-400 mb-2">
-                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-gray-400 mb-1 sm:mb-2">
+                  <svg class="w-6 h-6 sm:w-8 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                   </svg>
                 </div>
-                <p class="text-sm text-gray-500 mb-1">Bedrooms</p>
-                <p class="font-bold text-gray-900">
-                  <%= @property.bedrooms.present? && @property.bedrooms > 0 ? @property.bedrooms : 'Contact' %>
+                <p class="text-xs sm:text-sm text-gray-500 mb-0.5 sm:mb-1">Beds</p>
+                <p class="font-bold text-gray-900 text-sm sm:text-base">
+                  <%= @property.bedrooms.present? && @property.bedrooms > 0 ? @property.bedrooms : '-' %>
                 </p>
               </div>
 
               <div class="text-center">
-                <div class="text-gray-400 mb-2">
-                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-gray-400 mb-1 sm:mb-2">
+                  <svg class="w-6 h-6 sm:w-8 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path>
                   </svg>
                 </div>
-                <p class="text-sm text-gray-500 mb-1">Bathrooms</p>
-                <p class="font-bold text-gray-900">
-                  <%= @property.bathrooms.present? && @property.bathrooms > 0 ? @property.bathrooms : 'Contact' %>
+                <p class="text-xs sm:text-sm text-gray-500 mb-0.5 sm:mb-1">Baths</p>
+                <p class="font-bold text-gray-900 text-sm sm:text-base">
+                  <%= @property.bathrooms.present? && @property.bathrooms > 0 ? @property.bathrooms : '-' %>
                 </p>
               </div>
 
               <div class="text-center">
-                <div class="text-gray-400 mb-2">
-                  <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-gray-400 mb-1 sm:mb-2">
+                  <svg class="w-6 h-6 sm:w-8 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                   </svg>
                 </div>
-                <p class="text-sm text-gray-500 mb-1">Sleeps</p>
-                <p class="font-bold text-gray-900">
-                  <%= @property.total_sleeps.present? && @property.total_sleeps > 0 ? @property.total_sleeps : 'Contact' %>
+                <p class="text-xs sm:text-sm text-gray-500 mb-0.5 sm:mb-1">Sleeps</p>
+                <p class="font-bold text-gray-900 text-sm sm:text-base">
+                  <%= @property.total_sleeps.present? && @property.total_sleeps > 0 ? @property.total_sleeps : '-' %>
                 </p>
               </div>
             </div>
 
             <!-- About Section -->
-            <div class="mt-8">
-              <h2 class="text-2xl font-bold text-gray-900 mb-4">
+            <div class="mt-6 sm:mt-8 overflow-hidden">
+              <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
                 About This Property
               </h2>
-              <div class="prose prose-lg max-w-none text-gray-600">
+              <div class="text-gray-600 text-sm sm:text-base leading-relaxed break-words">
                 <% if @property.description.present? %>
-                  <p class="mb-4 whitespace-pre-line"><%= @property.description %></p>
+                  <p class="mb-4 whitespace-pre-line break-words"><%= @property.description %></p>
                 <% else %>
-                  <p class="mb-4">
+                  <p class="mb-4 break-words">
                     This Ocean City property is available for vacation rental. Located at
                     <%= @property.address %> in <%= @property.city %>, this property offers
                     convenient access to Ocean City's beautiful beaches, boardwalk attractions,
                     restaurants, and entertainment.
                   </p>
                 <% end %>
-                <p>
+                <p class="break-words">
                   Contact Bob Idell Real Estate for complete property details, availability,
                   pricing, and booking information. We'll help you secure the perfect Ocean City
                   rental for your next beach vacation.
@@ -219,11 +349,11 @@
 
             <% if @property.has_amenities? %>
               <!-- Amenities Section -->
-              <div class="mt-8 pt-8 border-t border-gray-200">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">
+              <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
                   Amenities
                 </h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 gap-2 sm:gap-3">
                   <% @property.amenity_list.first(18).each do |amenity| %>
                     <div class="flex items-center gap-2 text-gray-600">
                       <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -274,9 +404,9 @@
 
           <% if @property.has_rates? || @property.has_availability? %>
           <!-- Weekly Rentals - Compact View -->
-          <div class="bg-white rounded-xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">
-              <svg class="w-6 h-6 inline-block mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 class="text-lg sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6 inline-block mr-1 sm:mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
               Weekly Availability & Rates
@@ -337,12 +467,12 @@
               <% available = @property.available_dates %>
               <% current_month = Date.today.beginning_of_month %>
 
-              <div class="grid grid-cols-3 md:grid-cols-4 gap-2">
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                 <% 12.times do |month_offset| %>
                   <% month = current_month + month_offset.months %>
                   <div class="border border-gray-100 rounded p-1.5">
                     <p class="text-xs font-semibold text-gray-700 mb-1 text-center"><%= month.strftime("%b %Y") %></p>
-                    <div class="grid grid-cols-7 gap-px text-center" style="font-size: 9px;">
+                    <div class="grid grid-cols-7 gap-px text-center" style="font-size: 8px;">
                       <% (month.beginning_of_month.wday).times do %><div></div><% end %>
                       <% (month.beginning_of_month..month.end_of_month).each do |date| %>
                         <% is_available = available.include?(date.to_s) %>
@@ -361,18 +491,18 @@
           <% end %>
 
           <!-- Location Section -->
-          <div class="bg-white rounded-xl shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">
-              <svg class="w-6 h-6 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6 inline-block mr-1 sm:mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
               </svg>
               Location
             </h2>
-            <p class="text-gray-600 mb-4">
+            <p class="text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base">
               <%= @property.full_address %>
             </p>
-            <div class="h-80 rounded-lg overflow-hidden">
+            <div class="h-56 sm:h-64 md:h-80 rounded-lg overflow-hidden">
               <iframe
                 width="100%"
                 height="100%"
@@ -399,9 +529,9 @@
         </div>
 
         <!-- Sidebar - Contact Form -->
-        <div class="lg:col-span-1">
-          <div class="bg-white rounded-xl shadow-lg p-8 sticky top-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+        <div class="lg:col-span-1 overflow-hidden" id="contact-form">
+          <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 lg:sticky lg:top-8 overflow-hidden">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
               Request Information
             </h2>
             <p class="text-gray-600 mb-6">
@@ -511,23 +641,23 @@
       </div>
 
       <!-- About Ocean City Section -->
-      <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+      <div class="mt-6 sm:mt-8 md:mt-12 bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 overflow-hidden">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
           About Ocean City, NJ Vacation Rentals
         </h2>
-        <div class="prose prose-lg max-w-none text-gray-600">
-          <p class="mb-4">
+        <div class="text-gray-600 text-sm sm:text-base leading-relaxed break-words">
+          <p class="mb-4 break-words">
             Ocean City, New Jersey is a premier family-friendly vacation destination on the Jersey Shore.
             Known for its pristine beaches, famous boardwalk, and welcoming atmosphere, Ocean City offers
             the perfect setting for your summer getaway or extended beach vacation.
           </p>
-          <p class="mb-4">
+          <p class="mb-4 break-words">
             <%= @property.address %> is ideally located in Ocean City, providing convenient access to
             the beach, boardwalk attractions, shopping, dining, and entertainment. Whether you're planning
             a week-long summer vacation, a long weekend getaway, or an extended seasonal rental, this
             property puts you in the heart of everything Ocean City has to offer.
           </p>
-          <p>
+          <p class="break-words">
             Bob Idell Real Estate has been helping families find their perfect Ocean City vacation rental
             since 2016. With extensive local knowledge and a commitment to personalized service, we'll help
             you navigate the rental process and secure the ideal property for your needs. Contact us today

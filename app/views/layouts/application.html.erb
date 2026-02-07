@@ -58,6 +58,22 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
+    <style>
+      /* Mobile overflow fixes */
+      html, body {
+        overflow-x: hidden;
+        max-width: 100vw;
+      }
+      * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      .prose p, .prose li {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+    </style>
+
     <!-- Schema.org Organization & WebSite -->
     <script type="application/ld+json">
     {
