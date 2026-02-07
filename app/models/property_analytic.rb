@@ -7,16 +7,16 @@ class PropertyAnalytic < ApplicationRecord
 
   def self.totals_for_property(property_id, start_date: 30.days.ago.to_date, end_date: Date.current)
     result = where(property_id: property_id, date: start_date..end_date)
-      .select(
-        'COALESCE(SUM(page_views), 0) as total_views',
-        'COALESCE(SUM(search_impressions), 0) as total_impressions',
-        'COALESCE(SUM(unique_visitors), 0) as total_unique_visitors'
-      ).first
+      .pick(
+        Arel.sql('COALESCE(SUM(page_views), 0)'),
+        Arel.sql('COALESCE(SUM(search_impressions), 0)'),
+        Arel.sql('COALESCE(SUM(unique_visitors), 0)')
+      )
 
     {
-      total_views: result.total_views.to_i,
-      total_impressions: result.total_impressions.to_i,
-      total_unique_visitors: result.total_unique_visitors.to_i
+      total_views: (result&.[](0) || 0).to_i,
+      total_impressions: (result&.[](1) || 0).to_i,
+      total_unique_visitors: (result&.[](2) || 0).to_i
     }
   end
 
@@ -24,14 +24,14 @@ class PropertyAnalytic < ApplicationRecord
     return { total_views: 0, total_impressions: 0 } if property_ids.empty?
 
     result = where(property_id: property_ids, date: start_date..end_date)
-      .select(
-        'COALESCE(SUM(page_views), 0) as total_views',
-        'COALESCE(SUM(search_impressions), 0) as total_impressions'
-      ).first
+      .pick(
+        Arel.sql('COALESCE(SUM(page_views), 0)'),
+        Arel.sql('COALESCE(SUM(search_impressions), 0)')
+      )
 
     {
-      total_views: result.total_views.to_i,
-      total_impressions: result.total_impressions.to_i
+      total_views: (result&.[](0) || 0).to_i,
+      total_impressions: (result&.[](1) || 0).to_i
     }
   end
 end
