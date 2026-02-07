@@ -264,12 +264,25 @@
           <!-- Property Details Card -->
           <div class="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6 lg:p-8 overflow-hidden">
             <div class="mb-3 sm:mb-4">
-              <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 break-words">
-                <%= @property.address %>
-              </h1>
-              <p class="text-base sm:text-lg md:text-xl text-gray-600 break-words">
-                <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
-              </p>
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div>
+                  <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 break-words">
+                    <%= @property.address %>
+                  </h1>
+                  <p class="text-base sm:text-lg md:text-xl text-gray-600 break-words">
+                    <%= @property.city %>, <%= @property.state %> <%= @property.zip %>
+                  </p>
+                </div>
+                <% unless @property.has_approved_owner? %>
+                  <%= link_to new_owner_claim_path(property_id: @property.id),
+                    class: "inline-flex items-center gap-2 px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 text-sm font-semibold rounded-lg transition-colors whitespace-nowrap" do %>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Is this your property?
+                  <% end %>
+                <% end %>
+              </div>
             </div>
 
             <!-- Property Features Grid -->
