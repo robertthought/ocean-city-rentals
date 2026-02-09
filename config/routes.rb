@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   post '/contact', to: 'pages#submit_contact'
   get '/list-property', to: 'pages#list_property'
   post '/list-property', to: 'pages#submit_property'
+  get '/pricing', to: 'pages#pricing'
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check

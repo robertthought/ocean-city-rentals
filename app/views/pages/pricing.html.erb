@@ -1,0 +1,703 @@
+<% content_for :title, "Pricing | OCNJ Weekly Rentals" %>
+<% content_for :meta_description, "Choose the perfect plan to showcase your Ocean City vacation rental. From free listings to premium placement, find the right fit for your property." %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Simple, Transparent Pricing</h1>
+      <p class="text-xl text-blue-100 mb-2">
+        Choose the perfect plan to showcase your Ocean City rental
+      </p>
+      <p class="text-blue-200 mb-8">Join 547+ Ocean City property owners</p>
+
+      <!-- Annual/Monthly Toggle -->
+      <div class="flex items-center justify-center gap-4 mb-8" data-controller="pricing-toggle">
+        <span class="text-sm font-medium" data-pricing-toggle-target="monthlyLabel">Monthly</span>
+        <button type="button"
+          class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-blue-400 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+          role="switch"
+          aria-checked="true"
+          aria-label="Toggle annual billing"
+          data-action="click->pricing-toggle#toggle"
+          data-pricing-toggle-target="toggle">
+          <span class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5"
+            data-pricing-toggle-target="toggleKnob"></span>
+        </button>
+        <span class="text-sm font-medium" data-pricing-toggle-target="annualLabel">
+          Annual <span class="bg-green-400 text-green-900 text-xs font-bold px-2 py-0.5 rounded-full ml-1">Save 20%</span>
+        </span>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-blue-100">
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          No Booking Fees
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Cancel Anytime
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          30-Day Money Back
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-50 py-16">
+  <div class="container mx-auto px-4">
+    <!-- Pricing Cards Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16" data-pricing-toggle-target="cards">
+
+      <!-- FREE Tier -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 opacity-90 hover:opacity-100 transition-opacity">
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <span class="inline-block bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full mb-3">FREE</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-4xl font-bold text-gray-900">$0</span>
+              <span class="text-gray-500">/year</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Perfect to get started</p>
+          </div>
+
+          <ul class="space-y-3 mb-6">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>1 property</strong> listing</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Up to <strong>5 photos</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Basic description</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Daily email digest</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              <span class="text-gray-400">Standard search placement</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              <span class="text-gray-400">No analytics</span>
+            </li>
+          </ul>
+
+          <%= link_to "Start Free", owner_register_path(plan: "free"),
+            class: "block w-full text-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors" %>
+          <p class="text-xs text-gray-500 text-center mt-3">No credit card required</p>
+        </div>
+      </div>
+
+      <!-- STARTER Tier -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">STARTER</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-4xl font-bold text-gray-900" data-pricing-toggle-target="starterPrice">$249</span>
+              <span class="text-gray-500" data-pricing-toggle-target="starterPeriod">/year</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">For new property owners</p>
+          </div>
+
+          <ul class="space-y-3 mb-6">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Up to <strong>3 properties</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Up to <strong>15 photos</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Full description & amenities</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Interactive map location</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Availability calendar</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Real-time email notifications</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Owner dashboard access</span>
+            </li>
+          </ul>
+
+          <%= link_to "Start 30-Day Trial", owner_register_path(plan: "starter"),
+            class: "block w-full text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" %>
+          <p class="text-xs text-gray-500 text-center mt-3">30-day free trial included</p>
+        </div>
+      </div>
+
+      <!-- PROFESSIONAL Tier - Most Popular -->
+      <div class="bg-white rounded-xl shadow-2xl overflow-hidden border-2 border-blue-500 relative transform lg:scale-105">
+        <div class="absolute top-0 left-0 right-0 bg-blue-500 text-white text-center py-1 text-sm font-semibold">
+          MOST POPULAR
+        </div>
+        <div class="p-6 pt-10">
+          <div class="text-center mb-6">
+            <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">PROFESSIONAL</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-4xl font-bold text-gray-900" data-pricing-toggle-target="proPrice">$399</span>
+              <span class="text-gray-500" data-pricing-toggle-target="proPeriod">/year</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">For serious property managers</p>
+          </div>
+
+          <ul class="space-y-3 mb-6">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Up to <strong>10 properties</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>40 photos</strong> + video embedding</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>2x higher</strong> search placement</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">"Verified Professional" badge</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">SMS + email notifications</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>Analytics dashboard</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Featured in neighborhood pages</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Lead tracking & history</span>
+            </li>
+          </ul>
+
+          <%= link_to "Start 30-Day Trial", owner_register_path(plan: "professional"),
+            class: "block w-full text-center px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors text-lg shadow-lg" %>
+          <p class="text-xs text-gray-500 text-center mt-3">30-day free trial included</p>
+        </div>
+      </div>
+
+      <!-- PREMIUM Tier -->
+      <div class="bg-gradient-to-b from-amber-50 to-white rounded-xl shadow-lg overflow-hidden border-2 border-amber-400 relative">
+        <div class="absolute top-0 left-0 right-0 bg-gradient-to-r from-amber-400 to-amber-500 text-white text-center py-1 text-sm font-semibold">
+          BEST VALUE
+        </div>
+        <div class="p-6 pt-10">
+          <div class="text-center mb-6">
+            <span class="inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">PREMIUM</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-4xl font-bold text-gray-900" data-pricing-toggle-target="premiumPrice">$899</span>
+              <span class="text-gray-500" data-pricing-toggle-target="premiumPeriod">/year</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Maximum visibility & features</p>
+          </div>
+
+          <ul class="space-y-3 mb-6">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>Unlimited properties</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>Unlimited photos</strong> + 360° tours</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>Homepage featured</strong> placement</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>Top 3</strong> in all search results</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">"Premium Listing" gold badge</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Social media promotion (2x/month)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Newsletter features (2x/month)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>Priority support</strong> & account manager</span>
+            </li>
+          </ul>
+
+          <%= link_to "Start 30-Day Trial", owner_register_path(plan: "premium"),
+            class: "block w-full text-center px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold rounded-lg transition-all shadow-lg" %>
+          <p class="text-xs text-gray-500 text-center mt-3">30-day free trial included</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Comparison Toggle -->
+    <div class="max-w-7xl mx-auto mb-16">
+      <button type="button"
+        class="flex items-center justify-center gap-2 mx-auto text-blue-600 hover:text-blue-700 font-semibold"
+        data-action="click->pricing-toggle#toggleComparison"
+        data-pricing-toggle-target="comparisonToggle">
+        <span>Show full feature comparison</span>
+        <svg class="w-5 h-5 transition-transform" data-pricing-toggle-target="comparisonArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+
+      <!-- Comparison Table (hidden by default) -->
+      <div class="hidden mt-8 overflow-x-auto" data-pricing-toggle-target="comparisonTable">
+        <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 sticky left-0 bg-gray-50">Feature</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-600">Free</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-600">Starter</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50">Professional</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Premium</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <!-- Listing Features -->
+            <tr class="bg-gray-50">
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Listing Features</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Number of Properties</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">1</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">3</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">10</td>
+              <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Photos per Property</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">5</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">15</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">40</td>
+              <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Video Embedding</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">360° Virtual Tours</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Full Description & Amenities</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Interactive Map</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Availability Calendar</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <!-- Visibility -->
+            <tr class="bg-gray-50">
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Visibility & Placement</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Search Placement</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-500">Standard</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">Standard</td>
+              <td class="px-6 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50">2x Higher</td>
+              <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Top 3</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Homepage Featured</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Neighborhood Pages</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Listing Badge</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-500">Free</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center text-sm text-blue-600 bg-blue-50">Verified Pro</td>
+              <td class="px-6 py-4 text-center text-sm text-amber-600">Premium Gold</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Social Media Promotion</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">2x/month</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Newsletter Features</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">2x/month</td>
+            </tr>
+            <!-- Tools -->
+            <tr class="bg-gray-50">
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Tools & Notifications</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Email Notifications</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-500">Daily Digest</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">Real-time</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">Real-time</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">Real-time</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">SMS Notifications</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Owner Dashboard</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Analytics Dashboard</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Lead Tracking & History</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Calendar Sync</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+            </tr>
+            <!-- Support -->
+            <tr class="bg-gray-50">
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Support</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Support Level</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-500">Email</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">Email</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">Priority Email</td>
+              <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Account Manager</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Add-ons Section -->
+    <div class="max-w-5xl mx-auto mb-16">
+      <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Boost Your Listing</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-900">Professional Photography</h3>
+              <p class="text-2xl font-bold text-gray-900">$299 <span class="text-sm font-normal text-gray-500">one-time</span></p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mb-4">Our professional photographers will capture your property in its best light with HDR images.</p>
+          <%= link_to "Add to Plan", contact_path(inquiry_type: "Photography"),
+            class: "block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors text-sm" %>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-900">Featured Listing Boost</h3>
+              <p class="text-2xl font-bold text-gray-900">$49 <span class="text-sm font-normal text-gray-500">/month</span></p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mb-4">Get featured placement on the homepage and top of search results for one month.</p>
+          <%= link_to "Add to Plan", contact_path(inquiry_type: "Featured Boost"),
+            class: "block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors text-sm" %>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-900">Premium Week</h3>
+              <p class="text-2xl font-bold text-gray-900">$25 <span class="text-sm font-normal text-gray-500">/week</span></p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mb-4">7 days of top placement in all search results. Perfect for peak booking season.</p>
+          <%= link_to "Add to Plan", contact_path(inquiry_type: "Premium Week"),
+            class: "block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors text-sm" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="max-w-3xl mx-auto mb-16">
+      <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4" data-controller="accordion">
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+          <button type="button"
+            class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
+            data-action="click->accordion#toggle">
+            <span class="font-semibold text-gray-900">Do I need a credit card for the free plan?</span>
+            <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="hidden px-6 pb-4">
+            <p class="text-gray-600">No! The free plan requires no credit card. You can list one property completely free, forever. We only ask for payment information when you upgrade to a paid plan.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+          <button type="button"
+            class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
+            data-action="click->accordion#toggle">
+            <span class="font-semibold text-gray-900">Can I upgrade or downgrade anytime?</span>
+            <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="hidden px-6 pb-4">
+            <p class="text-gray-600">Yes! You can upgrade or downgrade your plan at any time. When upgrading, you'll be prorated for the remaining time. When downgrading, changes take effect at your next billing cycle.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+          <button type="button"
+            class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
+            data-action="click->accordion#toggle">
+            <span class="font-semibold text-gray-900">What happens after my free trial?</span>
+            <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="hidden px-6 pb-4">
+            <p class="text-gray-600">Your trial automatically ends after 30 days unless you add a payment method. Your listing will downgrade to the free tier, but you won't lose any data. You can upgrade again anytime.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+          <button type="button"
+            class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
+            data-action="click->accordion#toggle">
+            <span class="font-semibold text-gray-900">Do you take booking commissions?</span>
+            <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="hidden px-6 pb-4">
+            <p class="text-gray-600"><strong>No - 0% commission!</strong> Unlike other vacation rental sites that take 3-15% of your bookings, we charge a simple annual fee. You keep 100% of your rental income.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+          <button type="button"
+            class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
+            data-action="click->accordion#toggle">
+            <span class="font-semibold text-gray-900">How many properties can I list?</span>
+            <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="hidden px-6 pb-4">
+            <p class="text-gray-600">Free: 1 property | Starter: up to 3 properties | Professional: up to 10 properties | Premium: Unlimited properties. If you need more than your plan allows, simply upgrade to unlock more slots.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-900 text-center mb-8">What Property Owners Say</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <span class="text-blue-600 font-bold text-lg">JM</span>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">Jennifer M.</p>
+              <p class="text-sm text-gray-500">3 Properties, Professional</p>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">"Switched from VRBO and saved over $2,000 in commissions last year. The analytics dashboard helps me optimize my pricing for each week."</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+              <span class="text-green-600 font-bold text-lg">RD</span>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">Robert D.</p>
+              <p class="text-sm text-gray-500">1 Property, Starter</p>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">"As a first-time rental owner, the platform made it so easy to get started. Got my first booking within a week of listing!"</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+              <span class="text-amber-600 font-bold text-lg">SP</span>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">Sarah P.</p>
+              <p class="text-sm text-gray-500">8 Properties, Premium</p>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">"The premium plan pays for itself. Between the featured placement and social media promotion, my properties are booked solid every summer."</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Final CTA -->
+<div class="bg-gradient-to-r from-blue-600 to-cyan-500 py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
+    <p class="text-blue-100 mb-6">Join 547+ property owners already using OCNJ Weekly Rentals</p>
+    <%= link_to "Start Free Today", owner_register_path,
+      class: "inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg" %>
+  </div>
+</div>

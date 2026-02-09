@@ -2,6 +2,9 @@ class PagesController < ApplicationController
   def about
   end
 
+  def pricing
+  end
+
   def contact
     @contact_submitted = false
   end
