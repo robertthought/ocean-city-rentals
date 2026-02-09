@@ -11,24 +11,6 @@
       </p>
       <p class="text-blue-200 mb-8">Join 547+ Ocean City property owners</p>
 
-      <!-- Annual/Monthly Toggle -->
-      <div class="flex items-center justify-center gap-4 mb-8" data-controller="pricing-toggle">
-        <span class="text-sm font-medium" data-pricing-toggle-target="monthlyLabel">Monthly</span>
-        <button type="button"
-          class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-blue-400 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
-          role="switch"
-          aria-checked="true"
-          aria-label="Toggle annual billing"
-          data-action="click->pricing-toggle#toggle"
-          data-pricing-toggle-target="toggle">
-          <span class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5"
-            data-pricing-toggle-target="toggleKnob"></span>
-        </button>
-        <span class="text-sm font-medium" data-pricing-toggle-target="annualLabel">
-          Annual <span class="bg-green-400 text-green-900 text-xs font-bold px-2 py-0.5 rounded-full ml-1">Save 20%</span>
-        </span>
-      </div>
-
       <!-- Trust Badges -->
       <div class="flex flex-wrap justify-center gap-6 text-sm text-blue-100">
         <span class="flex items-center gap-2">
@@ -57,7 +39,7 @@
 <div class="bg-gray-50 py-16">
   <div class="container mx-auto px-4">
     <!-- Pricing Cards Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16" data-pricing-toggle-target="cards">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16" >
 
       <!-- FREE Tier -->
       <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 opacity-90 hover:opacity-100 transition-opacity">
@@ -122,8 +104,8 @@
           <div class="text-center mb-6">
             <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">STARTER</span>
             <div class="flex items-baseline justify-center gap-1">
-              <span class="text-4xl font-bold text-gray-900" data-pricing-toggle-target="starterPrice">$249</span>
-              <span class="text-gray-500" data-pricing-toggle-target="starterPeriod">/year</span>
+              <span class="text-4xl font-bold text-gray-900" >$249</span>
+              <span class="text-gray-500" >/year</span>
             </div>
             <p class="text-sm text-gray-500 mt-2">For new property owners</p>
           </div>
@@ -188,8 +170,8 @@
           <div class="text-center mb-6">
             <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">PROFESSIONAL</span>
             <div class="flex items-baseline justify-center gap-1">
-              <span class="text-4xl font-bold text-gray-900" data-pricing-toggle-target="proPrice">$399</span>
-              <span class="text-gray-500" data-pricing-toggle-target="proPeriod">/year</span>
+              <span class="text-4xl font-bold text-gray-900" >$399</span>
+              <span class="text-gray-500" >/year</span>
             </div>
             <p class="text-sm text-gray-500 mt-2">For serious property managers</p>
           </div>
@@ -260,8 +242,8 @@
           <div class="text-center mb-6">
             <span class="inline-block bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">PREMIUM</span>
             <div class="flex items-baseline justify-center gap-1">
-              <span class="text-4xl font-bold text-gray-900" data-pricing-toggle-target="premiumPrice">$899</span>
-              <span class="text-gray-500" data-pricing-toggle-target="premiumPeriod">/year</span>
+              <span class="text-4xl font-bold text-gray-900" >$899</span>
+              <span class="text-gray-500" >/year</span>
             </div>
             <p class="text-sm text-gray-500 mt-2">Maximum visibility & features</p>
           </div>
@@ -325,7 +307,7 @@
     </div>
 
     <!-- Feature Comparison Toggle -->
-    <div class="max-w-7xl mx-auto mb-16">
+    <div class="max-w-7xl mx-auto mb-16" data-controller="pricing-toggle">
       <button type="button"
         class="flex items-center justify-center gap-2 mx-auto text-blue-600 hover:text-blue-700 font-semibold"
         data-action="click->pricing-toggle#toggleComparison"
