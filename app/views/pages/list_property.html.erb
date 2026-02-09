@@ -1,0 +1,268 @@
+<% content_for :title, "List Your Property | OCNJ Weekly Rentals" %>
+<% content_for :meta_description, "List your Ocean City, NJ vacation rental property with OCNJ Weekly Rentals. Whether your property is already on our site or you're adding a new listing, we make it easy to connect with renters." %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">List Your Property</h1>
+      <p class="text-xl text-blue-100">
+        Connect with thousands of vacationers looking for the perfect Ocean City rental. We make it easy to manage your listing and maximize your bookings.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-50 py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Two Path Cards -->
+      <div class="grid md:grid-cols-2 gap-8 mb-16">
+        <!-- Path 1: Property Already Listed -->
+        <div class="bg-white rounded-xl shadow-lg p-8 border-2 border-transparent hover:border-blue-500 transition-colors">
+          <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">My Property Is Already Listed</h2>
+          <p class="text-gray-600 mb-6">
+            Your property is already on our site? Great! Claim ownership to access our owner portal where you can update details, manage availability, and view analytics.
+          </p>
+          <ul class="text-gray-600 mb-8 space-y-2">
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Update property details and photos
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Manage weekly rates and availability
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              View listing performance and analytics
+            </li>
+          </ul>
+          <%= link_to "Claim My Property", new_owner_claim_path,
+            class: "inline-block w-full text-center px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all" %>
+        </div>
+
+        <!-- Path 2: Property Not Listed -->
+        <div class="bg-white rounded-xl shadow-lg p-8 border-2 border-transparent hover:border-green-500 transition-colors">
+          <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">My Property Isn't Listed</h2>
+          <p class="text-gray-600 mb-6">
+            New to OCNJ Weekly Rentals? Submit your property details below and our team will review your submission and add your listing within 48 hours.
+          </p>
+          <ul class="text-gray-600 mb-8 space-y-2">
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Free listing on our platform
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Exposure to thousands of renters
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Easy-to-use owner portal access
+            </li>
+          </ul>
+          <a href="#submit-form"
+            class="inline-block w-full text-center px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all">
+            Submit My Property
+          </a>
+        </div>
+      </div>
+
+      <!-- Property Submission Form -->
+      <div id="submit-form" class="scroll-mt-8">
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Submit Your Property</h2>
+          <p class="text-gray-600 mb-8">Fill out the form below and our team will review your property and get back to you within 48 hours.</p>
+
+          <%= form_with url: list_property_path, method: :post, html: { onsubmit: "executeRecaptcha(this, 'property_submission'); return false;" }, class: "space-y-6" do |f| %>
+
+            <div class="border-b border-gray-200 pb-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">Owner Information</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <%= f.label :owner_name, "Your Name *", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.text_field :owner_name,
+                    required: true,
+                    value: params[:owner_name],
+                    placeholder: "John Smith",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div>
+                  <%= f.label :email, "Email Address *", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.email_field :email,
+                    required: true,
+                    value: params[:email],
+                    placeholder: "john@example.com",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div class="md:col-span-2">
+                  <%= f.label :phone, "Phone Number", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.telephone_field :phone,
+                    value: params[:phone],
+                    placeholder: "(609) 555-0123",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-b border-gray-200 pb-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">Property Details</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                  <%= f.label :property_address, "Property Address *", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.text_field :property_address,
+                    required: true,
+                    value: params[:property_address],
+                    placeholder: "123 Ocean Ave",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div>
+                  <%= f.label :city, "City", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.text_field :city,
+                    value: params[:city] || "Ocean City",
+                    placeholder: "Ocean City",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <%= f.label :state, "State", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.text_field :state,
+                      value: params[:state] || "NJ",
+                      placeholder: "NJ",
+                      class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    %>
+                  </div>
+                  <div>
+                    <%= f.label :zip, "ZIP Code", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                    <%= f.text_field :zip,
+                      value: params[:zip],
+                      placeholder: "08226",
+                      class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    %>
+                  </div>
+                </div>
+
+                <div>
+                  <%= f.label :bedrooms, "Bedrooms", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.number_field :bedrooms,
+                    value: params[:bedrooms],
+                    min: 1,
+                    max: 20,
+                    placeholder: "3",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+
+                <div>
+                  <%= f.label :bathrooms, "Bathrooms", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+                  <%= f.number_field :bathrooms,
+                    value: params[:bathrooms],
+                    min: 1,
+                    max: 20,
+                    placeholder: "2",
+                    class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  %>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <%= f.label :message, "Additional Details", class: "block text-sm font-semibold text-gray-700 mb-2" %>
+              <%= f.text_area :message,
+                rows: 4,
+                value: params[:message],
+                placeholder: "Tell us about your property - amenities, special features, rental history, etc.",
+                class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+              %>
+            </div>
+
+            <%= f.submit "Submit Property",
+              class: "w-full px-6 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all cursor-pointer"
+            %>
+
+            <p class="text-sm text-gray-500 text-center">
+              We'll review your submission and contact you within 48 hours.
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Benefits Section -->
+      <div class="mt-16">
+        <h2 class="text-3xl font-bold text-gray-900 text-center mb-12">Why List With OCNJ Weekly Rentals?</h2>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Reach More Renters</h3>
+            <p class="text-gray-600">
+              Connect with thousands of vacationers actively searching for Ocean City rentals. Our platform brings qualified renters directly to your listing.
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Owner Dashboard</h3>
+            <p class="text-gray-600">
+              Manage your listing with our easy-to-use owner portal. Update availability, adjust pricing, upload photos, and track performance all in one place.
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Free to List</h3>
+            <p class="text-gray-600">
+              No upfront costs or hidden fees. List your property for free and only pay when you receive qualified booking inquiries.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -63,12 +63,18 @@ Rails.application.routes.draw do
         post :reject
       end
     end
+    resources :property_submissions, only: [:index, :show] do
+      post :mark_reviewed, on: :member
+      get :export, on: :collection
+    end
   end
 
   # SEO pages
   get '/about', to: 'pages#about'
   get '/contact', to: 'pages#contact'
   post '/contact', to: 'pages#submit_contact'
+  get '/list-property', to: 'pages#list_property'
+  post '/list-property', to: 'pages#submit_property'
 
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check

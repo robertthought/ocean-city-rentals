@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_07_224438) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_09_180000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -164,6 +164,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_07_224438) do
     t.index ["created_at"], name: "index_property_events_on_created_at"
     t.index ["property_id", "event_type", "created_at"], name: "idx_on_property_id_event_type_created_at_9e17ad42e0"
     t.index ["property_id"], name: "index_property_events_on_property_id"
+  end
+
+  create_table "property_submissions", force: :cascade do |t|
+    t.integer "bathrooms"
+    t.integer "bedrooms"
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.text "message"
+    t.string "owner_name", null: false
+    t.string "phone"
+    t.string "property_address", null: false
+    t.float "recaptcha_score"
+    t.boolean "reviewed", default: false
+    t.datetime "reviewed_at"
+    t.string "state"
+    t.datetime "updated_at", null: false
+    t.string "zip"
+    t.index ["created_at"], name: "index_property_submissions_on_created_at"
+    t.index ["email"], name: "index_property_submissions_on_email"
+    t.index ["reviewed"], name: "index_property_submissions_on_reviewed"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,0 +1,27 @@
+NEW PROPERTY SUBMISSION - OCNJ Weekly Rentals
+=============================================
+
+OWNER INFORMATION
+-----------------
+Name: <%= @submission.owner_name %>
+Email: <%= @submission.email %>
+<% if @submission.phone.present? %>Phone: <%= @submission.phone %><% end %>
+
+PROPERTY DETAILS
+----------------
+Address: <%= @submission.full_address %>
+<% if @submission.bedrooms.present? %>Bedrooms: <%= @submission.bedrooms %><% end %>
+<% if @submission.bathrooms.present? %>Bathrooms: <%= @submission.bathrooms %><% end %>
+
+<% if @submission.message.present? %>
+ADDITIONAL DETAILS
+------------------
+<%= @submission.message %>
+<% end %>
+
+---
+Submitted: <%= @submission.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+
+--
+OCNJ Weekly Rentals
+https://ocnjweeklyrentals.com

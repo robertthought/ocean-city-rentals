@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #2563eb; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 20px; border: 1px solid #e5e7eb; }
+    .info-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .label { font-size: 12px; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+    .value { font-size: 16px; color: #111827; margin-bottom: 12px; }
+    .message { background: #fffbeb; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-top: 15px; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .property-badge { display: inline-block; background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 24px;">New Property Submission</h1>
+      <p style="margin: 5px 0 0 0; opacity: 0.9;">OCNJ Weekly Rentals</p>
+    </div>
+
+    <div class="content">
+      <div style="margin-bottom: 15px;">
+        <span class="property-badge">New Property</span>
+      </div>
+
+      <div class="info-card">
+        <h2 style="margin-top: 0; color: #111827;">Owner Information</h2>
+
+        <div class="label">Name</div>
+        <div class="value"><%= @submission.owner_name %></div>
+
+        <div class="label">Email</div>
+        <div class="value"><a href="mailto:<%= @submission.email %>"><%= @submission.email %></a></div>
+
+        <% if @submission.phone.present? %>
+          <div class="label">Phone</div>
+          <div class="value"><a href="tel:<%= @submission.phone %>"><%= @submission.phone %></a></div>
+        <% end %>
+      </div>
+
+      <div class="info-card" style="margin-top: 15px;">
+        <h2 style="margin-top: 0; color: #111827;">Property Details</h2>
+
+        <div class="label">Address</div>
+        <div class="value"><%= @submission.full_address %></div>
+
+        <% if @submission.bedrooms.present? || @submission.bathrooms.present? %>
+          <div style="display: flex; gap: 30px;">
+            <% if @submission.bedrooms.present? %>
+              <div>
+                <div class="label">Bedrooms</div>
+                <div class="value"><%= @submission.bedrooms %></div>
+              </div>
+            <% end %>
+            <% if @submission.bathrooms.present? %>
+              <div>
+                <div class="label">Bathrooms</div>
+                <div class="value"><%= @submission.bathrooms %></div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if @submission.message.present? %>
+          <div class="message">
+            <div class="label">Additional Details</div>
+            <div style="color: #111827;"><%= simple_format(@submission.message) %></div>
+          </div>
+        <% end %>
+      </div>
+
+      <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+        <strong>Submitted:</strong> <%= @submission.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>This email was sent from the property submission form at OCNJ Weekly Rentals<br>
+      <a href="https://ocnjweeklyrentals.com">ocnjweeklyrentals.com</a></p>
+    </div>
+  </div>
+</body>
+</html>

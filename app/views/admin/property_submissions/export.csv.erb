@@ -1,0 +1,20 @@
+<%- headers = ["ID", "Owner Name", "Email", "Phone", "Property Address", "City", "State", "ZIP", "Bedrooms", "Bathrooms", "Message", "Reviewed", "Reviewed At", "Created At"] -%>
+<%= headers.to_csv -%>
+<% @submissions.each do |submission| -%>
+<%= [
+  submission.id,
+  submission.owner_name,
+  submission.email,
+  submission.phone,
+  submission.property_address,
+  submission.city,
+  submission.state,
+  submission.zip,
+  submission.bedrooms,
+  submission.bathrooms,
+  submission.message,
+  submission.reviewed ? "Yes" : "No",
+  submission.reviewed_at&.strftime("%Y-%m-%d %H:%M"),
+  submission.created_at.strftime("%Y-%m-%d %H:%M")
+].to_csv -%>
+<% end -%>
