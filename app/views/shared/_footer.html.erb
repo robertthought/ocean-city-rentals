@@ -1,6 +1,6 @@
 <footer class="bg-gray-900 text-gray-300 mt-auto">
   <div class="container mx-auto px-4 py-12">
-    <div class="grid md:grid-cols-4 gap-8 mb-8">
+    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
 
       <!-- About Column -->
       <div>
@@ -24,8 +24,18 @@
           <li>
             <%= link_to "Contact", contact_path, class: "hover:text-white transition-colors" %>
           </li>
+        </ul>
+      </div>
+
+      <!-- For Property Owners -->
+      <div>
+        <h3 class="text-white font-bold text-lg mb-4">For Property Owners</h3>
+        <ul class="space-y-2 text-sm">
           <li>
             <%= link_to "List Your Property", list_property_path, class: "hover:text-white transition-colors" %>
+          </li>
+          <li>
+            <%= link_to "Pricing Plans", pricing_path, class: "hover:text-white transition-colors" %>
           </li>
           <li>
             <%= link_to "Owner Portal", owner_login_path, class: "hover:text-white transition-colors" %>
