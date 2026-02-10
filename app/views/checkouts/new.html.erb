@@ -26,11 +26,11 @@
           <div class="flex items-center justify-between">
             <div>
               <h2 class="font-bold text-gray-900"><%= @plan_details[:name] %> Plan</h2>
-              <p class="text-sm text-gray-500">Annual subscription</p>
+              <p class="text-sm text-gray-500">1 property - Annual subscription</p>
             </div>
             <div class="text-right">
               <p class="text-2xl font-bold text-gray-900">$<%= @plan_details[:price_cents] / 100 %></p>
-              <p class="text-sm text-gray-500">/year</p>
+              <p class="text-sm text-gray-500">/year per property</p>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@
           <% if @plan == "starter" %>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              Up to 3 properties
+              1 property listing
             </li>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -113,7 +113,7 @@
           <% elsif @plan == "professional" %>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              Up to 10 properties
+              1 property listing
             </li>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -134,7 +134,7 @@
           <% elsif @plan == "premium" %>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              Unlimited properties
+              1 property listing
             </li>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>

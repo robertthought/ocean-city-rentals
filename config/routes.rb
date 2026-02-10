@@ -67,6 +67,7 @@ Rails.application.routes.draw do
       post :mark_reviewed, on: :member
       get :export, on: :collection
     end
+    get :analytics, to: "analytics#index"
   end
 
   # SEO pages

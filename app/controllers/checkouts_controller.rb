@@ -1,21 +1,19 @@
 class CheckoutsController < ApplicationController
+  # Each plan covers 1 property. Multiple properties = multiply the price.
   PLANS = {
     "starter" => {
       name: "Starter",
       price_cents: 24900,
-      properties_limit: 3,
       photos_limit: 15
     },
     "professional" => {
       name: "Professional",
       price_cents: 49900,
-      properties_limit: 10,
       photos_limit: 40
     },
     "premium" => {
       name: "Premium",
       price_cents: 89900,
-      properties_limit: nil, # unlimited
       photos_limit: nil # unlimited
     }
   }.freeze
@@ -59,8 +57,8 @@ class CheckoutsController < ApplicationController
             unit_amount: plan_details[:price_cents],
             recurring: { interval: "year" },
             product_data: {
-              name: "OCNJ Weekly Rentals - #{plan_details[:name]} Plan",
-              description: "Annual subscription for property listing on OCNJ Weekly Rentals"
+              name: "OCNJ Weekly Rentals - #{plan_details[:name]} Plan (1 Property)",
+              description: "Annual subscription for 1 property listing on OCNJ Weekly Rentals"
             }
           },
           quantity: 1

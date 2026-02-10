@@ -38,8 +38,69 @@
 
 <div class="bg-gray-50 py-16">
   <div class="container mx-auto px-4">
+    <!-- Per-Property Pricing Note -->
+    <div class="max-w-3xl mx-auto text-center mb-10">
+      <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Each plan covers 1 property. Own multiple properties? Simply multiply the price (2 properties = 2x, 3 = 3x, etc.)
+      </div>
+    </div>
+
     <!-- Pricing Cards Grid -->
-    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
+    <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
+
+      <!-- FREE Tier -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <span class="inline-block bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">FREE</span>
+            <div class="flex items-baseline justify-center gap-1">
+              <span class="text-4xl font-bold text-gray-900">$0</span>
+              <span class="text-gray-500">/year</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Get started for free</p>
+          </div>
+
+          <ul class="space-y-3 mb-6">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600"><strong>1 property</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Up to <strong>5 photos</strong></span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Basic description</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Email notifications</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-gray-600">Owner dashboard</span>
+            </li>
+          </ul>
+
+          <%= link_to "Sign Up Free", owner_register_path,
+            class: "block w-full text-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors" %>
+          <p class="text-xs text-gray-500 text-center mt-3">No credit card required</p>
+        </div>
+      </div>
 
       <!-- STARTER Tier -->
       <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
@@ -58,7 +119,7 @@
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
-              <span class="text-gray-600">Up to <strong>3 properties</strong></span>
+              <span class="text-gray-600"><strong>1 property</strong></span>
             </li>
             <li class="flex items-start gap-3">
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +159,7 @@
             </li>
           </ul>
 
-          <%= link_to "Get Started", new_checkout_path(plan: "starter"),
+          <%= link_to "Get Started", "https://buy.stripe.com/14AdR92Kj13O1t75GB4wM01",
             class: "block w-full text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" %>
           <p class="text-xs text-gray-500 text-center mt-3">Cancel anytime</p>
         </div>
@@ -124,7 +185,7 @@
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
-              <span class="text-gray-600">Up to <strong>10 properties</strong></span>
+              <span class="text-gray-600"><strong>1 property</strong></span>
             </li>
             <li class="flex items-start gap-3">
               <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,7 +231,7 @@
             </li>
           </ul>
 
-          <%= link_to "Get Started", new_checkout_path(plan: "professional"),
+          <%= link_to "Get Started", "https://buy.stripe.com/4gM14n1Gfh2M7Rv6KF4wM02",
             class: "block w-full text-center px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors text-lg shadow-lg" %>
           <p class="text-xs text-gray-500 text-center mt-3">Cancel anytime</p>
         </div>
@@ -196,7 +257,7 @@
               <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
-              <span class="text-gray-600"><strong>Unlimited properties</strong></span>
+              <span class="text-gray-600"><strong>1 property</strong></span>
             </li>
             <li class="flex items-start gap-3">
               <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,7 +303,7 @@
             </li>
           </ul>
 
-          <%= link_to "Get Started", new_checkout_path(plan: "premium"),
+          <%= link_to "Get Started", "https://buy.stripe.com/9B600j84D3bW6Nr3yt4wM03",
             class: "block w-full text-center px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold rounded-lg transition-all shadow-lg" %>
           <p class="text-xs text-gray-500 text-center mt-3">Cancel anytime</p>
         </div>
@@ -267,6 +328,7 @@
           <thead class="bg-gray-50">
             <tr>
               <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 sticky left-0 bg-gray-50">Feature</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-gray-500">Free</th>
               <th class="px-6 py-4 text-center text-sm font-semibold text-gray-600">Starter</th>
               <th class="px-6 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50">Professional</th>
               <th class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Premium</th>
@@ -275,16 +337,18 @@
           <tbody class="divide-y divide-gray-200">
             <!-- Listing Features -->
             <tr class="bg-gray-50">
-              <td colspan="4" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Listing Features</td>
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Listing Features</td>
             </tr>
             <tr>
-              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Number of Properties</td>
-              <td class="px-6 py-4 text-center text-sm text-gray-600">3</td>
-              <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">10</td>
-              <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Unlimited</td>
+              <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Properties per Plan</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">1</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">1</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">1</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">1</td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Photos per Property</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">5</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">15</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">40</td>
               <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Unlimited</td>
@@ -292,17 +356,20 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Video Embedding</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">360° Virtual Tours</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Full Description & Amenities</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">Basic</span></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
@@ -310,21 +377,24 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Interactive Map</td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Availability Calendar</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <!-- Visibility -->
             <tr class="bg-gray-50">
-              <td colspan="4" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Visibility & Placement</td>
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Visibility & Placement</td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Search Placement</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-500">Basic</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">Standard</td>
               <td class="px-6 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50">2x Higher</td>
               <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Top 3</td>
@@ -332,11 +402,13 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Homepage Featured</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Neighborhood Pages</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
@@ -344,11 +416,13 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Listing Badge</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center text-sm text-blue-600 bg-blue-50">Verified Pro</td>
               <td class="px-6 py-4 text-center text-sm text-amber-600">Premium Gold</td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Social Media Promotion</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">2x/month</td>
@@ -356,15 +430,17 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Newsletter Features</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">2x/month</td>
             </tr>
             <!-- Tools -->
             <tr class="bg-gray-50">
-              <td colspan="4" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Tools & Notifications</td>
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Tools & Notifications</td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Email Notifications</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-600">Real-time</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">Real-time</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">Real-time</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">Real-time</td>
@@ -372,11 +448,13 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">SMS Notifications</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Owner Dashboard</td>
+              <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
@@ -384,11 +462,13 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Analytics Dashboard</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Lead Tracking & History</td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
@@ -396,15 +476,17 @@
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Calendar Sync</td>
               <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
+              <td class="px-6 py-4 text-center"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center bg-blue-50"><span class="text-gray-300">-</span></td>
               <td class="px-6 py-4 text-center"><svg class="w-5 h-5 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></td>
             </tr>
             <!-- Support -->
             <tr class="bg-gray-50">
-              <td colspan="4" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Support</td>
+              <td colspan="5" class="px-6 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Support</td>
             </tr>
             <tr>
               <td class="px-6 py-4 text-sm text-gray-900 sticky left-0 bg-white">Support Level</td>
+              <td class="px-6 py-4 text-center text-sm text-gray-500">Community</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600">Email</td>
               <td class="px-6 py-4 text-center text-sm text-gray-600 bg-blue-50">Priority Email</td>
               <td class="px-6 py-4 text-center text-sm font-semibold text-amber-600">Account Manager</td>
@@ -522,13 +604,13 @@
           <button type="button"
             class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
             data-action="click->accordion#toggle">
-            <span class="font-semibold text-gray-900">How many properties can I list?</span>
+            <span class="font-semibold text-gray-900">I have multiple properties - how does pricing work?</span>
             <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div class="hidden px-6 pb-4">
-            <p class="text-gray-600">Free: 1 property | Starter: up to 3 properties | Professional: up to 10 properties | Premium: Unlimited properties. If you need more than your plan allows, simply upgrade to unlock more slots.</p>
+            <p class="text-gray-600">Each plan covers 1 property. If you own multiple properties, simply multiply the plan price by the number of properties. For example, 3 properties on Starter = $249 x 3 = $747/year. You can mix and match plans for different properties too!</p>
           </div>
         </div>
       </div>

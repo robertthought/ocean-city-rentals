@@ -30,8 +30,10 @@
                 class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'leads' ? 'bg-gray-800' : ''}" %>
               <%= link_to "Contacts", admin_contact_submissions_path,
                 class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'contact_submissions' ? 'bg-gray-800' : ''}" %>
-              <%= link_to "Properties", admin_property_submissions_path,
+              <%= link_to "Submissions", admin_property_submissions_path,
                 class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'property_submissions' ? 'bg-gray-800' : ''}" %>
+              <%= link_to "Analytics", admin_analytics_path,
+                class: "px-3 py-2 rounded hover:bg-gray-800 transition-colors #{controller_name == 'analytics' ? 'bg-gray-800' : ''}" %>
             </nav>
           </div>
 
