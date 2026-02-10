@@ -77,6 +77,14 @@ Rails.application.routes.draw do
   post '/list-property', to: 'pages#submit_property'
   get '/pricing', to: 'pages#pricing'
 
+  # Checkout
+  get '/checkout', to: 'checkouts#new', as: :new_checkout
+  post '/checkout', to: 'checkouts#create', as: :checkout
+  get '/checkout/success', to: 'checkouts#success', as: :checkout_success
+
+  # Webhooks
+  post '/webhooks/stripe', to: 'webhooks/stripe#create'
+
   # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -71,3 +71,6 @@ group :test do
 end
 
 gem "csv", "~> 3.3"
+
+# Payments
+gem "stripe"

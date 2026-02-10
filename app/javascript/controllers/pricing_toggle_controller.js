@@ -13,7 +13,7 @@ export default class extends Controller {
     this.isAnnual = true
     this.prices = {
       starter: { annual: 249, monthly: 25 },
-      pro: { annual: 399, monthly: 40 },
+      pro: { annual: 499, monthly: 50 },
       premium: { annual: 899, monthly: 90 }
     }
   }

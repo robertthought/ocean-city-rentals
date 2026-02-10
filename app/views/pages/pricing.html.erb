@@ -155,9 +155,9 @@
             </li>
           </ul>
 
-          <%= link_to "Start 30-Day Trial", owner_register_path(plan: "starter"),
+          <%= link_to "Get Started", new_checkout_path(plan: "starter"),
             class: "block w-full text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" %>
-          <p class="text-xs text-gray-500 text-center mt-3">30-day free trial included</p>
+          <p class="text-xs text-gray-500 text-center mt-3">Cancel anytime</p>
         </div>
       </div>
 
@@ -170,7 +170,7 @@
           <div class="text-center mb-6">
             <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">PROFESSIONAL</span>
             <div class="flex items-baseline justify-center gap-1">
-              <span class="text-4xl font-bold text-gray-900" >$399</span>
+              <span class="text-4xl font-bold text-gray-900" >$499</span>
               <span class="text-gray-500" >/year</span>
             </div>
             <p class="text-sm text-gray-500 mt-2">For serious property managers</p>
@@ -227,9 +227,9 @@
             </li>
           </ul>
 
-          <%= link_to "Start 30-Day Trial", owner_register_path(plan: "professional"),
+          <%= link_to "Get Started", new_checkout_path(plan: "professional"),
             class: "block w-full text-center px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors text-lg shadow-lg" %>
-          <p class="text-xs text-gray-500 text-center mt-3">30-day free trial included</p>
+          <p class="text-xs text-gray-500 text-center mt-3">Cancel anytime</p>
         </div>
       </div>
 
@@ -299,9 +299,9 @@
             </li>
           </ul>
 
-          <%= link_to "Start 30-Day Trial", owner_register_path(plan: "premium"),
+          <%= link_to "Get Started", new_checkout_path(plan: "premium"),
             class: "block w-full text-center px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-semibold rounded-lg transition-all shadow-lg" %>
-          <p class="text-xs text-gray-500 text-center mt-3">30-day free trial included</p>
+          <p class="text-xs text-gray-500 text-center mt-3">Cancel anytime</p>
         </div>
       </div>
     </div>
@@ -586,13 +586,13 @@
           <button type="button"
             class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none"
             data-action="click->accordion#toggle">
-            <span class="font-semibold text-gray-900">What happens after my free trial?</span>
+            <span class="font-semibold text-gray-900">What's your refund policy?</span>
             <svg class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div class="hidden px-6 pb-4">
-            <p class="text-gray-600">Your trial automatically ends after 30 days unless you add a payment method. Your listing will downgrade to the free tier, but you won't lose any data. You can upgrade again anytime.</p>
+            <p class="text-gray-600">We offer a 30-day money-back guarantee. If you're not satisfied within the first 30 days, contact us for a full refund. You can also cancel anytime and your listing will revert to the free tier.</p>
           </div>
         </div>
 
