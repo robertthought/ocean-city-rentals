@@ -1,5 +1,5 @@
 class PropertySubmissionMailer < ApplicationMailer
-  default to: "bob@bobidell.com"
+  default to: "rentals@ocnjweeklyrentals.com"
 
   def new_submission(submission)
     @submission = submission

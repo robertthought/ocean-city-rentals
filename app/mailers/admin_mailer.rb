@@ -1,5 +1,5 @@
 class AdminMailer < ApplicationMailer
-  default to: "bob@bobidell.com"
+  default to: "rentals@ocnjweeklyrentals.com"
 
   def new_ownership_claim(claim)
     @claim = claim

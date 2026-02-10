@@ -1,5 +1,5 @@
 class LeadMailer < ApplicationMailer
-  default to: "bob@bobidell.com"
+  default to: "rentals@ocnjweeklyrentals.com"
 
   def new_lead_notification(lead)
     @lead = lead
