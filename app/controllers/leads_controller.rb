@@ -17,32 +17,11 @@ class LeadsController < ApplicationController
     @lead.recaptcha_score = recaptcha_result[:score]
 
     if @lead.save
-      respond_to do |format|
-        format.html {
-          redirect_to property_path(@property),
-          notice: "Thank you! We'll contact you shortly about #{@property.address}."
-        }
-        format.turbo_stream {
-          render turbo_stream: turbo_stream.replace(
-            "lead-form",
-            partial: "leads/success",
-            locals: { property: @property }
-          )
-        }
-      end
+      # Turbo Frame will automatically replace the frame with matching ID
+      render partial: "leads/success", locals: { property: @property }
     else
-      respond_to do |format|
-        format.html {
-          render "properties/show", status: :unprocessable_entity
-        }
-        format.turbo_stream {
-          render turbo_stream: turbo_stream.replace(
-            "lead-form",
-            partial: "properties/lead_form",
-            locals: { property: @property, lead: @lead }
-          )
-        }
-      end
+      # Re-render form with errors
+      render partial: "leads/form_with_errors", locals: { property: @property, lead: @lead }
     end
   end
 
