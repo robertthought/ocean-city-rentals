@@ -20,7 +20,7 @@ class LeadsController < ApplicationController
       respond_to do |format|
         format.html {
           redirect_to property_path(@property),
-          notice: "Thank you! Bob Idell will contact you shortly about #{@property.address}."
+          notice: "Thank you! We'll contact you shortly about #{@property.address}."
         }
         format.turbo_stream {
           render turbo_stream: turbo_stream.replace(

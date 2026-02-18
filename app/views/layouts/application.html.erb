@@ -73,16 +73,16 @@
                 form.appendChild(input);
               }
               input.value = token;
-              form.submit();
+              form.requestSubmit();
             });
           });
         }
       </script>
     <% else %>
       <script>
-        // Fallback when reCAPTCHA is not configured (dev/test)
+        // Fallback when reCAPTCHA is not configured
         function executeRecaptcha(form, action) {
-          form.submit();
+          form.requestSubmit();
         }
       </script>
     <% end %>
