@@ -17,11 +17,11 @@ class LeadsController < ApplicationController
     @lead.recaptcha_score = recaptcha_result[:score]
 
     if @lead.save
-      # Turbo Frame will automatically replace the frame with matching ID
-      render partial: "leads/success", locals: { property: @property }
+      redirect_to property_path(@property), notice: "Thank you! We'll contact you shortly about #{@property.address}."
     else
-      # Re-render form with errors
-      render partial: "leads/form_with_errors", locals: { property: @property, lead: @lead }
+      # Re-render property page with form errors
+      flash.now[:alert] = @lead.errors.full_messages.join(", ")
+      render "properties/show", status: :unprocessable_entity
     end
   end
 

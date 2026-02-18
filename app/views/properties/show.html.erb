@@ -531,8 +531,8 @@
               We'll get back to you within 24 hours with availability and pricing details.
             </p>
 
-            <%= turbo_frame_tag "lead-form" do %>
-              <%= form_with model: [@property, @lead], class: "space-y-5" do |f| %>
+            <div id="lead-form">
+              <%= form_with model: [@property, @lead], data: { turbo: false }, class: "space-y-5" do |f| %>
 
                 <% if @lead.errors.any? %>
                   <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
@@ -605,7 +605,7 @@
                   regarding this property and your rental needs.
                 </p>
               <% end %>
-            <% end %>
+            </div>
 
             <!-- Contact Info -->
             <div class="mt-8 pt-8 border-t border-gray-200">
