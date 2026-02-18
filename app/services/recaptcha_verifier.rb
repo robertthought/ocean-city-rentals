@@ -34,7 +34,7 @@ class RecaptchaVerifier
   end
 
   def self.skip_verification?
-    # Skip in development/test if no keys configured
-    !Rails.env.production? && ENV["RECAPTCHA_SECRET_KEY"].blank?
+    # Skip if no keys configured (allows forms to work without reCAPTCHA)
+    ENV["RECAPTCHA_SECRET_KEY"].blank?
   end
 end
