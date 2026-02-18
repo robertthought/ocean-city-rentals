@@ -6,11 +6,12 @@ class RecaptchaVerifier
   MINIMUM_SCORE = 0.5
 
   def self.verify(token, remote_ip = nil)
-    return { success: false, error: "No token provided" } if token.blank?
+    # Skip verification if reCAPTCHA is not configured
     return { success: true, score: 1.0 } if skip_verification?
+    # Allow submissions without token (forms without JS reCAPTCHA integration)
+    return { success: true, score: 0.5 } if token.blank?
 
     secret_key = ENV["RECAPTCHA_SECRET_KEY"]
-    return { success: false, error: "reCAPTCHA not configured" } if secret_key.blank?
 
     uri = URI(VERIFY_URL)
     response = Net::HTTP.post_form(uri, {
