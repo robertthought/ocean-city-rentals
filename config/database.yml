@@ -64,4 +64,5 @@ production:
   database: ocean_city_rentals_production
   username: ocean_city_rentals
   password: <%= ENV["OCEAN_CITY_RENTALS_DATABASE_PASSWORD"] %>
+  host: 127.0.0.1
   url: <%= ENV['DATABASE_URL'] %>
