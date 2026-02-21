@@ -36,6 +36,13 @@ class PropertiesController < ApplicationController
   end
 
   def show
+    # Handle old URLs with UUIDs - redirect to clean URL
+    if params[:id] =~ /-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+      clean_slug = params[:id].sub(/-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, '')
+      redirect_to property_path(clean_slug), status: :moved_permanently
+      return
+    end
+
     @property = Property.friendly.find(params[:id])
     @lead = Lead.new(property: @property)
   rescue ActiveRecord::RecordNotFound
