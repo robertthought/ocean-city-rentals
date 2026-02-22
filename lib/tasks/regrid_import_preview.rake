@@ -4,14 +4,22 @@ require 'set'
 namespace :regrid do
   desc "Preview import from clean Regrid data (dry run - no changes)"
   task preview: :environment do
-    file_path = File.expand_path('~/Downloads/ocean_city_regrid.csv')
+    # Check multiple locations for the CSV
+    possible_paths = [
+      Rails.root.join('tmp', 'ocean_city_regrid.csv'),
+      File.expand_path('~/Downloads/ocean_city_regrid.csv'),
+      File.expand_path('~/ocean_city_regrid.csv')
+    ]
 
-    unless File.exist?(file_path)
-      puts "ERROR: File not found: #{file_path}"
-      puts "Run this first to extract Ocean City from the full Regrid export:"
-      puts "  python3 script to extract OCEAN CITY rows"
+    file_path = possible_paths.find { |p| File.exist?(p) }
+
+    unless file_path
+      puts "ERROR: ocean_city_regrid.csv not found in:"
+      possible_paths.each { |p| puts "  - #{p}" }
       exit 1
     end
+
+    puts "Using: #{file_path}"
 
     puts "=" * 60
     puts "REGRID IMPORT PREVIEW (DRY RUN)"
