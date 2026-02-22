@@ -9,17 +9,20 @@ namespace :properties do
 
     Property.find_each do |property|
       old_slug = property.slug
-      new_slug = property.address_slug
+      base_slug = property.address_slug
 
-      if old_slug == new_slug
+      # Skip if already clean (no UUID pattern)
+      unless old_slug =~ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
         skipped += 1
         next
       end
 
-      # Check if new slug already exists
-      if Property.where(slug: new_slug).where.not(id: property.id).exists?
-        errors << "#{property.id}: #{new_slug} already exists (duplicate address)"
-        next
+      # Find unique slug by appending number if needed
+      new_slug = base_slug
+      counter = 2
+      while Property.where(slug: new_slug).where.not(id: property.id).exists?
+        new_slug = "#{base_slug}-#{counter}"
+        counter += 1
       end
 
       property.slug = new_slug
