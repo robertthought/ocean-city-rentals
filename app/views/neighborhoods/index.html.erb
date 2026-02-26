@@ -1,6 +1,50 @@
 <% content_for :title, "Ocean City NJ Neighborhoods - Vacation Rentals by Area" %>
 <% content_for :meta_description, "Explore Ocean City, NJ vacation rentals by neighborhood. Find properties in North End, Downtown, Midtown, South End, and Beachfront areas." %>
 
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Ocean City NJ Neighborhoods",
+  "description": "Explore Ocean City, NJ vacation rentals by neighborhood",
+  "url": "https://ocnjweeklyrentals.com/neighborhoods",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Neighborhoods" }
+    ]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Ocean City Neighborhoods",
+    "numberOfItems": <%= @neighborhoods.count %>,
+    "itemListElement": [
+      <% @neighborhoods.each_with_index do |neighborhood, index| %>
+      {
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+          "@type": "Place",
+          "name": "<%= j neighborhood.name %>",
+          "description": "<%= j neighborhood.description.truncate(150) %>",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ocean City",
+            "addressRegion": "NJ",
+            "addressCountry": "US"
+          },
+          "url": "<%= neighborhood_url(neighborhood) %>"
+        }
+      }<%= index < @neighborhoods.count - 1 ? ',' : '' %>
+      <% end %>
+    ]
+  }
+}
+</script>
+<% end %>
+
 <!-- Hero Section -->
 <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
   <div class="container mx-auto px-4 py-16">

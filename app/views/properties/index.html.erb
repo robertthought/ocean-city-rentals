@@ -1,3 +1,48 @@
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Ocean City NJ Vacation Rentals",
+  "description": "Browse <%= Property.in_ocean_city.count %>+ vacation rental properties in Ocean City, New Jersey. Find beach houses, condos, and family rentals.",
+  "url": "https://ocnjweeklyrentals.com/properties",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Properties" }
+    ]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Ocean City Vacation Rentals",
+    "numberOfItems": <%= Property.in_ocean_city.count %>,
+    "itemListElement": [
+      <% Property.in_ocean_city.verified.order(Arel.sql("RANDOM()")).limit(6).each_with_index do |property, index| %>
+      {
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+          "@type": "LodgingBusiness",
+          "name": "<%= j property.address %>",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "<%= j property.address %>",
+            "addressLocality": "<%= j property.city %>",
+            "addressRegion": "<%= j property.state %>",
+            "postalCode": "<%= j property.zip %>",
+            "addressCountry": "US"
+          },
+          "url": "<%= property_url(property) %>"
+        }
+      }<%= index < 5 ? ',' : '' %>
+      <% end %>
+    ]
+  }
+}
+</script>
+<% end %>
+
 <!-- Hero Section -->
 <div class="relative text-white overflow-hidden min-h-[500px] sm:min-h-[600px]" style="background-image: url('/hero-beach.jpg'); background-size: cover; background-position: center;">
   <!-- Dark Overlay -->
@@ -132,7 +177,7 @@
             <!-- Property Image -->
             <div class="h-48 relative overflow-hidden">
               <% if property.has_photos? %>
-                <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>, <%= property.city %> <%= property.state %> - Ocean City NJ vacation rental" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
               <% else %>
                 <div class="h-full bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
                   <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>

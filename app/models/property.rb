@@ -71,9 +71,80 @@ class Property < ApplicationRecord
     "#{address}-#{city}-#{state}-#{zip}".parameterize
   end
 
-  # Generate meta description
+  # Generate meta description - SEO optimized with unique content per property
   def generate_meta_description
-    "#{address}, #{city}, #{state} #{zip}. Contact Bob Idell Real Estate for rental information, availability, and booking for this Ocean City property."
+    parts = []
+
+    # Add beds/baths if available
+    if bedrooms.present? && bedrooms > 0
+      parts << "#{bedrooms} bed"
+    end
+    if bathrooms.present? && bathrooms > 0
+      parts << "#{bathrooms} bath"
+    end
+
+    # Build the description
+    if parts.any?
+      desc = "#{parts.join(', ')} vacation rental at #{address}, #{city}, #{state}."
+    else
+      desc = "Vacation rental at #{address}, #{city}, #{state}."
+    end
+
+    # Add amenities if available
+    if has_amenities? && amenity_list.any?
+      top_amenities = amenity_list.first(3).join(', ')
+      desc += " Features #{top_amenities}."
+    end
+
+    # Add pricing if available
+    if has_pricing?
+      desc += " #{price_range_display}."
+    end
+
+    # Add CTA
+    desc += " Book your Ocean City beach vacation today!"
+
+    desc.truncate(160)
+  end
+
+  # Find similar properties for internal linking
+  def similar_properties(limit = 6)
+    # Find properties in same neighborhood or with similar attributes
+    scope = Property.where.not(id: id).in_ocean_city
+
+    # Try to find properties on same street first
+    street_name = address.to_s.gsub(/^\d+\s*/, '').gsub(/\s*(unit|apt|#).*$/i, '').strip
+    if street_name.present?
+      same_street = scope.where("address ILIKE ?", "%#{street_name}%").limit(limit)
+      return same_street if same_street.count >= 3
+    end
+
+    # Fall back to properties with similar bedrooms
+    if bedrooms.present? && bedrooms > 0
+      similar_beds = scope.where(bedrooms: [bedrooms - 1, bedrooms, bedrooms + 1])
+        .order(Arel.sql("ABS(bedrooms - #{bedrooms})"))
+        .limit(limit)
+      return similar_beds if similar_beds.any?
+    end
+
+    # Last resort: random verified properties
+    scope.where(data_source: 'realtimerental').order("RANDOM()").limit(limit)
+  end
+
+  # SEO-friendly property type description
+  def property_type_description
+    return property_type if property_type.present?
+
+    if bedrooms.present?
+      case bedrooms
+      when 0..1 then "Studio/Condo"
+      when 2..3 then "Beach House"
+      when 4..6 then "Family Beach Home"
+      else "Large Beach Estate"
+      end
+    else
+      "Beach Property"
+    end
   end
 
   # Full display address

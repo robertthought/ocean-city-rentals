@@ -33,6 +33,23 @@
     <meta name="keywords" content="<%= meta_keywords %>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="canonical" href="<%= canonical_url %>">
+
+    <!-- Pagination rel links for SEO -->
+    <% if defined?(@pagy) && @pagy %>
+      <% if @pagy.prev %>
+        <link rel="prev" href="<%= url_for(page: @pagy.prev) %>">
+      <% end %>
+      <% if @pagy.next %>
+        <link rel="next" href="<%= url_for(page: @pagy.next) %>">
+      <% end %>
+    <% end %>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://www.google.com">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 

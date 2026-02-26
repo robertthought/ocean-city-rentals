@@ -1,6 +1,58 @@
 <% content_for :title, "Contact Us | OCNJ Weekly Rentals" %>
 <% content_for :meta_description, "Contact OCNJ Weekly Rentals for Ocean City, NJ vacation rental inquiries. We're here to help you find your perfect beach house." %>
 
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "OCNJ Weekly Rentals - Bob Idell Real Estate",
+  "image": "https://ocnjweeklyrentals.com/icon.png",
+  "telephone": "+1-856-207-1670",
+  "email": "rentals@ocnjweeklyrentals.com",
+  "url": "https://ocnjweeklyrentals.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ocean City",
+    "addressRegion": "NJ",
+    "postalCode": "08226",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "39.2776",
+    "longitude": "-74.5746"
+  },
+  "openingHours": "Mo-Su 09:00-18:00",
+  "priceRange": "$$",
+  "areaServed": {
+    "@type": "City",
+    "name": "Ocean City",
+    "addressRegion": "NJ"
+  },
+  "serviceType": ["Vacation Rental Management", "Beach House Rentals", "Weekly Rentals"],
+  "sameAs": []
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact OCNJ Weekly Rentals",
+  "url": "https://ocnjweeklyrentals.com/contact",
+  "description": "Contact us for Ocean City, NJ vacation rental inquiries. We respond within 24 hours.",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Contact" }
+    ]
+  }
+}
+</script>
+<% end %>
+
 <!-- Hero Section -->
 <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
   <div class="container mx-auto px-4 py-16">

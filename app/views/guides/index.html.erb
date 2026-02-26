@@ -1,6 +1,44 @@
 <% content_for :title, "Ocean City NJ Vacation Guides | Tips & Travel Information" %>
 <% content_for :meta_description, "Plan your perfect Ocean City, NJ vacation with our comprehensive guides. Beach tips, boardwalk attractions, family activities, dining, and more." %>
 
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Ocean City NJ Vacation Guides",
+  "description": "Plan your perfect Ocean City, NJ vacation with our comprehensive guides",
+  "url": "https://ocnjweeklyrentals.com/guides",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Guides" }
+    ]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Vacation Guides",
+    "numberOfItems": <%= @guides.count %>,
+    "itemListElement": [
+      <% @guides.each_with_index do |guide, index| %>
+      {
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+          "@type": "Article",
+          "name": "<%= j guide.title %>",
+          "description": "<%= j guide.meta_description.truncate(150) %>",
+          "url": "<%= guide_url(guide) %>"
+        }
+      }<%= index < @guides.count - 1 ? ',' : '' %>
+      <% end %>
+    ]
+  }
+}
+</script>
+<% end %>
+
 <!-- Hero Section -->
 <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
   <div class="container mx-auto px-4 py-16">

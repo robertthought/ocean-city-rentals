@@ -54,7 +54,7 @@
             <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
               <div class="h-40 relative">
                 <% if property.has_photos? %>
-                  <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>" class="w-full h-full object-cover" loading="lazy">
+                  <img src="<%= property.primary_photo_url %>" alt="<%= property.address %>, <%= property.city %> <%= property.state %> - Ocean City NJ vacation rental" class="w-full h-full object-cover" loading="lazy">
                 <% else %>
                   <div class="h-full bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 flex items-center justify-center">
                     <svg class="w-12 h-12 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">

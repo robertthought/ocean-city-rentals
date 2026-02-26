@@ -45,6 +45,7 @@ class PropertiesController < ApplicationController
 
     @property = Property.friendly.find(params[:id])
     @lead = Lead.new(property: @property)
+    @similar_properties = @property.similar_properties(6)
   rescue ActiveRecord::RecordNotFound
     redirect_to properties_path, alert: "Property not found"
   end

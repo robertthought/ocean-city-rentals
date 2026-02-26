@@ -8,8 +8,8 @@
 {
   "@context": "https://schema.org",
   "@type": "RealEstateListing",
-  "name": "<%= j @property.address %>",
-  "description": "Vacation rental property at <%= j @property.full_address %>. Contact OCNJ Weekly Rentals for availability and pricing.",
+  "name": "<%= j @property.address %> - Ocean City NJ Vacation Rental",
+  "description": "<%= j @property.meta_description %>",
   "url": "<%= property_url(@property) %>",
   "datePosted": "<%= @property.created_at.iso8601 %>",
   "address": {
@@ -27,11 +27,31 @@
     "longitude": "<%= @property.longitude %>"
   },
   <% end %>
+  <% if @property.has_photos? %>
+  "image": [
+    <% @property.photo_urls.first(5).each_with_index do |url, i| %>
+    {
+      "@type": "ImageObject",
+      "url": "<%= url %>",
+      "caption": "<%= j @property.address %> - Photo <%= i + 1 %>"
+    }<%= i < [@property.photo_urls.count, 5].min - 1 ? ',' : '' %>
+    <% end %>
+  ],
+  <% end %>
+  <% if @property.bedrooms.present? && @property.bedrooms > 0 %>
+  "numberOfRooms": <%= @property.bedrooms %>,
+  "numberOfBedrooms": <%= @property.bedrooms %>,
+  <% end %>
+  <% if @property.bathrooms.present? && @property.bathrooms > 0 %>
+  "numberOfBathroomsTotal": <%= @property.bathrooms %>,
+  <% end %>
   "broker": {
     "@type": "RealEstateAgent",
     "name": "OCNJ Weekly Rentals",
     "description": "Find your dream vacation rental - by Idell Real Estate Team",
-    "url": "https://ocnjweeklyrentals.com"
+    "url": "https://ocnjweeklyrentals.com",
+    "telephone": "+1-856-207-1670",
+    "email": "rentals@ocnjweeklyrentals.com"
   },
   "breadcrumb": {
     "@type": "BreadcrumbList",
@@ -41,6 +61,79 @@
       { "@type": "ListItem", "position": 3, "name": "<%= j @property.address %>" }
     ]
   }
+}
+</script>
+
+<% if @property.has_pricing? %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "<%= j @property.address %> Vacation Rental",
+  "description": "<%= j @property.meta_description %>",
+  "url": "<%= property_url(@property) %>",
+  <% if @property.has_photos? %>
+  "image": "<%= @property.primary_photo_url %>",
+  <% end %>
+  "brand": {
+    "@type": "Brand",
+    "name": "OCNJ Weekly Rentals"
+  },
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "USD",
+    "lowPrice": "<%= @property.lowest_weekly_rate.to_i %>",
+    <% if @property.highest_weekly_rate.present? %>
+    "highPrice": "<%= @property.highest_weekly_rate.to_i %>",
+    <% end %>
+    "offerCount": "<%= @property.weekly_rates.count rescue 1 %>",
+    "availability": "https://schema.org/InStock",
+    "url": "<%= property_url(@property) %>"
+  }
+}
+</script>
+<% end %>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the minimum rental period for <%= j @property.address %>?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The minimum rental period for this Ocean City, NJ property is typically <%= @property.owner_minimum_nights || 7 %> nights. Weekly Saturday-to-Saturday rentals are most common during peak summer season."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I book <%= j @property.address %>?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contact OCNJ Weekly Rentals at (856) 207-1670 or submit an inquiry through our website. We'll respond within 24 hours with availability and pricing details."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is <%= j @property.address %> located?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This property is located at <%= j @property.full_address %>, in the heart of Ocean City, New Jersey - a family-friendly beach destination on the Jersey Shore."
+      }
+    }
+    <% if @property.has_amenities? && @property.amenity_list.include?("Pets Allowed") %>
+    ,{
+      "@type": "Question",
+      "name": "Are pets allowed at <%= j @property.address %>?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this property is pet-friendly! Contact us for specific pet policies and any applicable fees."
+      }
+    }
+    <% end %>
+  ]
 }
 </script>
 <% end %>
@@ -81,7 +174,7 @@
                 <!-- Main Photo -->
                 <div class="h-48 sm:h-64 md:h-80 lg:h-96 relative cursor-pointer" id="main-photo-container" onclick="openLightbox(0)">
                   <img src="<%= @property.primary_photo_url %>"
-                       alt="<%= @property.address %>"
+                       alt="<%= @property.address %> - Ocean City NJ vacation rental"
                        class="w-full h-full object-cover"
                        id="main-photo"
                        loading="eager">
@@ -118,7 +211,7 @@
                     <% @property.photo_urls.first(20).each_with_index do |url, index| %>
                       <button onclick="openLightbox(<%= index %>)"
                               class="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 focus:border-blue-500 transition-all active:scale-95">
-                        <img src="<%= url %>" alt="Photo <%= index + 1 %>" class="w-full h-full object-cover" loading="lazy">
+                        <img src="<%= url %>" alt="<%= @property.address %> - Photo <%= index + 1 %>" class="w-full h-full object-cover" loading="lazy">
                       </button>
                     <% end %>
                     <% if @property.photo_count > 20 %>
@@ -679,6 +772,78 @@
           </p>
         </div>
       </div>
+
+      <!-- Similar Properties Section - Internal Linking for SEO -->
+      <% if @similar_properties.present? && @similar_properties.any? %>
+      <div class="mt-6 sm:mt-8 md:mt-12 bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 overflow-hidden">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
+          <svg class="w-6 h-6 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+          Similar Ocean City Rentals
+        </h2>
+        <p class="text-gray-600 mb-6">Explore more vacation rentals in Ocean City, NJ</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <% @similar_properties.each do |property| %>
+            <%= link_to property_path(property), class: "group block" do %>
+              <div class="bg-gray-50 rounded-lg overflow-hidden border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-200">
+                <!-- Photo -->
+                <div class="h-40 sm:h-48 bg-gradient-to-br from-blue-100 to-cyan-100 relative overflow-hidden">
+                  <% if property.has_photos? %>
+                    <img src="<%= property.primary_photo_url %>"
+                         alt="<%= property.address %> - Ocean City NJ vacation rental"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         loading="lazy">
+                  <% else %>
+                    <div class="w-full h-full flex items-center justify-center">
+                      <svg class="w-16 h-16 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                      </svg>
+                    </div>
+                  <% end %>
+
+                  <% if property.is_verified %>
+                    <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                      Verified
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- Details -->
+                <div class="p-4">
+                  <h3 class="font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+                    <%= property.address %>
+                  </h3>
+                  <p class="text-sm text-gray-500 mb-2"><%= property.city %>, <%= property.state %></p>
+
+                  <div class="flex items-center gap-3 text-xs text-gray-600">
+                    <% if property.bedrooms.present? && property.bedrooms > 0 %>
+                      <span><%= property.bedrooms %> bed</span>
+                    <% end %>
+                    <% if property.bathrooms.present? && property.bathrooms > 0 %>
+                      <span><%= property.bathrooms %> bath</span>
+                    <% end %>
+                    <% if property.has_pricing? %>
+                      <span class="text-green-600 font-semibold ml-auto"><%= property.price_range_display %></span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="mt-6 text-center">
+          <%= link_to properties_path, class: "inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold" do %>
+            View All Ocean City Rentals
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
 
     </div>
   </div>
