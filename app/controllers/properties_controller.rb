@@ -11,6 +11,9 @@ class PropertiesController < ApplicationController
     @pagy, @properties = pagy(@properties_scope, limit: 48)
     @searching = search_active?
 
+    # Track search impressions for displayed properties (skip bots)
+    track_search_impressions(@properties) if @searching && !bot_request?
+
     respond_to do |format|
       format.html
       format.turbo_stream
@@ -46,6 +49,9 @@ class PropertiesController < ApplicationController
     @property = Property.friendly.find(params[:id])
     @lead = Lead.new(property: @property)
     @similar_properties = @property.similar_properties(6)
+
+    # Track page view (skip bots)
+    track_page_view(@property) unless bot_request?
   rescue ActiveRecord::RecordNotFound
     redirect_to properties_path, alert: "Property not found"
   end
@@ -165,4 +171,60 @@ class PropertiesController < ApplicationController
       scope.order(is_verified: :desc, address: :asc)
     end
   end
+
+  def track_search_impressions(properties)
+    return if properties.empty?
+
+    today = Date.current
+    property_ids = properties.map(&:id)
+
+    # Increment search impressions for all displayed properties
+    PropertyAnalytic.where(property_id: property_ids, date: today).update_all(
+      "search_impressions = search_impressions + 1"
+    )
+
+    # Create records for properties that don't have analytics for today
+    existing_ids = PropertyAnalytic.where(property_id: property_ids, date: today).pluck(:property_id)
+    new_ids = property_ids - existing_ids
+
+    new_ids.each do |property_id|
+      PropertyAnalytic.create(
+        property_id: property_id,
+        date: today,
+        search_impressions: 1
+      )
+    end
+  rescue => e
+    Rails.logger.error("Failed to track search impressions: #{e.message}")
+  end
+
+  def track_page_view(property)
+    session_id = session.id.to_s
+    today = Date.current
+
+    # Create or update daily analytics
+    analytic = PropertyAnalytic.find_or_initialize_by(
+      property_id: property.id,
+      date: today
+    )
+    analytic.page_views = (analytic.page_views || 0) + 1
+
+    # Track unique visitors by session
+    unless session[:viewed_properties]&.include?(property.id)
+      analytic.unique_visitors = (analytic.unique_visitors || 0) + 1
+      session[:viewed_properties] ||= []
+      session[:viewed_properties] << property.id
+    end
+
+    analytic.save
+  rescue => e
+    Rails.logger.error("Failed to track page view: #{e.message}")
+  end
+
+  def bot_request?
+    user_agent = request.user_agent.to_s.downcase
+    bot_patterns = %w[bot spider crawler googlebot bingbot slurp duckduckbot facebookexternalhit twitterbot]
+    bot_patterns.any? { |pattern| user_agent.include?(pattern) }
+  end
+
 end
