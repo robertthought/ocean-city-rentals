@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+    h1 { color: #2563eb; }
+    h2 { color: #1e40af; margin-top: 30px; }
+    .idea-card { background: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; margin: 15px 0; border-radius: 4px; }
+    .idea-title { font-weight: bold; color: #1e293b; margin-bottom: 5px; }
+    .idea-meta { color: #64748b; font-size: 14px; }
+    .cta-button { display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+    .stats { background: #ecfdf5; padding: 15px; border-radius: 6px; margin: 20px 0; }
+    .draft-list { background: #fefce8; padding: 15px; border-radius: 6px; }
+    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>📝 <%= @month %> Content Reminder</h1>
+
+  <p>Hi Bob,</p>
+
+  <p>It's time to create this month's blog content for <strong>OCNJ Weekly Rentals</strong>. Consistent blogging is key to dominating Google search results!</p>
+
+  <div class="stats">
+    <strong>📊 Last 30 Days:</strong> <%= @published_count %> article<%= @published_count == 1 ? '' : 's' %> published
+    <% if @published_count == 0 %>
+      <br><em>⚠️ No articles published recently - time to create some content!</em>
+    <% elsif @published_count >= 2 %>
+      <br><em>🎉 Great job staying consistent!</em>
+    <% end %>
+  </div>
+
+  <h2>💡 Content Ideas for <%= @month %> <%= @year %></h2>
+
+  <p>Here are SEO-optimized article ideas for this month:</p>
+
+  <% @content_ideas.each do |idea| %>
+    <div class="idea-card">
+      <div class="idea-title"><%= idea[:title] %></div>
+      <div class="idea-meta">
+        Category: <%= idea[:category] %><br>
+        Target Keywords: <%= idea[:keywords] %>
+      </div>
+    </div>
+  <% end %>
+
+  <a href="https://ocnjweeklyrentals.com/admin/articles/new" class="cta-button">
+    ✍️ Write New Article
+  </a>
+
+  <% if @draft_articles.any? %>
+    <h2>📄 Your Draft Articles</h2>
+    <div class="draft-list">
+      <p>You have <%= @draft_articles.count %> draft article<%= @draft_articles.count == 1 ? '' : 's' %> waiting to be published:</p>
+      <ul>
+        <% @draft_articles.each do |article| %>
+          <li><a href="https://ocnjweeklyrentals.com/admin/articles/<%= article.slug %>/edit"><%= article.title %></a></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h2>📈 Quick SEO Tips</h2>
+  <ul>
+    <li><strong>Title:</strong> Include "Ocean City NJ" + year for freshness</li>
+    <li><strong>Length:</strong> Aim for 800-1500 words per article</li>
+    <li><strong>Images:</strong> Add a featured image (1200x630px) for social sharing</li>
+    <li><strong>Links:</strong> Link to your property listings and other guides</li>
+  </ul>
+
+  <div class="footer">
+    <p>This is an automated monthly reminder from your OCNJ Weekly Rentals blog system.</p>
+    <p><a href="https://ocnjweeklyrentals.com/admin/articles">Manage Blog</a> | <a href="https://ocnjweeklyrentals.com/blog">View Blog</a></p>
+  </div>
+</body>
+</html>
