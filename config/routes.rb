@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :neighborhoods, only: [:index, :show]
   resources :guides, only: [:index, :show]
 
+  # Blog
+  resources :articles, only: [:index, :show], path: 'blog'
+
   # Owner Authentication
   get '/owner/login', to: 'owner/sessions#new', as: :owner_login
   post '/owner/login', to: 'owner/sessions#create'
@@ -68,6 +71,13 @@ Rails.application.routes.draw do
       get :export, on: :collection
     end
     get :analytics, to: "analytics#index"
+
+    resources :articles do
+      member do
+        patch :publish
+        patch :unpublish
+      end
+    end
   end
 
   # SEO pages

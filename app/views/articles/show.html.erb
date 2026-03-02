@@ -1,0 +1,175 @@
+<% content_for :title, "#{@article.title} | OCNJ Weekly Rentals Blog" %>
+<% content_for :meta_description, @article.meta_description.presence || @article.excerpt %>
+<% content_for :canonical_url, article_url(@article) %>
+<% content_for :meta_image, @article.og_image %>
+
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "<%= j @article.title %>",
+  "description": "<%= j(@article.meta_description.presence || @article.excerpt) %>",
+  "image": "<%= @article.og_image %>",
+  "url": "<%= article_url(@article) %>",
+  "datePublished": "<%= @article.published_at&.iso8601 %>",
+  "dateModified": "<%= @article.updated_at.iso8601 %>",
+  "author": {
+    "@type": "Person",
+    "name": "<%= j @article.author %>"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "OCNJ Weekly Rentals",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ocnjweeklyrentals.com/icon.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "<%= article_url(@article) %>"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ocnjweeklyrentals.com/blog" },
+      { "@type": "ListItem", "position": 3, "name": "<%= j @article.title %>" }
+    ]
+  }
+}
+</script>
+<% end %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+      <!-- Breadcrumb -->
+      <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-blue-200 text-sm">
+          <li><%= link_to "Home", root_path, class: "hover:text-white" %></li>
+          <li><span class="mx-2">/</span></li>
+          <li><%= link_to "Blog", articles_path, class: "hover:text-white" %></li>
+          <li><span class="mx-2">/</span></li>
+          <li class="text-white font-medium truncate max-w-[200px]"><%= @article.title %></li>
+        </ol>
+      </nav>
+
+      <% if @article.category.present? %>
+        <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
+          <%= @article.category %>
+        </span>
+      <% end %>
+
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <%= @article.title %>
+      </h1>
+
+      <div class="flex items-center gap-4 text-blue-100">
+        <span>By <%= @article.author %></span>
+        <span>&bull;</span>
+        <span><%= @article.formatted_published_date %></span>
+        <span>&bull;</span>
+        <span><%= @article.reading_time %></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Image -->
+<% if @article.featured_image_url.present? %>
+  <div class="bg-gray-100">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto -mt-8 relative z-10">
+        <img src="<%= @article.featured_image_url %>" alt="<%= @article.title %>"
+          class="w-full h-auto rounded-xl shadow-xl">
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- Article Content -->
+<div class="bg-gray-50 py-12">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+
+      <article class="bg-white rounded-xl shadow-lg p-8 md:p-12">
+        <div class="prose prose-lg max-w-none">
+          <%= simple_format(@article.content.gsub(/\*\*(.+?)\*\*/, '<strong>\1</strong>').html_safe) %>
+        </div>
+
+        <% if @article.tag_list.any? %>
+          <div class="mt-8 pt-8 border-t border-gray-200">
+            <div class="flex flex-wrap gap-2">
+              <span class="text-gray-500 text-sm">Tags:</span>
+              <% @article.tag_list.each do |tag| %>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"><%= tag %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </article>
+
+      <!-- Author Box -->
+      <div class="bg-white rounded-xl shadow-lg p-8 mt-8">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="font-bold text-gray-900"><%= @article.author %></p>
+            <p class="text-gray-600">Bob Idell Real Estate - Your Ocean City vacation rental expert since 2016.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Related Articles -->
+<% if @related_articles.any? %>
+  <div class="bg-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Related Articles</h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <% @related_articles.each do |article| %>
+            <%= link_to article_path(article), class: "group" do %>
+              <div class="bg-gray-50 rounded-xl p-6 hover:bg-blue-50 transition-colors">
+                <% if article.category.present? %>
+                  <span class="text-xs text-blue-600 font-semibold"><%= article.category %></span>
+                <% end %>
+                <h3 class="font-bold text-gray-900 group-hover:text-blue-600 mt-2 mb-2">
+                  <%= article.title %>
+                </h3>
+                <p class="text-sm text-gray-500"><%= article.formatted_published_date %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- CTA Section -->
+<div class="bg-blue-600 text-white py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-4">Ready to Book Your Ocean City Vacation?</h2>
+    <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+      Browse thousands of vacation rentals and find your perfect beach getaway.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <%= link_to "Browse Properties", properties_path,
+          class: "px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors" %>
+      <%= link_to "Contact Us", contact_path,
+          class: "px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-400 transition-colors" %>
+    </div>
+  </div>
+</div>

@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_09_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_02_192417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "articles", force: :cascade do |t|
+    t.string "author", default: "Bob Idell"
+    t.string "category"
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.text "excerpt"
+    t.string "featured_image_url"
+    t.text "meta_description"
+    t.boolean "published", default: false, null: false
+    t.datetime "published_at"
+    t.string "slug", null: false
+    t.string "tags"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_articles_on_category"
+    t.index ["published"], name: "index_articles_on_published"
+    t.index ["published_at"], name: "index_articles_on_published_at"
+    t.index ["slug"], name: "index_articles_on_slug", unique: true
+  end
 
   create_table "contact_submissions", force: :cascade do |t|
     t.datetime "created_at", null: false

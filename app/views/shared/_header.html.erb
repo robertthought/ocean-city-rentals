@@ -26,6 +26,8 @@
           class: "text-gray-700 hover:text-blue-600 font-semibold transition-colors" %>
         <%= link_to "Guides", guides_path,
           class: "text-gray-700 hover:text-blue-600 font-semibold transition-colors" %>
+        <%= link_to "Blog", articles_path,
+          class: "text-gray-700 hover:text-blue-600 font-semibold transition-colors" %>
         <%= link_to "About", about_path,
           class: "text-gray-700 hover:text-blue-600 font-semibold transition-colors" %>
         <%= link_to "Contact", contact_path,
@@ -62,6 +64,9 @@
         class: "block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-semibold rounded-lg transition-colors",
         data: { action: "click->mobile-menu#close" } %>
       <%= link_to "Guides", guides_path,
+        class: "block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-semibold rounded-lg transition-colors",
+        data: { action: "click->mobile-menu#close" } %>
+      <%= link_to "Blog", articles_path,
         class: "block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-semibold rounded-lg transition-colors",
         data: { action: "click->mobile-menu#close" } %>
       <%= link_to "About", about_path,

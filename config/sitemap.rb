@@ -33,6 +33,17 @@ SitemapGenerator::Sitemap.create do
       changefreq: 'monthly'
   end
 
+  # Blog index
+  add articles_path, priority: 0.8, changefreq: 'weekly'
+
+  # Individual blog articles
+  Article.published.find_each do |article|
+    add article_path(article),
+      priority: 0.7,
+      changefreq: 'monthly',
+      lastmod: article.updated_at
+  end
+
   # All property pages with images for rich results
   Property.find_each do |property|
     images = []

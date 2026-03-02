@@ -1,0 +1,172 @@
+<% content_for :title, "Ocean City NJ Blog | Vacation Tips & Local News" %>
+<% content_for :meta_description, "Read the latest Ocean City, NJ vacation tips, local news, events, and travel guides. Expert advice for planning your perfect beach getaway." %>
+
+<% content_for :schema do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "OCNJ Weekly Rentals Blog",
+  "description": "Ocean City NJ vacation tips, local news, and travel guides",
+  "url": "https://ocnjweeklyrentals.com/blog",
+  "publisher": {
+    "@type": "Organization",
+    "name": "OCNJ Weekly Rentals",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ocnjweeklyrentals.com/icon.png"
+    }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ocnjweeklyrentals.com" },
+      { "@type": "ListItem", "position": 2, "name": "Blog" }
+    ]
+  }
+}
+</script>
+<% end %>
+
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white">
+  <div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Ocean City Blog</h1>
+      <p class="text-xl text-blue-100">
+        Vacation tips, local events, and insider guides for your Ocean City getaway
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Category Filter -->
+<div class="bg-white border-b">
+  <div class="container mx-auto px-4 py-4">
+    <div class="flex flex-wrap gap-2 justify-center">
+      <%= link_to "All Posts", articles_path,
+        class: "px-4 py-2 rounded-full text-sm font-medium #{@current_category.blank? ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% Article::CATEGORIES.each do |category| %>
+        <%= link_to category, articles_path(category: category),
+          class: "px-4 py-2 rounded-full text-sm font-medium #{@current_category == category ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Posts Grid -->
+<div class="bg-gray-50 py-12">
+  <div class="container mx-auto px-4">
+    <div class="max-w-6xl mx-auto">
+
+      <% if @articles.any? %>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <% @articles.each do |article| %>
+            <%= link_to article_path(article), class: "group" do %>
+              <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                <!-- Featured Image -->
+                <div class="h-48 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 relative overflow-hidden">
+                  <% if article.featured_image_url.present? %>
+                    <img src="<%= article.featured_image_url %>" alt="<%= article.title %>"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                  <% else %>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <svg class="w-16 h-16 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                      </svg>
+                    </div>
+                  <% end %>
+
+                  <% if article.category.present? %>
+                    <div class="absolute top-3 left-3 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      <%= article.category %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col">
+                  <div class="flex items-center gap-3 text-sm text-gray-500 mb-3">
+                    <span><%= article.formatted_published_date %></span>
+                    <span>&bull;</span>
+                    <span><%= article.reading_time %></span>
+                  </div>
+
+                  <h2 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-3">
+                    <%= article.title %>
+                  </h2>
+
+                  <p class="text-gray-600 mb-4 flex-1 line-clamp-3">
+                    <%= article.excerpt %>
+                  </p>
+
+                  <div class="flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
+                    <span>Read More</span>
+                    <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
+              </article>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Pagination -->
+        <% if @pagy.pages > 1 %>
+          <div class="flex justify-center mt-12">
+            <nav class="flex items-center gap-2">
+              <% if @pagy.prev %>
+                <%= link_to articles_path(page: @pagy.prev, category: @current_category),
+                    class: "px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
+                  <span class="flex items-center gap-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Previous
+                  </span>
+                <% end %>
+              <% end %>
+
+              <span class="px-4 py-2 text-gray-600">
+                Page <%= @pagy.page %> of <%= @pagy.pages %>
+              </span>
+
+              <% if @pagy.next %>
+                <%= link_to articles_path(page: @pagy.next, category: @current_category),
+                    class: "px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" do %>
+                  <span class="flex items-center gap-1">
+                    Next
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </span>
+                <% end %>
+              <% end %>
+            </nav>
+          </div>
+        <% end %>
+
+      <% else %>
+        <div class="text-center py-16">
+          <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+          </svg>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">No articles yet</h3>
+          <p class="text-gray-600 mb-4">Check back soon for vacation tips and local news!</p>
+          <%= link_to "Browse Properties", properties_path, class: "text-blue-600 hover:text-blue-700 font-semibold" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<!-- Also check our guides -->
+<div class="bg-white py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">Looking for In-Depth Guides?</h2>
+    <p class="text-gray-600 mb-6">Check out our comprehensive Ocean City vacation guides.</p>
+    <%= link_to "View All Guides", guides_path,
+      class: "inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors" %>
+  </div>
+</div>
