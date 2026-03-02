@@ -396,6 +396,717 @@ class Guide
         }
       ],
       related_neighborhoods: ["downtown", "midtown"]
+    },
+    {
+      slug: "pet-friendly-guide",
+      title: "Pet-Friendly Ocean City NJ Vacation Guide",
+      meta_description: "Plan a pet-friendly vacation in Ocean City, NJ. Dog beaches, pet rules, pet-friendly rentals, and where to find pet supplies on the island.",
+      hero_subtitle: "Bring your furry family member to the beach",
+      sections: [
+        {
+          title: "Traveling with Pets to Ocean City",
+          content: <<~CONTENT
+            Ocean City welcomes well-behaved pets! While there are rules to follow, many families bring their dogs to enjoy beach vacations together. This guide covers everything you need to know about visiting Ocean City with your four-legged friend.
+
+            **Key Things to Know:**
+            - Dogs are NOT allowed on the beach or boardwalk from May 1 through September 30
+            - Dogs ARE welcome on beaches and boardwalk during the off-season (October - April)
+            - Many vacation rentals are pet-friendly (look for our pet-friendly filter)
+            - Several restaurants have outdoor seating areas that welcome dogs
+          CONTENT
+        },
+        {
+          title: "Pet-Friendly Vacation Rentals",
+          content: <<~CONTENT
+            Finding a pet-friendly rental is the first step to a successful vacation with your pet:
+
+            **Tips for Booking:**
+            - Book early—pet-friendly rentals are in high demand
+            - Check the pet policy carefully (size limits, breed restrictions, pet deposits)
+            - Look for rentals with fenced yards or easy beach access
+            - Ground-floor units are often easier for pets
+
+            **What to Bring:**
+            - Pet food and treats
+            - Food and water bowls
+            - Leash and collar with ID tags
+            - Pet bed or crate
+            - Waste bags
+            - Any medications your pet needs
+          CONTENT
+        },
+        {
+          title: "Where to Walk Your Dog",
+          content: <<~CONTENT
+            During summer months (May 1 - September 30), dogs are not permitted on beaches or the boardwalk. Here are pet-friendly alternatives:
+
+            **Corson's Inlet State Park** - The best option for dog owners! This natural area at the north end of Ocean City allows dogs on leashes. Enjoy nature trails, dunes, and off-season beach access.
+
+            **Residential Streets** - The quiet residential streets throughout Ocean City are perfect for dog walks. Early morning and evening walks are most comfortable in summer heat.
+
+            **Bay Areas** - The bay side of the island offers scenic walking paths and views.
+
+            **Off-Season Beach Access** - From October through April, dogs are welcome on beaches and the boardwalk—a perfect time for a pet-friendly getaway!
+          CONTENT
+        },
+        {
+          title: "Pet Supplies & Services",
+          content: <<~CONTENT
+            **Pet Stores:**
+            - PetSmart and Petco are located in nearby Somers Point and Marmora
+            - Local convenience stores carry basic pet supplies
+
+            **Veterinary Services:**
+            - Ocean City has veterinary clinics for emergencies
+            - Keep your regular vet's number handy
+
+            **Pet-Friendly Dining:**
+            - Several restaurants with outdoor seating welcome dogs
+            - Ask before bringing your pet to outdoor dining areas
+            - Always bring water for your dog
+          CONTENT
+        },
+        {
+          title: "Pet Safety Tips",
+          content: <<~CONTENT
+            **Heat Safety:**
+            - Never leave pets in parked cars
+            - Walk dogs during cooler morning and evening hours
+            - Provide plenty of fresh water
+            - Watch for signs of overheating
+
+            **Beach Safety (Off-Season):**
+            - Keep dogs on leash near water
+            - Rinse off salt water after beach visits
+            - Watch for jellyfish and sharp shells
+            - Don't let dogs drink salt water
+
+            **General Tips:**
+            - Keep your pet on a leash at all times
+            - Clean up after your pet immediately
+            - Ensure your pet has current vaccinations
+            - Bring a recent photo in case your pet gets lost
+          CONTENT
+        }
+      ],
+      related_neighborhoods: ["north-end"]
+    },
+    {
+      slug: "ocean-city-events",
+      title: "Ocean City NJ Events Calendar 2026",
+      meta_description: "Complete guide to Ocean City NJ events in 2026. Night in Venice, Baby Parade, concerts, hermit crab races, and seasonal festivals.",
+      hero_subtitle: "Year-round events and family entertainment",
+      sections: [
+        {
+          title: "Annual Events Overview",
+          content: <<~CONTENT
+            Ocean City hosts dozens of events throughout the year, from beloved summer traditions to off-season block parties. This guide covers the major events that make Ocean City special.
+
+            **Planning Tips:**
+            - Book accommodations early for major events (Night in Venice, Baby Parade)
+            - Check official schedules as dates may vary slightly each year
+            - Many events are free and family-friendly
+          CONTENT
+        },
+        {
+          title: "Summer Signature Events",
+          content: <<~CONTENT
+            **Night in Venice (July)** - Ocean City's most spectacular event! A decorated boat parade through the bay featuring hundreds of illuminated boats. Residents and visitors line the bay to watch as boats cruise through the channels.
+            - Best viewing: Bay-front properties, bridges, and public bay areas
+            - Typically held the third Saturday of July
+            - Free to attend
+
+            **Baby Parade (August)** - A beloved tradition since 1901! Children parade down the boardwalk in creative costumes and decorated strollers. Categories include Best Decorated Stroller, Best Costume, and more.
+            - Usually held the second Thursday of August
+            - Registration required for participants
+            - Spectators line the boardwalk for free viewing
+
+            **Miss Crustacean Hermit Crab Beauty Pageant** - A quirky, family-fun event where hermit crabs "compete" for the crown.
+          CONTENT
+        },
+        {
+          title: "Weekly Summer Entertainment",
+          content: <<~CONTENT
+            **Free Beach Concerts** - Live music on the beach throughout summer. Bring a blanket and enjoy performances ranging from tribute bands to local artists.
+
+            **Hermit Crab Races** - Weekly races at Gillian's Wonderland Pier. Kids can rent a hermit crab for the race or bring their own.
+
+            **Movies on the Beach** - Free family movie nights on select evenings. Check the schedule for titles and locations.
+
+            **Music Pier Concerts** - The historic Ocean City Music Pier hosts ticketed concerts throughout the summer featuring various musical genres.
+
+            **Wednesday Night Fireworks** - Spectacular fireworks displays light up the sky on select Wednesday evenings during peak season.
+          CONTENT
+        },
+        {
+          title: "Spring & Fall Events",
+          content: <<~CONTENT
+            **Doo Dah Parade (April)** - Ocean City's quirky, anything-goes parade welcomes spring. Participants create fun, creative entries—the weirder, the better!
+
+            **Spring Block Party (May)** - Kick off the season with live music, food vendors, and family activities in the downtown area.
+
+            **Fall Block Parties (September-October)** - As summer winds down, Ocean City hosts weekend block parties with entertainment, food, and shopping.
+
+            **Halloween Events (October)** - Haunted houses, costume parades, and trick-or-treating events for families.
+          CONTENT
+        },
+        {
+          title: "Holiday Events",
+          content: <<~CONTENT
+            **First Night Ocean City (New Year's Eve)** - Family-friendly New Year's Eve celebration with entertainment, activities, and fireworks at midnight. A dry, safe alternative to typical New Year's parties.
+
+            **Holiday House Tours (December)** - Tour beautifully decorated homes throughout Ocean City during the holiday season.
+
+            **Easter Events (Spring)** - Egg hunts and Easter activities for children.
+
+            **Fourth of July** - Patriotic celebrations, beach activities, and spectacular fireworks over the ocean.
+          CONTENT
+        }
+      ],
+      related_neighborhoods: ["downtown", "beachfront"]
+    },
+    {
+      slug: "corsons-inlet-guide",
+      title: "Corson's Inlet State Park Guide",
+      meta_description: "Explore Corson's Inlet State Park at the north end of Ocean City, NJ. Hiking, kayaking, birding, fishing, and natural beach access.",
+      hero_subtitle: "Ocean City's natural treasure",
+      sections: [
+        {
+          title: "About Corson's Inlet State Park",
+          content: <<~CONTENT
+            Located at the northern tip of Ocean City, Corson's Inlet State Park offers a natural escape from the bustling beach resort. This 341-acre park preserves one of the last undeveloped areas along New Jersey's coastline.
+
+            **Park Highlights:**
+            - Natural beach (no lifeguards)
+            - Coastal dunes ecosystem
+            - Excellent birding location
+            - Kayaking and canoeing
+            - Hiking trails
+            - Fishing access
+            - Dog-friendly (on leash)
+          CONTENT
+        },
+        {
+          title: "Hiking & Nature Trails",
+          content: <<~CONTENT
+            Several trails wind through the park's diverse ecosystems:
+
+            **Main Trail** - A relatively flat trail through coastal shrub and dune areas. Easy walking for all fitness levels.
+
+            **Beach Access** - Paths lead to the natural beach on the Atlantic side and calmer bay waters.
+
+            **Dune Walk** - Observe the fragile dune ecosystem and the plants that help protect the coastline.
+
+            **Tips:**
+            - Wear sturdy shoes (trails can be sandy)
+            - Bring insect repellent in summer
+            - Stay on marked trails to protect vegetation
+            - Bring water—there are no facilities in most areas
+          CONTENT
+        },
+        {
+          title: "Water Activities",
+          content: <<~CONTENT
+            **Kayaking & Canoeing** - The inlet and bay areas provide excellent paddling opportunities:
+            - Launch from the bay side
+            - Explore tidal marshes
+            - Watch for dolphins and wildlife
+            - Rental kayaks available nearby
+
+            **Fishing** - Popular spot for shore fishing:
+            - Inlet fishing for striped bass, bluefish
+            - Bay fishing for flounder, weakfish
+            - No fishing license required for saltwater fishing in NJ
+
+            **Swimming** - The natural beach is available for swimming, but note:
+            - No lifeguards on duty
+            - Currents can be strong near the inlet
+            - Best for experienced swimmers
+          CONTENT
+        },
+        {
+          title: "Wildlife & Birding",
+          content: <<~CONTENT
+            Corson's Inlet is a premier birding destination in South Jersey:
+
+            **Shorebirds** - Piping plovers, sanderlings, and other shorebirds nest and feed here.
+
+            **Waterfowl** - Ducks, herons, and egrets frequent the bay and marsh areas.
+
+            **Raptors** - Osprey and other raptors can be spotted hunting over the inlet.
+
+            **Best Birding Times:**
+            - Early morning for most species
+            - Spring and fall migration periods
+            - Low tide for shorebird feeding
+
+            **Tips:**
+            - Bring binoculars
+            - Stay on trails to avoid disturbing nesting areas
+            - The park is part of the Atlantic Flyway
+          CONTENT
+        },
+        {
+          title: "Visiting Information",
+          content: <<~CONTENT
+            **Location:** North end of Ocean City, accessed via Bay Road
+
+            **Hours:** Dawn to dusk, year-round
+
+            **Admission:** Free
+
+            **Parking:** Free parking available at the main lot
+
+            **Facilities:**
+            - Restrooms at the main parking area
+            - No food vendors—bring your own supplies
+            - Portable restrooms in some areas
+
+            **Best Time to Visit:** Early morning or late afternoon for wildlife viewing and to avoid crowds.
+
+            **Stay Nearby:** The North End neighborhood offers easy access to the park.
+          CONTENT
+        }
+      ],
+      related_neighborhoods: ["north-end"]
+    },
+    {
+      slug: "surfing-guide",
+      title: "Ocean City NJ Surfing Guide",
+      meta_description: "Learn to surf in Ocean City, NJ. Best surf spots, lessons, equipment rentals, and tips for beginners and experienced surfers.",
+      hero_subtitle: "Catch waves on the Jersey Shore",
+      sections: [
+        {
+          title: "Surfing in Ocean City",
+          content: <<~CONTENT
+            Ocean City offers solid surfing conditions for beginners and intermediate surfers. While not Hawaii, the Jersey Shore produces consistent waves during the right conditions, especially during hurricane swells and fall nor'easters.
+
+            **Quick Facts:**
+            - Water temp: 65-75°F in summer, requires wetsuit spring/fall
+            - Best waves: Fall season (September-November)
+            - Beginner-friendly: Yes, especially the South End
+            - Lessons available: Yes, from local surf shops
+          CONTENT
+        },
+        {
+          title: "Best Surf Spots",
+          content: <<~CONTENT
+            **South End (40th-59th Streets)** - The most popular surfing area in Ocean City:
+            - Designated surfing beaches
+            - Consistent waves
+            - Less crowded than downtown
+            - Best for beginners and intermediates
+
+            **Designated Surfing Areas:** Ocean City designates specific beaches for surfing during summer months to separate surfers from swimmers. Check posted signs for current designations.
+
+            **North End** - Corson's Inlet area can produce good waves but requires more experience due to currents.
+
+            **Best Conditions:**
+            - Incoming tide with offshore winds
+            - Post-storm swells (safe conditions only)
+            - Fall nor'easters produce the best waves
+          CONTENT
+        },
+        {
+          title: "Surf Lessons & Camps",
+          content: <<~CONTENT
+            Several surf schools operate in Ocean City and offer lessons for all levels:
+
+            **What to Expect:**
+            - Group lessons typically 1-2 hours
+            - Equipment included (board, wetsuit if needed)
+            - Beach instruction before entering water
+            - Instructors help you catch waves
+
+            **Who Should Take Lessons:**
+            - Complete beginners
+            - Kids and teens
+            - Anyone wanting to improve technique
+
+            **Tips:**
+            - Book lessons early in summer
+            - Morning sessions often have better conditions
+            - Wear sunscreen and rash guard
+          CONTENT
+        },
+        {
+          title: "Equipment Rentals & Shops",
+          content: <<~CONTENT
+            Local surf shops rent boards and wetsuits:
+
+            **What You Can Rent:**
+            - Soft-top beginner boards
+            - Fiberglass shortboards and longboards
+            - Wetsuits (3/2mm for summer, thicker for fall)
+            - Boogie boards
+
+            **What to Bring:**
+            - Sunscreen (reef-safe preferred)
+            - Rash guard
+            - Board wax (often included with rental)
+            - Leash (usually attached to rental board)
+
+            **Buying Gear:**
+            Local shops sell new and used boards, wetsuits, and accessories.
+          CONTENT
+        },
+        {
+          title: "Surf Etiquette & Safety",
+          content: <<~CONTENT
+            **Etiquette:**
+            - The surfer closest to the peak has right of way
+            - Don't "drop in" on someone already riding a wave
+            - Take turns and respect more experienced surfers
+            - Help others if you see someone in trouble
+
+            **Safety:**
+            - Know your limits—don't surf conditions beyond your ability
+            - Always wear a leash
+            - Watch for rip currents
+            - Stay in designated surfing areas
+            - Check conditions before paddling out
+
+            **Weather:**
+            - Check surf forecasts (Surfline, Magic Seaweed)
+            - Avoid surfing during lightning
+            - Be aware of hurricane swell dangers
+          CONTENT
+        }
+      ],
+      related_neighborhoods: ["south-end"]
+    },
+    {
+      slug: "fishing-guide",
+      title: "Ocean City NJ Fishing Guide",
+      meta_description: "Complete fishing guide for Ocean City, NJ. Charter boats, surf fishing, bay fishing, and the best spots to catch fish on the Jersey Shore.",
+      hero_subtitle: "World-class fishing waters",
+      sections: [
+        {
+          title: "Fishing in Ocean City",
+          content: <<~CONTENT
+            Ocean City's location between the Atlantic Ocean and the back bays makes it a premier fishing destination. Whether you prefer deep-sea charter fishing, surf casting, or relaxed bay fishing, you'll find excellent opportunities here.
+
+            **License Information:**
+            - No license required for saltwater fishing in New Jersey!
+            - Free registry required for shore/pier fishing (register at NJ Fish & Wildlife)
+          CONTENT
+        },
+        {
+          title: "Charter Boat Fishing",
+          content: <<~CONTENT
+            **Deep Sea Fishing:** Charter boats depart from Ocean City and nearby marinas for offshore fishing:
+
+            **Target Species:**
+            - Tuna (bluefin, yellowfin)
+            - Mahi-mahi (dolphin fish)
+            - Marlin and shark (catch and release)
+            - Sea bass and flounder
+            - Bluefish and striped bass
+
+            **What's Included:**
+            - Captain and crew
+            - Fishing equipment and bait
+            - Fish cleaning and packaging
+            - Coolers for your catch
+
+            **Tips:**
+            - Book early during peak season
+            - Bring seasickness medication if prone to motion sickness
+            - Half-day trips are good for beginners
+            - Full-day or overnight trips reach deeper waters
+          CONTENT
+        },
+        {
+          title: "Surf Fishing",
+          content: <<~CONTENT
+            Surf fishing from Ocean City's beaches can be productive, especially at dawn and dusk:
+
+            **Target Species:**
+            - Striped bass (spring and fall)
+            - Bluefish (summer)
+            - Weakfish
+            - Kingfish
+            - Flounder
+
+            **Best Spots:**
+            - North End near Corson's Inlet
+            - South End beaches
+            - Jetties and rock structures
+
+            **Equipment:**
+            - 9-12 foot surf rod
+            - Spinning reel with 15-20 lb line
+            - Sand spikes to hold rods
+            - Waders (optional but helpful)
+            - Bait: bunker, clams, bloodworms
+          CONTENT
+        },
+        {
+          title: "Bay & Inlet Fishing",
+          content: <<~CONTENT
+            The back bays and inlets offer excellent fishing opportunities:
+
+            **Popular Spots:**
+            - Corson's Inlet
+            - Great Egg Harbor Bay
+            - Bridges and bulkheads
+            - Public piers and docks
+
+            **Target Species:**
+            - Flounder (fluke)
+            - Weakfish
+            - Striped bass
+            - Crabs
+
+            **Methods:**
+            - Bottom fishing with bait
+            - Jigging
+            - Crabbing with traps or lines
+
+            **Advantages:**
+            - Calmer waters
+            - Accessible from shore
+            - Good for families and beginners
+          CONTENT
+        },
+        {
+          title: "Crabbing",
+          content: <<~CONTENT
+            Blue crab fishing is a favorite family activity in Ocean City:
+
+            **Where to Crab:**
+            - Back bay areas
+            - Docks and bulkheads
+            - Marshy areas at low tide
+
+            **Methods:**
+            - Crab traps
+            - Hand lines with chicken necks
+            - Crab rings
+            - Dip nets
+
+            **Regulations:**
+            - Minimum size limits apply
+            - Basket limits in effect
+            - Check current regulations
+
+            **Tips:**
+            - Best crabbing at incoming tide
+            - Use chicken necks or bunker as bait
+            - Bring a cooler with ice for your catch
+            - Great activity for kids
+          CONTENT
+        }
+      ],
+      related_neighborhoods: ["north-end", "south-end"]
+    },
+    {
+      slug: "ocean-city-vs-wildwood",
+      title: "Ocean City vs Wildwood NJ: Which Beach Town Is Right for You?",
+      meta_description: "Compare Ocean City NJ and Wildwood NJ vacation destinations. Beaches, boardwalks, rentals, and which is best for your family vacation.",
+      hero_subtitle: "Choosing between two Jersey Shore favorites",
+      sections: [
+        {
+          title: "Overview: Two Different Experiences",
+          content: <<~CONTENT
+            Ocean City and Wildwood are both beloved Jersey Shore destinations, but they offer distinctly different vacation experiences. Understanding these differences will help you choose the perfect beach town for your family.
+
+            **Ocean City:** "America's Greatest Family Resort" - quieter, alcohol-free, classic family atmosphere
+
+            **Wildwood:** Larger, livelier boardwalk with waterparks, more nightlife (for those 21+), wider beaches
+          CONTENT
+        },
+        {
+          title: "Beach Comparison",
+          content: <<~CONTENT
+            **Ocean City Beaches:**
+            - 8 miles of beaches
+            - Beach tags required ($30-35/season for adults)
+            - Lifeguards Memorial Day through Labor Day
+            - Clean, well-maintained
+            - ADA accessible locations
+
+            **Wildwood Beaches:**
+            - 5 miles of beaches
+            - FREE - no beach tags required
+            - Very wide beaches (up to 1,000 feet at low tide)
+            - May require longer walk to water
+            - Free beach concerts
+
+            **Winner:** Depends on preference—Ocean City for convenience to water, Wildwood for free access and wide beaches
+          CONTENT
+        },
+        {
+          title: "Boardwalk Comparison",
+          content: <<~CONTENT
+            **Ocean City Boardwalk:**
+            - 2.5 miles long
+            - Family-focused (dry town—no alcohol)
+            - Classic amusements (Gillian's, Playland's)
+            - Music Pier concerts
+            - More relaxed atmosphere
+            - Iconic food: Manco & Manco, Johnson's Popcorn
+
+            **Wildwood Boardwalk:**
+            - 2 miles long (38 blocks)
+            - Larger, flashier amusement piers
+            - Waterparks and thrill rides
+            - Bars and nightlife (tram cars run until late)
+            - More crowded and energetic
+            - Morey's Piers (major water/amusement parks)
+
+            **Winner:** Ocean City for families with young children; Wildwood for teens and thrill-seekers
+          CONTENT
+        },
+        {
+          title: "Vacation Rentals",
+          content: <<~CONTENT
+            **Ocean City Rentals:**
+            - Strong weekly rental market
+            - Many single-family homes
+            - Higher price point on average
+            - Book early for summer
+            - More condos downtown
+
+            **Wildwood Rentals:**
+            - Mix of motels, hotels, and rentals
+            - More budget options available
+            - Unique 1950s "Doo Wop" motels
+            - Easier last-minute availability
+            - More hotel-style options
+
+            **Winner:** Ocean City for house rentals; Wildwood for budget flexibility
+          CONTENT
+        },
+        {
+          title: "Which Is Right for You?",
+          content: <<~CONTENT
+            **Choose Ocean City If:**
+            - You have young children
+            - You prefer a quieter atmosphere
+            - You want a dry (alcohol-free) environment
+            - You're looking for a classic family vacation
+            - You prefer house rentals over hotels
+            - You enjoy a more relaxed pace
+
+            **Choose Wildwood If:**
+            - Your kids are older/teens who want thrills
+            - You want free beaches
+            - You enjoy a more energetic atmosphere
+            - You want waterpark access
+            - You're on a tighter budget
+            - You enjoy nightlife (21+)
+
+            **The Best of Both:** Many families visit both! They're only about 30 minutes apart by car.
+          CONTENT
+        }
+      ],
+      related_neighborhoods: []
+    },
+    {
+      slug: "book-direct-save",
+      title: "Book Direct & Save on Ocean City NJ Rentals",
+      meta_description: "Save money by booking your Ocean City NJ vacation rental directly. Skip Airbnb and VRBO fees and get personalized service from local experts.",
+      hero_subtitle: "Why direct booking saves you money",
+      sections: [
+        {
+          title: "The True Cost of Online Booking Platforms",
+          content: <<~CONTENT
+            Popular vacation rental platforms like Airbnb and VRBO charge significant fees that many travelers don't notice until checkout:
+
+            **Typical Platform Fees:**
+            - **Service Fee:** 5-15% of the booking total
+            - **Cleaning Fee:** Often inflated on platforms
+            - **Processing Fee:** Additional charges for payment
+
+            **Example:** A $3,000 weekly rental can cost $3,300-$3,450 on Airbnb/VRBO after fees.
+
+            **Book Direct:** The same rental booked directly often costs the original $3,000—no hidden fees.
+          CONTENT
+        },
+        {
+          title: "Benefits of Booking Direct",
+          content: <<~CONTENT
+            **Save Money:**
+            - No platform service fees (save 10-15%)
+            - Often better cleaning fee rates
+            - No inflated pricing to cover platform commissions
+
+            **Better Communication:**
+            - Direct contact with property managers
+            - Faster response times
+            - Local knowledge and recommendations
+            - Personal service before, during, and after your stay
+
+            **Flexibility:**
+            - More flexibility on dates and special requests
+            - Easier modifications to bookings
+            - Direct negotiation on longer stays
+            - Personalized packages and add-ons
+          CONTENT
+        },
+        {
+          title: "Why Choose OCNJ Weekly Rentals",
+          content: <<~CONTENT
+            **Local Expertise Since 2016:**
+            - Bob Idell Real Estate knows Ocean City inside and out
+            - We can recommend the perfect neighborhood for your family
+            - Personal service—talk to a real person, not a chatbot
+
+            **Largest Selection:**
+            - 17,000+ Ocean City properties in our database
+            - Verified rentals with accurate information
+            - Properties from all Ocean City neighborhoods
+
+            **24-Hour Response:**
+            - Quick answers to your questions
+            - Fast booking confirmations
+            - Support throughout your stay
+
+            **No Booking Fees:**
+            - The price you see is the price you pay
+            - Transparent pricing with no surprises
+          CONTENT
+        },
+        {
+          title: "How to Book Direct",
+          content: <<~CONTENT
+            **Step 1: Browse Our Properties**
+            Search by neighborhood, dates, bedrooms, or amenities to find your perfect rental.
+
+            **Step 2: Submit an Inquiry**
+            Fill out our simple form with your dates and questions.
+
+            **Step 3: Get a Response**
+            We respond within 24 hours with availability and pricing.
+
+            **Step 4: Book and Save**
+            Complete your booking with no hidden platform fees.
+
+            **Questions?** Contact us anytime—we're happy to help you find the perfect Ocean City rental.
+          CONTENT
+        },
+        {
+          title: "Frequently Asked Questions",
+          content: <<~CONTENT
+            **Is booking direct really cheaper?**
+            Yes! You avoid the 10-15% platform fees charged by Airbnb and VRBO.
+
+            **Is it safe to book direct?**
+            Absolutely. We're a licensed New Jersey real estate company with years of experience.
+
+            **What if I need to cancel?**
+            We offer clear cancellation policies, often more flexible than platform rules.
+
+            **How do I pay?**
+            We accept major credit cards with secure payment processing.
+
+            **Can I see the property first?**
+            We provide detailed photos and can arrange video tours for serious inquiries.
+          CONTENT
+        }
+      ],
+      related_neighborhoods: []
     }
   ].freeze
 
