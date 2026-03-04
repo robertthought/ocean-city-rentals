@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_02_192417) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_04_231026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -205,6 +205,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_02_192417) do
     t.index ["created_at"], name: "index_property_submissions_on_created_at"
     t.index ["email"], name: "index_property_submissions_on_email"
     t.index ["reviewed"], name: "index_property_submissions_on_reviewed"
+  end
+
+  create_table "rental_requests", force: :cascade do |t|
+    t.text "additional_comments"
+    t.text "amenities"
+    t.integer "bathrooms"
+    t.integer "bedrooms"
+    t.integer "budget_max"
+    t.integer "budget_min"
+    t.date "check_in_date"
+    t.date "check_out_date"
+    t.boolean "contacted"
+    t.datetime "contacted_at"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.boolean "flexible_dates"
+    t.text "location_preferences"
+    t.string "name"
+    t.string "phone"
+    t.decimal "recaptcha_score"
+    t.integer "sleeps"
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

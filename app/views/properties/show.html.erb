@@ -1090,7 +1090,7 @@
             Let our concierge team help! Tell us what you're looking for and we'll find the perfect Ocean City vacation rental for you.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <%= link_to contact_path(inquiry_type: "Rental Question", message: "I'm looking for a rental similar to #{@property.address}. My requirements are:"),
+            <%= link_to "/rental-request",
                 class: "px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg" do %>
               Submit Rental Request
             <% end %>

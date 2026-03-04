@@ -46,6 +46,44 @@ class PagesController < ApplicationController
     end
   end
 
+  def rental_request
+    @rental_request = RentalRequest.new
+  end
+
+  def submit_rental_request
+    recaptcha_result = RecaptchaVerifier.verify(params[:recaptcha_token], request.remote_ip)
+    unless recaptcha_result[:success]
+      Rails.logger.warn "[RentalRequest] reCAPTCHA failed for #{request.remote_ip}: #{recaptcha_result}"
+      redirect_to rental_request_path, alert: "Verification failed. Please try again."
+      return
+    end
+
+    @rental_request = RentalRequest.new(
+      name: params[:name],
+      email: params[:email],
+      phone: params[:phone],
+      bedrooms: params[:bedrooms].presence,
+      bathrooms: params[:bathrooms].presence,
+      sleeps: params[:sleeps].presence,
+      check_in_date: params[:check_in_date].presence,
+      check_out_date: params[:check_out_date].presence,
+      flexible_dates: params[:flexible_dates] == "1",
+      location_preferences: params[:location_preferences],
+      amenities: params[:amenities],
+      budget_min: params[:budget_min].presence,
+      budget_max: params[:budget_max].presence,
+      additional_comments: params[:additional_comments],
+      recaptcha_score: recaptcha_result[:score]
+    )
+
+    if @rental_request.save
+      redirect_to rental_request_path, notice: "Thank you! Our concierge team will find the perfect rental for you and contact you within 24 hours."
+    else
+      flash.now[:alert] = "Please fill in all required fields."
+      render :rental_request
+    end
+  end
+
   def submit_contact
     # Verify reCAPTCHA
     recaptcha_result = RecaptchaVerifier.verify(params[:recaptcha_token], request.remote_ip)

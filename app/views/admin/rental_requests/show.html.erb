@@ -1,0 +1,112 @@
+<% content_for :title, "Rental Request from #{@rental_request.name} | Admin" %>
+
+<div class="mb-6">
+  <%= link_to "← Back to Rental Requests", admin_rental_requests_path, class: "text-blue-600 hover:text-blue-800" %>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-2xl font-bold"><%= @rental_request.name %></h1>
+      <p class="text-gray-500">Submitted <%= @rental_request.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    </div>
+    <div>
+      <% if @rental_request.contacted? %>
+        <span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">
+          Contacted <%= @rental_request.contacted_at&.strftime("%m/%d/%y") %>
+        </span>
+      <% else %>
+        <%= button_to "Mark as Contacted", mark_contacted_admin_rental_request_path(@rental_request), method: :post, class: "px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div>
+      <h2 class="text-lg font-bold mb-4 border-b pb-2">Contact Information</h2>
+      <dl class="space-y-2">
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Email:</dt>
+          <dd><a href="mailto:<%= @rental_request.email %>" class="text-blue-600"><%= @rental_request.email %></a></dd>
+        </div>
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Phone:</dt>
+          <dd><%= @rental_request.phone.presence || "Not provided" %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div>
+      <h2 class="text-lg font-bold mb-4 border-b pb-2">Property Requirements</h2>
+      <dl class="space-y-2">
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Bedrooms:</dt>
+          <dd><%= @rental_request.bedrooms.presence || "Any" %></dd>
+        </div>
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Bathrooms:</dt>
+          <dd><%= @rental_request.bathrooms.presence || "Any" %></dd>
+        </div>
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Sleeps:</dt>
+          <dd><%= @rental_request.sleeps.presence || "Any" %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div>
+      <h2 class="text-lg font-bold mb-4 border-b pb-2">Dates</h2>
+      <dl class="space-y-2">
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Check-in:</dt>
+          <dd><%= @rental_request.check_in_date&.strftime("%B %d, %Y") || "Not specified" %></dd>
+        </div>
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Check-out:</dt>
+          <dd><%= @rental_request.check_out_date&.strftime("%B %d, %Y") || "Not specified" %></dd>
+        </div>
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Flexible:</dt>
+          <dd><%= @rental_request.flexible_dates ? "Yes" : "No" %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div>
+      <h2 class="text-lg font-bold mb-4 border-b pb-2">Budget</h2>
+      <dl class="space-y-2">
+        <div class="flex">
+          <dt class="w-24 font-medium text-gray-500">Range:</dt>
+          <dd>
+            <% if @rental_request.budget_min.present? || @rental_request.budget_max.present? %>
+              $<%= @rental_request.budget_min || 0 %> - $<%= @rental_request.budget_max || "unlimited" %> per week
+            <% else %>
+              Not specified
+            <% end %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <% if @rental_request.location_preferences.present? %>
+    <div class="mt-6">
+      <h2 class="text-lg font-bold mb-2">Location Preferences</h2>
+      <p class="text-gray-700 bg-gray-50 p-4 rounded"><%= @rental_request.location_preferences %></p>
+    </div>
+  <% end %>
+
+  <% if @rental_request.amenities.present? %>
+    <div class="mt-6">
+      <h2 class="text-lg font-bold mb-2">Must-Have Amenities</h2>
+      <p class="text-gray-700 bg-gray-50 p-4 rounded"><%= @rental_request.amenities %></p>
+    </div>
+  <% end %>
+
+  <% if @rental_request.additional_comments.present? %>
+    <div class="mt-6">
+      <h2 class="text-lg font-bold mb-2">Additional Comments</h2>
+      <p class="text-gray-700 bg-gray-50 p-4 rounded whitespace-pre-wrap"><%= @rental_request.additional_comments %></p>
+    </div>
+  <% end %>
+</div>

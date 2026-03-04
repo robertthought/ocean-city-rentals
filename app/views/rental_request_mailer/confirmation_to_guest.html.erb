@@ -1,0 +1,29 @@
+<h2>Thank You for Your Rental Request!</h2>
+
+<p>Hi <%= @rental_request.name %>,</p>
+
+<p>We've received your request for an Ocean City vacation rental. Our concierge team is already working on finding the perfect property for you!</p>
+
+<h3>What You're Looking For:</h3>
+<ul>
+  <% if @rental_request.bedrooms.present? %><li><strong>Bedrooms:</strong> <%= @rental_request.bedrooms %></li><% end %>
+  <% if @rental_request.bathrooms.present? %><li><strong>Bathrooms:</strong> <%= @rental_request.bathrooms %></li><% end %>
+  <% if @rental_request.sleeps.present? %><li><strong>Sleeps:</strong> <%= @rental_request.sleeps %> guests</li><% end %>
+  <% if @rental_request.check_in_date.present? %><li><strong>Check-in:</strong> <%= @rental_request.check_in_date.strftime("%B %d, %Y") %></li><% end %>
+  <% if @rental_request.check_out_date.present? %><li><strong>Check-out:</strong> <%= @rental_request.check_out_date.strftime("%B %d, %Y") %></li><% end %>
+</ul>
+
+<h3>What Happens Next?</h3>
+<ol>
+  <li>Our local Ocean City experts will review your request</li>
+  <li>We'll search our database for properties matching your criteria</li>
+  <li>You'll receive personalized recommendations within 24 hours</li>
+</ol>
+
+<p>If you have any questions in the meantime, feel free to reply to this email or call us.</p>
+
+<p>
+  Best regards,<br>
+  <strong>The OCNJ Weekly Rentals Team</strong><br>
+  <a href="https://ocnjweeklyrentals.com">ocnjweeklyrentals.com</a>
+</p>

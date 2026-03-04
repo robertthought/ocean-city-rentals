@@ -1,0 +1,46 @@
+<h2>New Rental Request</h2>
+
+<p><strong>From:</strong> <%= @rental_request.name %></p>
+<p><strong>Email:</strong> <%= @rental_request.email %></p>
+<p><strong>Phone:</strong> <%= @rental_request.phone || "Not provided" %></p>
+
+<hr>
+
+<h3>Requirements</h3>
+<ul>
+  <li><strong>Bedrooms:</strong> <%= @rental_request.bedrooms || "Any" %></li>
+  <li><strong>Bathrooms:</strong> <%= @rental_request.bathrooms || "Any" %></li>
+  <li><strong>Sleeps:</strong> <%= @rental_request.sleeps || "Any" %></li>
+</ul>
+
+<h3>Dates</h3>
+<ul>
+  <li><strong>Check-in:</strong> <%= @rental_request.check_in_date&.strftime("%B %d, %Y") || "Not specified" %></li>
+  <li><strong>Check-out:</strong> <%= @rental_request.check_out_date&.strftime("%B %d, %Y") || "Not specified" %></li>
+  <li><strong>Flexible:</strong> <%= @rental_request.flexible_dates ? "Yes" : "No" %></li>
+</ul>
+
+<h3>Location & Budget</h3>
+<ul>
+  <li><strong>Location:</strong> <%= @rental_request.location_preferences.presence || "No preference" %></li>
+  <li><strong>Budget:</strong>
+    <% if @rental_request.budget_min.present? || @rental_request.budget_max.present? %>
+      $<%= @rental_request.budget_min || "0" %> - $<%= @rental_request.budget_max || "unlimited" %>/week
+    <% else %>
+      Not specified
+    <% end %>
+  </li>
+</ul>
+
+<% if @rental_request.amenities.present? %>
+  <h3>Must-Have Amenities</h3>
+  <p><%= @rental_request.amenities %></p>
+<% end %>
+
+<% if @rental_request.additional_comments.present? %>
+  <h3>Additional Comments</h3>
+  <p><%= @rental_request.additional_comments %></p>
+<% end %>
+
+<hr>
+<p><em>Submitted on <%= @rental_request.created_at.strftime("%B %d, %Y at %I:%M %p") %></em></p>

@@ -70,6 +70,10 @@ Rails.application.routes.draw do
       post :mark_reviewed, on: :member
       get :export, on: :collection
     end
+    resources :rental_requests, only: [:index, :show] do
+      post :mark_contacted, on: :member
+      get :export, on: :collection
+    end
     get :analytics, to: "analytics#index"
 
     resources :articles do
@@ -87,6 +91,8 @@ Rails.application.routes.draw do
   get '/list-property', to: 'pages#list_property'
   post '/list-property', to: 'pages#submit_property'
   get '/pricing', to: 'pages#pricing'
+  get '/rental-request', to: 'pages#rental_request'
+  post '/rental-request', to: 'pages#submit_rental_request'
 
   # Checkout
   get '/checkout', to: 'checkouts#new', as: :new_checkout
