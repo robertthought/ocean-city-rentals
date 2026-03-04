@@ -174,7 +174,7 @@
           # Show verified properties first, fallback to properties with photos, then any properties
           featured = Property.in_ocean_city.verified.order(Arel.sql("RANDOM()")).limit(6)
           if featured.empty?
-            featured = Property.in_ocean_city.where("photo_urls IS NOT NULL AND photo_urls != '[]'").order(Arel.sql("RANDOM()")).limit(6)
+            featured = Property.in_ocean_city.where("photos IS NOT NULL AND photos != '[]'").order(Arel.sql("RANDOM()")).limit(6)
           end
           if featured.empty?
             featured = Property.in_ocean_city.order(Arel.sql("RANDOM()")).limit(6)
