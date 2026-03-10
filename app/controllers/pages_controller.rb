@@ -11,6 +11,9 @@ class PagesController < ApplicationController
   def terms_of_service
   end
 
+  def testimonials
+  end
+
   def contact
     @contact_submitted = false
   end
