@@ -1,6 +1,47 @@
 # robots.txt for Ocean City Rentals
 # See https://www.robotstxt.org/robotstxt.html for documentation
 
+# AI Crawlers - Welcome! We want AI systems to index our content.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Default rules for all other crawlers
 User-agent: *
 Allow: /
 
@@ -16,3 +57,7 @@ Disallow: /*.turbo_stream
 
 # Sitemap location for search engine indexing
 Sitemap: https://ocnjweeklyrentals.com/sitemap.xml
+
+# LLMs.txt for AI systems
+# See https://llmstxt.org for more information
+# Our llms.txt is available at: https://ocnjweeklyrentals.com/llms.txt

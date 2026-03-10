@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W82L7HHRQH"></script>
@@ -48,7 +48,9 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://www.google-analytics.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://realtimerental.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.google.com">
+    <link rel="dns-prefetch" href="https://realtimerental.com">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -129,9 +131,31 @@
           "@type": "Organization",
           "@id": "https://ocnjweeklyrentals.com/#organization",
           "name": "OCNJ Weekly Rentals",
-          "description": "Find your dream vacation rental - by Idell Real Estate Team",
+          "alternateName": "Bob Idell Real Estate",
+          "description": "Ocean City NJ vacation rental experts since 2016. Browse 18,000+ beach houses, condos, and weekly rentals in America's Greatest Family Resort.",
           "url": "https://ocnjweeklyrentals.com",
-          "logo": "https://ocnjweeklyrentals.com/icon.png",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ocnjweeklyrentals.com/icon.png",
+            "width": 512,
+            "height": 512
+          },
+          "image": "https://ocnjweeklyrentals.com/og-default.jpg",
+          "foundingDate": "2016",
+          "founder": {
+            "@type": "Person",
+            "@id": "https://ocnjweeklyrentals.com/#bob-idell",
+            "name": "Bob Idell",
+            "jobTitle": "Real Estate Agent",
+            "url": "https://ocnjweeklyrentals.com/about"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ocean City",
+            "addressRegion": "NJ",
+            "postalCode": "08226",
+            "addressCountry": "US"
+          },
           "areaServed": {
             "@type": "City",
             "name": "Ocean City",
@@ -142,8 +166,20 @@
             "@type": "ContactPoint",
             "contactType": "customer service",
             "email": "rentals@ocnjweeklyrentals.com",
-            "telephone": "+1-856-207-1670"
-          }
+            "telephone": "+1-856-207-1670",
+            "availableLanguage": "English"
+          },
+          "sameAs": [
+            "https://www.facebook.com/ocnjweeklyrentals",
+            "https://www.instagram.com/ocnjweeklyrentals",
+            "https://www.linkedin.com/in/robert-idell-a9348214"
+          ],
+          "knowsAbout": [
+            "Ocean City NJ vacation rentals",
+            "New Jersey shore rentals",
+            "Beach house rentals",
+            "Weekly vacation rentals"
+          ]
         },
         {
           "@type": "WebSite",

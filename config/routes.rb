@@ -94,6 +94,10 @@ Rails.application.routes.draw do
   get '/rental-request', to: 'pages#rental_request'
   post '/rental-request', to: 'pages#submit_rental_request'
 
+  # Legal pages
+  get '/privacy-policy', to: 'pages#privacy_policy', as: :privacy_policy
+  get '/terms-of-service', to: 'pages#terms_of_service', as: :terms_of_service
+
   # Checkout
   get '/checkout', to: 'checkouts#new', as: :new_checkout
   post '/checkout', to: 'checkouts#create', as: :checkout

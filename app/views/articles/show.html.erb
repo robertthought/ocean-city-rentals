@@ -14,21 +14,40 @@
   "url": "<%= article_url(@article) %>",
   "datePublished": "<%= @article.published_at&.iso8601 %>",
   "dateModified": "<%= @article.updated_at.iso8601 %>",
+  "wordCount": <%= @article.content.split.size %>,
+  "articleSection": "<%= @article.category.presence || 'Vacation Tips' %>",
   "author": {
     "@type": "Person",
-    "name": "<%= j @article.author %>"
+    "@id": "https://ocnjweeklyrentals.com/#bob-idell",
+    "name": "<%= j @article.author %>",
+    "jobTitle": "Real Estate Agent",
+    "url": "https://ocnjweeklyrentals.com/about",
+    "worksFor": {
+      "@type": "Organization",
+      "@id": "https://ocnjweeklyrentals.com/#organization"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/robert-idell-a9348214"
+    ]
   },
   "publisher": {
     "@type": "Organization",
+    "@id": "https://ocnjweeklyrentals.com/#organization",
     "name": "OCNJ Weekly Rentals",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://ocnjweeklyrentals.com/icon.png"
+      "url": "https://ocnjweeklyrentals.com/icon.png",
+      "width": 512,
+      "height": 512
     }
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "<%= article_url(@article) %>"
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".article-summary", ".prose p:first-of-type", ".prose h2"]
   },
   "breadcrumb": {
     "@type": "BreadcrumbList",
@@ -67,8 +86,19 @@
         <%= @article.title %>
       </h1>
 
+      <p class="text-xl text-blue-100 article-summary mb-6">
+        <%= @article.excerpt %>
+      </p>
+
       <div class="flex items-center gap-4 text-blue-100">
-        <span>By <%= @article.author %></span>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </div>
+          <span>By <%= link_to @article.author, about_path, class: "text-white hover:underline" %></span>
+        </div>
         <span>&bull;</span>
         <span><%= @article.formatted_published_date %></span>
         <span>&bull;</span>
@@ -110,19 +140,33 @@
             </div>
           </div>
         <% end %>
+
+        <!-- Last Updated Notice -->
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <p class="text-sm text-gray-500">
+            <strong>Published:</strong> <%= @article.formatted_published_date %>
+            <% if @article.updated_at > @article.published_at + 1.day %>
+              &bull; <strong>Updated:</strong> <%= @article.updated_at.strftime("%B %d, %Y") %>
+            <% end %>
+          </p>
+        </div>
       </article>
 
       <!-- Author Box -->
       <div class="bg-white rounded-xl shadow-lg p-8 mt-8">
-        <div class="flex items-center gap-4">
-          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+        <div class="flex items-start gap-4">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
             <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
             </svg>
           </div>
           <div>
             <p class="font-bold text-gray-900"><%= @article.author %></p>
-            <p class="text-gray-600">Bob Idell Real Estate - Your Ocean City vacation rental expert since 2016.</p>
+            <p class="text-gray-600 mb-2">Licensed NJ Realtor with Berkshire Hathaway HomeServices. Ocean City vacation rental expert since 2016. Chairman's Circle Gold 2024.</p>
+            <div class="flex items-center gap-4">
+              <%= link_to "About Bob", about_path, class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+              <a href="https://www.linkedin.com/in/robert-idell-a9348214" target="_blank" rel="noopener" class="text-blue-600 hover:text-blue-800 text-sm font-medium">LinkedIn</a>
+            </div>
           </div>
         </div>
       </div>

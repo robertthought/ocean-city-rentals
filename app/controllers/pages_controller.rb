@@ -5,6 +5,12 @@ class PagesController < ApplicationController
   def pricing
   end
 
+  def privacy_policy
+  end
+
+  def terms_of_service
+  end
+
   def contact
     @contact_submitted = false
   end
