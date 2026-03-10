@@ -12,6 +12,71 @@ class Guide
   attribute :content, :string
   attribute :sections, default: []
   attribute :related_neighborhoods, default: []
+  attribute :faqs, default: []
+
+  # FAQ data for each guide - used for FAQPage schema
+  GUIDE_FAQS = {
+    "best-beaches" => [
+      { q: "Do I need a beach tag in Ocean City NJ?", a: "Yes, beach tags are required for anyone 12 and older from mid-June through Labor Day. Tags cost $30-35 for the season and can be purchased at beach tag booths, City Hall, or online." },
+      { q: "Which Ocean City beach is best for families?", a: "The Downtown beaches (10th-25th Streets) are ideal for families with easy boardwalk access, lifeguards, restrooms, and food vendors nearby. The North End is better for those seeking quieter, less crowded beaches." },
+      { q: "Are Ocean City beaches free?", a: "Beach access is free, but you need to purchase a seasonal beach tag if you're 12 or older during summer months (mid-June through Labor Day)." }
+    ],
+    "boardwalk-guide" => [
+      { q: "How long is the Ocean City boardwalk?", a: "The Ocean City Boardwalk is 2.5 miles long, stretching from 23rd Street to St. James Place near 6th Street along the beachfront." },
+      { q: "Is the Ocean City boardwalk free?", a: "Yes, walking on the boardwalk is completely free. Individual attractions, rides, food, and games have their own costs." },
+      { q: "Can you bike on the Ocean City boardwalk?", a: "Yes, bicycles are permitted on the boardwalk before noon during summer months. After noon, it's pedestrians only." }
+    ],
+    "pet-friendly-guide" => [
+      { q: "Are dogs allowed on Ocean City beaches?", a: "Dogs are NOT allowed on beaches or the boardwalk from May 1 through September 30. During the off-season (October-April), dogs are welcome on beaches and the boardwalk." },
+      { q: "Where can I walk my dog in Ocean City during summer?", a: "During summer, walk your dog at Corson's Inlet State Park (dogs allowed on leash), residential streets, or bay-side areas. The park offers nature trails perfect for dogs." },
+      { q: "Are there pet-friendly vacation rentals in Ocean City?", a: "Yes, many Ocean City vacation rentals are pet-friendly. Use our pet-friendly filter when searching, and book early as these properties are in high demand." }
+    ],
+    "when-to-visit" => [
+      { q: "What is the best time to visit Ocean City NJ?", a: "Peak season (June-August) offers the best beach weather and full boardwalk experience. September offers warm weather, fewer crowds, and lower rates. May is good for budget travelers willing to accept cooler water." },
+      { q: "How warm is Ocean City in summer?", a: "Summer temperatures typically reach the 80s-90s°F. Ocean water temperature peaks in August at 70-75°F." },
+      { q: "Is Ocean City crowded in July?", a: "Yes, July is peak season with the highest crowds, especially during Night in Venice (third Saturday of July). Book accommodations well in advance and expect higher rates." }
+    ],
+    "ocean-city-dining" => [
+      { q: "Is Ocean City NJ a dry town?", a: "Yes, Ocean City has been a dry town since 1909. Restaurants don't serve alcohol, but many are BYOB (Bring Your Own Bottle). Purchase beverages in neighboring towns like Somers Point." },
+      { q: "What is Ocean City boardwalk famous for?", a: "The boardwalk is famous for Manco & Manco Pizza, Johnson's Popcorn (caramel corn since 1940), Shriver's Salt Water Taffy, and Kohr Bros. Frozen Custard." },
+      { q: "Do Ocean City restaurants charge corkage fees?", a: "Most BYOB restaurants in Ocean City do not charge corkage fees - it's one of the perks of dining in a dry town!" }
+    ],
+    "ocean-city-events" => [
+      { q: "When is Night in Venice in Ocean City NJ?", a: "Night in Venice is typically held on the third Saturday of July. It features a decorated boat parade through the bay with hundreds of illuminated boats. It's free to attend." },
+      { q: "When is the Baby Parade in Ocean City?", a: "The Baby Parade is usually held on the second Thursday of August. Children parade down the boardwalk in costumes and decorated strollers. Registration is required for participants." },
+      { q: "Are there fireworks in Ocean City NJ?", a: "Yes, Ocean City has fireworks on select Wednesday evenings during peak summer season, plus a spectacular display on July 4th and New Year's Eve (First Night)." }
+    ],
+    "surfing-guide" => [
+      { q: "Can you surf in Ocean City NJ?", a: "Yes! Ocean City has solid surfing conditions, especially at the South End (40th-59th Streets). Best waves come during fall season (September-November) and after storms." },
+      { q: "Where can I take surf lessons in Ocean City?", a: "Several local surf shops offer lessons for beginners. The South End beaches are most popular for surfing. Lessons typically include board rental and beach instruction." },
+      { q: "Do I need a wetsuit to surf in Ocean City?", a: "In summer (June-August), water temps of 65-75°F are comfortable without a wetsuit for most. Spring and fall require a wetsuit (3/2mm minimum)." }
+    ],
+    "fishing-guide" => [
+      { q: "Do I need a fishing license in Ocean City NJ?", a: "No license is required for saltwater fishing in New Jersey! You just need to register (free) with NJ Fish & Wildlife for shore/pier fishing." },
+      { q: "What fish can you catch in Ocean City?", a: "Common catches include striped bass, bluefish, flounder, weakfish, and blue crabs. Charter boats also target tuna, mahi-mahi, and sea bass offshore." },
+      { q: "Where is the best fishing in Ocean City NJ?", a: "Popular spots include Corson's Inlet, the Great Egg Harbor Bay, jetties at the north and south ends, and charter boats for offshore fishing." }
+    ],
+    "corsons-inlet-guide" => [
+      { q: "Is Corson's Inlet State Park free?", a: "Yes, admission and parking at Corson's Inlet State Park are completely free. The park is open dawn to dusk year-round." },
+      { q: "Can you swim at Corson's Inlet?", a: "Yes, but there are no lifeguards. The natural beach is available for swimming, though currents can be strong near the inlet. Best for experienced swimmers." },
+      { q: "Are dogs allowed at Corson's Inlet?", a: "Yes! Dogs are allowed on leash at Corson's Inlet State Park year-round, making it the best option for dog owners visiting Ocean City during summer." }
+    ],
+    "family-activities" => [
+      { q: "What is there to do in Ocean City NJ with kids?", a: "Beaches with lifeguards, Gillian's Wonderland Pier, Playland's Castaway Cove, boardwalk arcades, mini golf, the Aquatic Center, and weekly events like hermit crab races." },
+      { q: "Why is Ocean City called America's Greatest Family Resort?", a: "Ocean City has been a dry (alcohol-free) town since 1909, creating a safe, family-focused atmosphere. The title dates back to 1901 and is earned through family-friendly beaches, boardwalk, and activities." },
+      { q: "What can you do in Ocean City on a rainy day?", a: "Boardwalk arcades, escape rooms, laser tag, the Ocean City Historical Museum, shopping, movies at the Moorlyn Theatre, and indoor mini golf at Congo Falls." }
+    ],
+    "ocean-city-vs-wildwood" => [
+      { q: "Is Ocean City or Wildwood better for families?", a: "Ocean City is better for young children due to its alcohol-free environment and calmer atmosphere. Wildwood is better for teens seeking thrill rides and a livelier scene." },
+      { q: "Do you need beach tags in Wildwood?", a: "No, Wildwood beaches are free with no beach tags required. Ocean City requires beach tags ($30-35/season) for ages 12 and older." },
+      { q: "Which has a bigger boardwalk, Ocean City or Wildwood?", a: "Ocean City's boardwalk is 2.5 miles long. Wildwood's is 2 miles but has larger amusement piers including Morey's Piers waterparks." }
+    ],
+    "book-direct-save" => [
+      { q: "How much do you save booking direct vs Airbnb?", a: "Booking direct typically saves 10-15% by avoiding platform service fees. On a $3,000 weekly rental, that's $300-450 in savings." },
+      { q: "Is it safe to book a vacation rental directly?", a: "Yes, when booking through a licensed real estate professional like Bob Idell Real Estate. You get personalized service, local expertise, and clear rental agreements." },
+      { q: "Why book through OCNJ Weekly Rentals instead of VRBO?", a: "No platform fees (save 10-15%), direct communication with a local expert, personalized recommendations, and often more flexibility on dates and special requests." }
+    ]
+  }.freeze
 
   GUIDES = [
     {
@@ -1126,5 +1191,9 @@ class Guide
 
   def neighborhoods
     related_neighborhoods.map { |slug| Neighborhood.find(slug) rescue nil }.compact
+  end
+
+  def faqs
+    GUIDE_FAQS[slug] || []
   end
 end

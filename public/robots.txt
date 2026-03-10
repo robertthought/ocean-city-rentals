@@ -61,3 +61,6 @@ Sitemap: https://ocnjweeklyrentals.com/sitemap.xml
 # LLMs.txt for AI systems
 # See https://llmstxt.org for more information
 # Our llms.txt is available at: https://ocnjweeklyrentals.com/llms.txt
+
+# IndexNow for instant Bing indexing
+# Key file: https://ocnjweeklyrentals.com/2048a030cb9bd3383ffc4688ad9665e4.txt

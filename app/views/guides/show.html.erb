@@ -50,6 +50,27 @@
   }
 }
 </script>
+
+<% if @guide.faqs.any? %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    <% @guide.faqs.each_with_index do |faq, index| %>
+    {
+      "@type": "Question",
+      "name": "<%= j faq[:q] %>",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "<%= j faq[:a] %>"
+      }
+    }<%= index < @guide.faqs.length - 1 ? ',' : '' %>
+    <% end %>
+  ]
+}
+</script>
+<% end %>
 <% end %>
 
 <!-- Hero Section -->
@@ -140,6 +161,21 @@
             <% end %>
           </div>
         </div>
+      <% end %>
+
+      <% if @guide.faqs.any? %>
+      <!-- FAQ Section -->
+      <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+          <% @guide.faqs.each do |faq| %>
+            <div class="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2"><%= faq[:q] %></h3>
+              <p class="text-gray-600"><%= faq[:a] %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
       <% end %>
 
       <!-- Author Box -->
