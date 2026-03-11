@@ -96,10 +96,10 @@
               <p class="font-semibold text-gray-900"><%= @lead.property.address %></p>
               <p class="text-sm text-gray-500"><%= @lead.property.city %>, <%= @lead.property.state %> <%= @lead.property.zip %></p>
               <div class="flex items-center gap-4 mt-2 text-sm text-gray-600">
-                <span><%= @lead.property.beds %> bed</span>
-                <span><%= @lead.property.baths %> bath</span>
-                <% if @lead.property.sleeps.present? %>
-                  <span>Sleeps <%= @lead.property.sleeps %></span>
+                <span><%= @lead.property.bedrooms %> bed</span>
+                <span><%= @lead.property.bathrooms %> bath</span>
+                <% if @lead.property.occupancy_limit.present? %>
+                  <span>Sleeps <%= @lead.property.occupancy_limit %></span>
                 <% end %>
               </div>
             </div>
