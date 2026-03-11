@@ -43,7 +43,9 @@
           <% @leads.each do |lead| %>
             <tr class="hover:bg-gray-50">
               <td class="px-6 py-4">
-                <div class="font-semibold text-gray-900"><%= lead.name %></div>
+                <%= link_to admin_lead_path(lead), class: "block group" do %>
+                  <div class="font-semibold text-gray-900 group-hover:text-blue-600"><%= lead.name %></div>
+                <% end %>
                 <div class="text-sm text-gray-500"><%= lead.email %></div>
                 <% if lead.phone.present? %>
                   <div class="text-sm text-gray-500"><%= lead.phone %></div>
@@ -80,6 +82,12 @@
               </td>
               <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-2">
+                  <%= link_to admin_lead_path(lead), class: "p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded", title: "View Details" do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                  <% end %>
                   <a href="mailto:<%= lead.email %>" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded" title="Email">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
