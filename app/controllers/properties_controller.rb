@@ -95,8 +95,11 @@ class PropertiesController < ApplicationController
       begin
         check_in = Date.parse(params[:check_in])
         check_out = Date.parse(params[:check_out])
-        @properties_scope = @properties_scope.available_between(check_in, check_out)
-      rescue ArgumentError
+        # Validate dates are reasonable (within 2 years)
+        if check_in.year.between?(2024, 2030) && check_out.year.between?(2024, 2030)
+          @properties_scope = @properties_scope.available_between(check_in, check_out)
+        end
+      rescue ArgumentError, Date::Error, TypeError
         # Invalid date format, skip date filter
       end
     end
