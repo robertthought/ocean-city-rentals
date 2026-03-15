@@ -22,7 +22,7 @@ gem "jbuilder"
 # SEO and search gems
 gem 'friendly_id' # SEO-friendly URLs
 gem 'pg_search' # Property search
-gem 'pagy', '~> 9.0' # Pagination
+gem 'pagy', '~> 43.3' # Pagination
 gem 'sitemap_generator' # XML sitemap for Google
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
