@@ -3,13 +3,13 @@ require "json"
 
 class RecaptchaVerifier
   VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify"
-  MINIMUM_SCORE = 0.5
+  MINIMUM_SCORE = 0.7
 
   def self.verify(token, remote_ip = nil)
     # Skip verification if reCAPTCHA is not configured
     return { success: true, score: 1.0 } if skip_verification?
-    # Allow submissions without token (forms without JS reCAPTCHA integration)
-    return { success: true, score: 0.5 } if token.blank?
+    # Reject submissions without a token
+    return { success: false, score: 0, errors: ["missing-token"] } if token.blank?
 
     secret_key = ENV["RECAPTCHA_SECRET_KEY"]
 

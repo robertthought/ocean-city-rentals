@@ -5,10 +5,15 @@ module Admin
     def index
       @leads = Lead.recent.includes(:property)
 
-      if params[:status] == "uncontacted"
-        @leads = @leads.uncontacted
-      elsif params[:status] == "contacted"
-        @leads = @leads.where(contacted: true)
+      case params[:status]
+      when "uncontacted"
+        @leads = @leads.not_spam.uncontacted
+      when "contacted"
+        @leads = @leads.not_spam.where(contacted: true)
+      when "spam"
+        @leads = @leads.flagged_spam
+      else
+        @leads = @leads.not_spam
       end
 
       @pagy, @leads = pagy(@leads, limit: 25)
@@ -24,6 +29,18 @@ module Admin
       redirect_to admin_leads_path, notice: "Lead marked as contacted"
     end
 
+    def mark_spam
+      @lead = Lead.find(params[:id])
+      @lead.mark_spam!
+      redirect_back fallback_location: admin_leads_path, notice: "Marked as spam"
+    end
+
+    def mark_not_spam
+      @lead = Lead.find(params[:id])
+      @lead.mark_not_spam!
+      redirect_back fallback_location: admin_leads_path, notice: "Marked as not spam"
+    end
+
     def destroy
       @lead = Lead.find(params[:id])
       @lead.destroy
@@ -31,7 +48,7 @@ module Admin
     end
 
     def export
-      @leads = Lead.recent.includes(:property)
+      @leads = Lead.recent.not_spam.includes(:property)
 
       respond_to do |format|
         format.csv do

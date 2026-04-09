@@ -16,14 +16,30 @@ class LeadsController < ApplicationController
       return
     end
 
-    @lead = @property.leads.new(lead_params)
+    lead_data = lead_params
+    spam_reasons = SpamDetector.detect(
+      name: lead_data[:name],
+      email: lead_data[:email],
+      phone: lead_data[:phone],
+      message: lead_data[:message],
+      recaptcha_score: recaptcha_result[:score],
+      honeypot: params[:website]
+    )
+
+    @lead = @property.leads.new(lead_data)
     @lead.ip_address = request.remote_ip
     @lead.user_agent = request.user_agent
     @lead.source = params[:source] || 'direct'
     @lead.recaptcha_score = recaptcha_result[:score]
+    @lead.spam = spam_reasons.any?
+    @lead.spam_reason = spam_reasons.join(", ").presence
 
     if @lead.save
-      Rails.logger.info "[Lead] SUCCESS - Lead ##{@lead.id} created for #{@property.address}"
+      if @lead.spam?
+        Rails.logger.warn "[Lead] Spam detected from #{request.remote_ip}: #{spam_reasons.join(', ')}"
+      else
+        Rails.logger.info "[Lead] SUCCESS - Lead ##{@lead.id} created for #{@property.address}"
+      end
       redirect_to property_path(@property), notice: "Thank you! We'll contact you shortly about #{@property.address}."
     else
       Rails.logger.warn "[Lead] FAILED - #{@lead.errors.full_messages.join(', ')}"

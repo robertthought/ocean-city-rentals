@@ -53,11 +53,19 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
     resources :leads, only: [:index, :show, :destroy] do
-      post :mark_contacted, on: :member
+      member do
+        post :mark_contacted
+        post :mark_spam
+        post :mark_not_spam
+      end
       get :export, on: :collection
     end
     resources :contact_submissions, only: [:index, :show] do
-      post :mark_responded, on: :member
+      member do
+        post :mark_responded
+        post :mark_spam
+        post :mark_not_spam
+      end
       get :export, on: :collection
     end
     resources :ownership_claims, only: [:index, :show] do

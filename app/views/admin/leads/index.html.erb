@@ -22,6 +22,8 @@
         class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status] == 'uncontacted' ? 'bg-orange-100 text-orange-700' : 'text-gray-600 hover:bg-gray-100'}" %>
       <%= link_to "Contacted", admin_leads_path(status: "contacted"),
         class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status] == 'contacted' ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-100'}" %>
+      <%= link_to "Spam", admin_leads_path(status: "spam"),
+        class: "px-3 py-1.5 rounded-lg text-sm font-semibold #{params[:status] == 'spam' ? 'bg-red-100 text-red-700' : 'text-gray-600 hover:bg-gray-100'}" %>
     </div>
   </div>
 
@@ -70,7 +72,12 @@
                 <div class="text-xs"><%= lead.created_at.strftime("%I:%M %p") %></div>
               </td>
               <td class="px-6 py-4">
-                <% if lead.contacted %>
+                <% if lead.spam? %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Spam</span>
+                  <% if lead.spam_reason.present? %>
+                    <div class="text-xs text-gray-400 mt-1"><%= lead.spam_reason %></div>
+                  <% end %>
+                <% elsif lead.contacted %>
                   <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                     Contacted
                   </span>
@@ -100,13 +107,32 @@
                       </svg>
                     </a>
                   <% end %>
-                  <% unless lead.contacted %>
-                    <%= button_to mark_contacted_admin_lead_path(lead),
+                  <% if lead.spam? %>
+                    <%= button_to mark_not_spam_admin_lead_path(lead),
                       method: :post,
-                      class: "p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded",
-                      title: "Mark as Contacted" do %>
+                      class: "p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded",
+                      title: "Not Spam" do %>
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    <% end %>
+                  <% else %>
+                    <% unless lead.contacted %>
+                      <%= button_to mark_contacted_admin_lead_path(lead),
+                        method: :post,
+                        class: "p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded",
+                        title: "Mark as Contacted" do %>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                      <% end %>
+                    <% end %>
+                    <%= button_to mark_spam_admin_lead_path(lead),
+                      method: :post,
+                      class: "p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded",
+                      title: "Mark as Spam" do %>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
                       </svg>
                     <% end %>
                   <% end %>

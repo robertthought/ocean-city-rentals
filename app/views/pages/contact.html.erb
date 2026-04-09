@@ -141,6 +141,11 @@
                 %>
               </div>
 
+              <%# Honeypot field — hidden from humans, bots fill it in %>
+              <div style="display:none" aria-hidden="true">
+                <%= f.text_field :website, autocomplete: "off", tabindex: -1 %>
+              </div>
+
               <%= f.submit "Send Message",
                 class: "w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all cursor-pointer"
               %>

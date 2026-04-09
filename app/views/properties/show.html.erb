@@ -253,6 +253,10 @@
         <input type="hidden" name="lead[lead_type]" value="quick_inquiry">
         <input type="hidden" name="lead[message]" value="Quick inquiry from mobile - please send availability and pricing.">
         <input type="hidden" name="source" value="quick_modal">
+        <%# Honeypot — hidden from humans, bots fill it in %>
+        <div style="display:none" aria-hidden="true">
+          <input type="text" name="website" autocomplete="off" tabindex="-1">
+        </div>
         <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
         <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-lg shadow-lg active:scale-98 transition-all">

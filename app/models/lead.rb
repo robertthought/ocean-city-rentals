@@ -5,18 +5,25 @@ class Lead < ApplicationRecord
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :property, presence: true
 
-  # Scopes
   scope :uncontacted, -> { where(contacted: false) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :not_spam, -> { where(spam: false) }
+  scope :flagged_spam, -> { where(spam: true) }
 
-  # Mark as contacted
+  after_create :send_notification, unless: :spam?
+  after_create :send_slack_notification, unless: :spam?
+
   def mark_contacted!
     update(contacted: true, contacted_at: Time.current)
   end
 
-  # Send notifications
-  after_create :send_notification
-  after_create :send_slack_notification
+  def mark_spam!
+    update!(spam: true)
+  end
+
+  def mark_not_spam!
+    update!(spam: false, spam_reason: nil)
+  end
 
   private
 

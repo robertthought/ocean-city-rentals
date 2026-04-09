@@ -5,10 +5,15 @@ module Admin
     def index
       @submissions = ContactSubmission.recent
 
-      if params[:status] == "unanswered"
-        @submissions = @submissions.unanswered
-      elsif params[:status] == "answered"
-        @submissions = @submissions.answered
+      case params[:status]
+      when "unanswered"
+        @submissions = @submissions.not_spam.unanswered
+      when "answered"
+        @submissions = @submissions.not_spam.answered
+      when "spam"
+        @submissions = @submissions.flagged_spam
+      else
+        @submissions = @submissions.not_spam
       end
 
       @pagy, @submissions = pagy(@submissions, limit: 25)
@@ -24,8 +29,20 @@ module Admin
       redirect_to admin_contact_submissions_path, notice: "Marked as responded"
     end
 
+    def mark_spam
+      @submission = ContactSubmission.find(params[:id])
+      @submission.mark_spam!
+      redirect_back fallback_location: admin_contact_submissions_path, notice: "Marked as spam"
+    end
+
+    def mark_not_spam
+      @submission = ContactSubmission.find(params[:id])
+      @submission.mark_not_spam!
+      redirect_back fallback_location: admin_contact_submissions_path, notice: "Marked as not spam"
+    end
+
     def export
-      @submissions = ContactSubmission.recent
+      @submissions = ContactSubmission.recent.not_spam
 
       respond_to do |format|
         format.csv do

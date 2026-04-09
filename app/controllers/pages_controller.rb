@@ -94,6 +94,24 @@ class PagesController < ApplicationController
   end
 
   def submit_contact
+    # Rate limiting by IP: max 5 per hour
+    ip_key = "contact_rate:ip:#{request.remote_ip}"
+    ip_count = Rails.cache.read(ip_key).to_i
+    if ip_count >= 5
+      Rails.logger.warn "[Contact] Rate limit hit for IP #{request.remote_ip}"
+      redirect_to contact_path, alert: "Too many submissions. Please try again later."
+      return
+    end
+
+    # Rate limiting by email: max 3 per hour
+    email_key = "contact_rate:email:#{params[:email].to_s.downcase.strip}"
+    email_count = Rails.cache.read(email_key).to_i
+    if email_count >= 3
+      Rails.logger.warn "[Contact] Rate limit hit for email #{params[:email]}"
+      redirect_to contact_path, alert: "Too many submissions. Please try again later."
+      return
+    end
+
     # Verify reCAPTCHA
     recaptcha_result = RecaptchaVerifier.verify(params[:recaptcha_token], request.remote_ip)
     unless recaptcha_result[:success]
@@ -102,23 +120,42 @@ class PagesController < ApplicationController
       return
     end
 
+    spam_reasons = SpamDetector.detect(
+      name: params[:name],
+      email: params[:email],
+      phone: params[:phone],
+      message: params[:message],
+      recaptcha_score: recaptcha_result[:score],
+      honeypot: params[:website]
+    )
+    is_spam = spam_reasons.any?
+
     @submission = ContactSubmission.new(
       name: params[:name],
       email: params[:email],
       phone: params[:phone],
       message: params[:message],
       inquiry_type: params[:inquiry_type],
-      recaptcha_score: recaptcha_result[:score]
+      recaptcha_score: recaptcha_result[:score],
+      spam: is_spam,
+      spam_reason: spam_reasons.join(", ").presence
     )
 
     if @submission.save
-      ContactMailer.new_contact(
-        name: @submission.name,
-        email: @submission.email,
-        phone: @submission.phone,
-        message: @submission.message,
-        inquiry_type: @submission.inquiry_type
-      ).deliver_later
+      Rails.cache.write(ip_key, ip_count + 1, expires_in: 1.hour)
+      Rails.cache.write(email_key, email_count + 1, expires_in: 1.hour)
+
+      unless is_spam
+        ContactMailer.new_contact(
+          name: @submission.name,
+          email: @submission.email,
+          phone: @submission.phone,
+          message: @submission.message,
+          inquiry_type: @submission.inquiry_type
+        ).deliver_later
+      else
+        Rails.logger.warn "[Contact] Spam detected from #{request.remote_ip}: #{spam_reasons.join(', ')}"
+      end
 
       redirect_to contact_path, notice: "Thank you for your message! We'll get back to you within 24 hours."
     else
